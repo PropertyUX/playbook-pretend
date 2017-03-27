@@ -1,3 +1,12 @@
+___
+
+# NB: This fork is a work in progress ⚠
+
+It's being refactored to support the features of [Hubot Playbook](https://github.com/timkinnane/hubot-playbook) by Tim Kinnane.
+I haven't yet updated most references to the original [Hubot Test Helper](https://github.com/mtsmfm/hubot-test-helper) by Fumiaki Matsushima, so refer to the original if that's what you're looking for.
+
+___
+
 # Hubot test helper
 
 [![Build Status](https://travis-ci.org/mtsmfm/hubot-test-helper.svg?branch=master)](https://travis-ci.org/mtsmfm/hubot-test-helper)
