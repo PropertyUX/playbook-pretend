@@ -202,53 +202,10 @@ describe 'status check', ->
     expect(response.text).to.eql "It's all good!"
 ```
 
-## Development
-
-### Requirements
-
-- docker
-- docker-compose
-
-### Setup
-
-```
-git clone https://github.com/timkinnane/hubot-pretend
-cd hubot-pretend
-docker-compose up -d
-docker-compose exec app bash
-yarn install
-```
-
-### Run Test
-
-```
-yarn run test
-```
-
-#### Debug
-
-```
-yarn run test-unit-debug
-```
-
-Above command will output:
-
-```
-yarn run v0.18.1
-$ mocha --inspect --debug-brk --compilers coffee:coffee-script/register test
-Debugger listening on port 9229.
-Warning: This is an experimental feature and could change at any time.
-To start debugging, open the following URL in Chrome:
-    chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/59631086-0a0c-424b-8f5b-8828be123894
-```
-
-Then open `chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/59631086-0a0c-424b-8f5b-8828be123894` in Chrome.
-
 ---
 
 ## TODO
 
-- test development instructions still apply as above
 - add gulp build chain for lint/test/watching
 - link back to docs for HTH #32
 - add tests for pretend.logs (silence logger in tests) - HTH #37
