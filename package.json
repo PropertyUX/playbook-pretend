@@ -8,6 +8,9 @@
     "test-unit-debug": "mocha --inspect --debug-brk --compilers coffee:coffee-script/register test",
     "test-integration": "cd dummy && npm i && npm run test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "commitmsg": "validate-commit-msg",
+    "precommit": "npm test",
+    "prepush": "npm test",
     "prepublish": "coffee --compile --output lib/ src/",
     "commit": "git-cz"
   },
@@ -23,9 +26,11 @@
     "co": "^4.6.0",
     "coffee-script": "^1.12.4",
     "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.13.3",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",
-    "semantic-release": "^6.3.2"
+    "semantic-release": "^6.3.2",
+    "validate-commit-msg": "^2.12.0"
   },
   "author": "Tim Kinnane",
   "license": "MIT",
