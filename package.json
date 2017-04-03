@@ -39,14 +39,6 @@
     "url": "https://github.com/timkinnane/hubot-pretend"
   },
   "version": "0.0.0-development",
-  "release": {
-    "analyzeCommits": "hubot-pretend",
-    "generateNotes": "./lib/index.js",
-    "verifyConditions": {
-      "path": "./lib/index.js",
-      "additional": "config"
-    }
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
