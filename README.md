@@ -80,13 +80,13 @@ send and receive with a pre-populated user.
 Lastly, make assertions to test...
 
 ```coffee
-    it 'should reply to user', ->
-      expect(pretend.messages).to.eql [
-        ['alice', '@hubot hi']
-        ['hubot', '@alice hi']
-        ['bob',   '@hubot hi']
-        ['hubot', '@bob hi']
-      ]
+  it 'should reply to user', ->
+    expect(pretend.messages).to.eql [
+      ['alice', '@hubot hi']
+      ['hubot', '@alice hi']
+      ['bob',   '@hubot hi']
+      ['hubot', '@bob hi']
+    ]
 ```
 
 There are many other ways to send and receive test messages.
