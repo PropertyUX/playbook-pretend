@@ -10,7 +10,7 @@
     "hubot": "latest"
   },
   "devDependencies": {
-    "hubot-pretend": "latest",
+    "hubot-pretend": "file:../",
     "chai": "latest",
     "co": "latest",
     "mocha": "latest"
