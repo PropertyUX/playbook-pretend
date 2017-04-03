@@ -1,6 +1,6 @@
 {
-  "name": "hubot-test-helper",
-  "description": "Helper for testing hubot script",
+  "name": "hubot-pretend",
+  "description": "Test Hubot scripts with a mock robot, rooms and users.",
   "main": "./lib/index.js",
   "scripts": {
     "test": "npm run test-unit && npm run test-integration",
@@ -17,16 +17,27 @@
     "hubot": ">= 2.6.0 < 3"
   },
   "devDependencies": {
-    "chai": "latest",
-    "co": "latest",
-    "coffee-script": "latest",
-    "mocha": "latest",
-    "semantic-release": "latest"
+    "bluebird": "^3.5.0",
+    "chai": "^3.5.0",
+    "co": "^4.6.0",
+    "coffee-script": "^1.12.4",
+    "lodash": "^4.17.4",
+    "mocha": "^3.2.0",
+    "semantic-release": "^6.3.2"
   },
-  "author": "Fumiaki MATSUSHIMA",
+  "author": "Tim Kinnane",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mtsmfm/hubot-test-helper"
+    "url": "https://github.com/timkinnane/hubot-pretend"
+  },
+  "version": "0.0.0-development",
+  "release": {
+    "analyzeCommits": "hubot-pretend",
+    "generateNotes": "./lib/index.js",
+    "verifyConditions": {
+      "path": "./lib/index.js",
+      "additional": "config"
+    }
   }
 }

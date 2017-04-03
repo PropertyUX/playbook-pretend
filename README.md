@@ -1,25 +1,34 @@
-___
+# Hubot Pretend
 
-# NB: This fork is a work in progress ⚠
+[![Build Status](https://travis-ci.org/timkinnane/hubot-pretend.svg?branch=master)](https://travis-ci.org/timkinnane/hubot-pretend)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-It's being refactored to support the features of [Hubot Playbook](https://github.com/timkinnane/hubot-playbook) by Tim Kinnane.
-I haven't yet updated most references to the original [Hubot Test Helper](https://github.com/mtsmfm/hubot-test-helper) by Fumiaki Matsushima, so refer to the original if that's what you're looking for.
+**Hubot Pretend** is for [Hubot](hubot.github.com) messaging tests with a mock
+robot, rooms and users.
 
-___
+This is an adaptation of
+[Hubot Test Helper](https://github.com/mtsmfm/hubot-test-helper)
+by Fumiaki Matsushima.
 
-# Hubot test helper
+The main difference is support for a single robot across multiple rooms. Where
+Hubot Test Helper works well for testing the end results of messaging, the
+feature roadmap for Hubot Pretend is focused on testing more of the internals,
+like logs, response objects and middleware.
 
-[![Build Status](https://travis-ci.org/mtsmfm/hubot-test-helper.svg?branch=master)](https://travis-ci.org/mtsmfm/hubot-test-helper)
+The methods are similar, but mostly incompatible so please read carefully if
+migrating from
+[Hubot Test Helper](https://github.com/mtsmfm/hubot-test-helper)
+to [Hubot Pretend](https://github.com/timkinnane/hubot-pretend).
 
-Helper for testing Hubot script.
+---
 
 ## Install
 
-`npm install hubot-test-helper --save-dev`
+`npm install hubot-pretend --save-dev`
 
 ## Usage
 
-If you have a following hubot script:
+We have the following Hubot script...
 
 ```coffee
 module.exports = (robot) ->
@@ -27,35 +36,49 @@ module.exports = (robot) ->
     msg.reply 'hi'
 ```
 
-You can test it like:
+Set up test file like so...
 
 ```coffee
-Helper = require('hubot-test-helper')
-# helper loads all scripts passed a directory
-helper = new Helper('./scripts')
+Pretend = require 'hubot-pretend'
+pretend = new Pretend './scripts/my-script.coffee'
 
-# helper loads a specific script if it's a file
-scriptHelper = new Helper('./scripts/specific-script.coffee')
+co = require 'co'
+{expect} = require 'chai'
+```
 
-co     = require('co')
-expect = require('chai').expect
+`Pretend` constructor accepts one or more script paths, even a directory of
+scripts.
 
-describe 'hello-world', ->
+Now process some messages...
+
+```coffee
+describe 'Hello World', ->
 
   beforeEach ->
-    @room = helper.createRoom()
+    pretend.startup()
+    @alice = pretend.user 'alice'
+    @bob = pretend.user 'bob'
+    co =>
+      yield @alice.send '@hubot hi'
+      yield @room.send '@hubot hi'
 
   afterEach ->
-    @room.destroy()
+    pretend.shutdown()
+```
 
-  context 'user says hi to hubot', ->
-    beforeEach ->
-      co =>
-        yield @room.user.say 'alice', '@hubot hi'
-        yield @room.user.say 'bob',   '@hubot hi'
+`.startup()` reads in the scripts, creating a robot and adapter that routes
+messages internally.
 
+`.user` and `.room` return mock user and room classes, providing shortcuts to
+send and receive with a pre-populated user.
+
+`.shutdown()` is not strictly required unless using httpd (to close ports).
+
+Lastly, make assertions to test...
+
+```coffee
     it 'should reply to user', ->
-      expect(@room.messages).to.eql [
+      expect(pretend.messages).to.eql [
         ['alice', '@hubot hi']
         ['hubot', '@alice hi']
         ['bob',   '@hubot hi']
@@ -63,79 +86,87 @@ describe 'hello-world', ->
       ]
 ```
 
+There are many other ways to send and receive test messages.
+See [this test](test/01-Hello-World_test.coffee) for usage examples.
+
+Note that `yield` and *generators* are part of **ECMA6** so it may not work on
+older node versions. It will wait for the delay to complete the `beforeEach`
+before proceeding to the test `it`.
+
+#### Multiple Rooms
+
+By default, Pretend is a room-less environment for receiving basic messages.
+
+We can however setup an array of rooms, for listening and responding to a user
+across parallel rooms, or different sets of users in each room.
+
+The record of messages will prepend the name of the room where it was received
+(if there was a room defined).
+
+See [this test](test/02-Hello-Rooms_test.coffee) for an example of multiple
+rooms.
+
 #### HTTPD
 
-By default Hubot enables a built in HTTP server. The server continues between
-tests and so requires it to be shutdown during teardown using `room.destroy()`.
+If required, Hubot can enable a built in HTTP server. The server continues so
+it must be shutdown after tests using `pretend.shutdown()`.
 
-This feature can be turned off in tests that don't need it by passing using
-`helper.createRoom(httpd: false)`.
-
-See [the tests](test/httpd-world_test.coffee) for an example of testing the
+See [the tests](test/03-HTTPD-World_test.coffee) for an example of testing the
 HTTP server.
 
-
-#### Manual delay
+#### Manual Delay
 
 Sometimes we can't access callback actions from a script.
-Just like in real use-case we may have to wait for a bot to finish processing before replying,
-in testing we may anticipate the delayed reply with a manual time delay.
+Just like in real use case we may have to wait for a bot to finish processing
+before replying, in testing we may anticipate the delayed reply with a manual
+time delay.
 
-For example we have the following script:
+For example we have the following script...
 
 ```coffee
 module.exports = (robot) ->
   robot.hear /(http(?:s?):\/\/(\S*))/i, (res) ->
     url = res.match[1]
-    res.send "ok1: #{url}"
+    res.send "getting: #{url}"
     robot.http(url).get() (err, response, body) ->
-      res.send "ok2: #{url}"
+      res.send "finished: #{url}"
 ```
 
-To test the second callback response "ok2: ..." we use the following script:
+Test the second callback response we use the following script...
 
 ```coffee
-Helper = require('hubot-test-helper')
-helper = new Helper('../scripts/http.coffee')
+Pretend = require 'hubot-pretend'
+pretend = new Pretend '../scripts/http.coffee'
 
-Promise= require('bluebird')
-co     = require('co')
-expect = require('chai').expect
+Promise = require 'bluebird'
+co = require 'co'
+{expect} = require 'chai'
 
-# test ping
-describe 'http', ->
-  beforeEach ->
-    @room = helper.createRoom(httpd: false)
+describe 'http ping', ->
 
-  # Test case
   context 'user posts link', ->
-    beforeEach ->
-      co =>
-        yield @room.user.say 'user1', 'http://google.com'
-        # delay one second for the second
-        # callback message to be posted to @room
-        yield new Promise.delay(1000)
 
-    # response
-    it 'expects deplayed callback from ok2', ->
-      console.log @room.messages
-      expect(@room.messages).to.eql [
-        ['user1', 'http://google.com']
-        ['hubot', 'ok1: http://google.com']
-        ['hubot', 'ok2: http://google.com']
+    beforeEach ->
+      pretend.startup()
+      co ->
+        yield pretend.user('alice').say 'http://google.com'
+        yield new Promise.delay 1000 # delay one second for the second
+
+    it 'expects delayed callback from ok2', ->
+      expect(pretend.adapter.messages).to.eql [
+        ['alice', 'http://google.com']
+        ['hubot', 'getting: http://google.com']
+        ['hubot', 'finished: http://google.com']
       ]
 ```
 
-Note that `yield` and *generators* are part of [**ECMA6**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*), so it may not work on older node.js versions. It will wait for the delay to complete the `beforeEach` before proceeding to the test `it`.
+#### Testing Events
 
-
-#### Testing events
-
-You can also test events emitted by your script.  For example, Slack users
-may want to test the creation of a
+We can also test events emitted by the script. For example, Slack users may want
+to test the creation of a
 [message attachment](https://api.slack.com/docs/attachments).
 
-Given the following script:
+Given the following script...
 
 ```coffee
 module.exports = (robot) ->
@@ -143,31 +174,29 @@ module.exports = (robot) ->
   robot.respond /check status$/i, (msg) ->
     robot.emit 'slack.attachment',
       message: msg.message,
-      content: {
+      content:
         color: "good"
         text: "It's all good!"
-      }
 ```
 
-you could test the emitted event like this:
+We could test the emitted event...
 
 ```coffee
-Helper = require 'hubot-test-helper'
-helper = new Helper('../scripts/status_check.coffee')
+Pretend = require 'hubot-pretend'
+pretend = new Pretend '../scripts/status_check.coffee'
 
-expect = require('chai').expect
+{expect} = require 'chai'
 
 describe 'status check', ->
+
   beforeEach ->
-    @room = helper.createRoom(httpd: false)
+    response = null
+    pretend.startup()
+    pretend.robot.on 'slack.attachment', (event) -> response = event.content
+    pretend.user('bob').say '@hubot check status'
 
   it 'should send a slack event', ->
-    response = null
-    @room.robot.on 'slack.attachment', (event) ->
-      response = event.content
-
-    @room.user.say('bob', '@hubot check status').then =>
-      expect(response.text).to.eql("It's all good!")
+    expect(response.text).to.eql "It's all good!"
 ```
 
 ## Development
@@ -180,14 +209,14 @@ describe 'status check', ->
 ### Setup
 
 ```
-git clone https://github.com/mtsmfm/hubot-test-helper
-cd hubot-test-helper
+git clone https://github.com/timkinnane/hubot-pretend
+cd hubot-pretend
 docker-compose up -d
 docker-compose exec app bash
 yarn install
 ```
 
-### Run test
+### Run Test
 
 ```
 yarn run test
@@ -211,3 +240,22 @@ To start debugging, open the following URL in Chrome:
 ```
 
 Then open `chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/59631086-0a0c-424b-8f5b-8828be123894` in Chrome.
+
+---
+
+## TODO
+
+- add to travis-ci
+- npm publish beta release (0.1.0)
+- test development instructions still apply as above
+- add gulp build chain for lint/test/watching
+- link back to docs for HTH #32
+- add tests for pretend.logs (silence logger in tests) - HTH #37
+- example test for privateMessages - HTH #38
+- npm publish full release (1.0.0)
+- publish github docs pages
+- helper methods to test hubot brain - HTH #31
+- helper methods to test user id, other attributes - HTH #26
+- allow testing series of hubot response objects
+- allow testing series of recorded events
+- allow testing middleware processing

@@ -1,3 +1,5 @@
 /node_modules
 /lib
 /yarn.lock
+/npm-debug.log
+/dummy/npm-debug.log
