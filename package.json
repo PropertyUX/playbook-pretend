@@ -8,7 +8,8 @@
     "test-unit-debug": "mocha --inspect --debug-brk --compilers coffee:coffee-script/register test",
     "test-integration": "cd dummy && npm i && npm run test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "prepublish": "coffee --compile --output lib/ src/"
+    "prepublish": "coffee --compile --output lib/ src/",
+    "commit": "git-cz"
   },
   "keywords": [
     "hubot"
@@ -21,6 +22,7 @@
     "chai": "^3.5.0",
     "co": "^4.6.0",
     "coffee-script": "^1.12.4",
+    "cz-conventional-changelog": "^2.0.0",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",
     "semantic-release": "^6.3.2"
@@ -38,6 +40,11 @@
     "verifyConditions": {
       "path": "./lib/index.js",
       "additional": "config"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }

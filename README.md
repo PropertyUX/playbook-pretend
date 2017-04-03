@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/timkinnane/hubot-pretend.svg?branch=master)](https://travis-ci.org/timkinnane/hubot-pretend)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![dependencies Status](https://david-dm.org/timkinnane/hubot-pretend/status.svg)](https://david-dm.org/timkinnane/hubot-pretend)
+[![devDependencies Status](https://david-dm.org/timkinnane/hubot-pretend/dev-status.svg)](https://david-dm.org/timkinnane/hubot-pretend?type=dev)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 **Hubot Pretend** is for [Hubot](hubot.github.com) messaging tests with a mock
 robot, rooms and users.
