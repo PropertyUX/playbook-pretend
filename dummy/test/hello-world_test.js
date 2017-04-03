@@ -1,13 +1,13 @@
 (function() {
   var Pretend, chai, co, pretend;
 
-  Pretend = require('../src/index');
+  Pretend = require('hubot-pretend');
 
-  pretend = new Pretend('./scripts/hello-world.coffee');
+  pretend = new Pretend('../scripts/hello-world.js');
 
   co = require('co');
 
-  chai = require('chai');
+  expect = require('chai').expect;
 
   describe('Hello World - users say hi to hubot', function() {
     beforeEach(function() {
