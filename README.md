@@ -248,8 +248,6 @@ Then open `chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8
 
 ## TODO
 
-- add to travis-ci
-- npm publish beta release (0.1.0)
 - test development instructions still apply as above
 - add gulp build chain for lint/test/watching
 - link back to docs for HTH #32
