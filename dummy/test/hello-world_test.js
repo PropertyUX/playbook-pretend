@@ -3,7 +3,7 @@
 
   Pretend = require('hubot-pretend');
 
-  pretend = new Pretend('../scripts/hello-world.js');
+  pretend = new Pretend('../scripts/hello-world.coffee');
 
   co = require('co');
 
