@@ -38,7 +38,7 @@
     "type": "git",
     "url": "https://github.com/timkinnane/hubot-pretend"
   },
-  "version": "0.0.0-development",
+  "version": "0.0.0",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
