@@ -12,7 +12,15 @@ process.setMaxListeners 0
  * @return Pretend                      The Pretend instance
 ###
 class Pretend
-  constructor: (scriptsPaths) ->
+  constructor: (scriptsPaths=null) ->
+    @read scriptsPaths if scriptsPaths?
+
+  ###*
+   * Read in scripts from path, one or more, will overwrite any previous reads
+   * @param  {Array|String} scriptsPaths Path to script/s for loading into hubot
+   * @return {Int}                       Number of scripts read in
+  ###
+  read: (scriptsPaths) ->
     @scripts = []
     scriptsPaths = [scriptsPaths] if not _.isArray scriptsPaths
     for script in scriptsPaths
@@ -22,6 +30,7 @@ class Pretend
           @scripts.push path: script, file: file
       else
         @scripts.push path: Path.dirname(script), file: Path.basename(script)
+    return @scripts.length
 
   ###*
    * initialise robot for tests
@@ -34,6 +43,7 @@ class Pretend
    * @return MockAdapter         The robot's adapter instance
   ###
   startup: (options={}) ->
+    throw new Error "No scripts read yet" unless @scripts.length
     @rooms = {}
     @users = {}
     @config = _.defaults options,
@@ -47,6 +57,7 @@ class Pretend
     @robot = new MockRobot @config.httpd
     # @robot.logger.level = 'silent'
     # @readLog() if @config.log
+    @robot.logger = @log() if @config.log
     @robot.Response = @config.response if @config.response?
     @robot.loadFile script.path, script.file for script in @scripts
     @robot.brain.emit 'loaded'
@@ -62,24 +73,31 @@ class Pretend
    * @return Promise  Resolved when the robot is finished writing to log stream
    * NB - this isn't tested or called yet - work in progress
   ###
-  readLog: ->
+  log: ->
     @logs = []
-    @robot.logger.stream.readable = true
-    stream = @robot.logger.stream
-    events =
-      onData: (doc) =>
-        @logs.push doc
-      onEnd: (err) =>
-        if err then reject err else resolve err
-        events.cleanup()
-      onClose: =>
-        resolve @logs
-        events.cleanup()
-      cleanup: =>
-        stream.removeListener 'data', events.onData
-        stream.removeListener 'end', events.onEnd
-        stream.removeListener 'error', events.onEnd
-        stream.removeListener 'close', events.onClose
+    pretendLog =
+      debug: (message) => @logs.push ['debug', message]
+      info: (message) => @logs.push ['info', message]
+      warning: (message) => @logs.push ['warning', message]
+      error: (message) => @logs.push ['error', message]
+    return pretendLog
+    #
+    # @robot.logger.stream.readable = true
+    # stream = @robot.logger.stream
+    # events =
+    #   onData: (doc) =>
+    #     @logs.push doc
+    #   onEnd: (err) =>
+    #     if err then reject err else resolve err
+    #     events.cleanup()
+    #   onClose: =>
+    #     resolve @logs
+    #     events.cleanup()
+    #   cleanup: =>
+    #     stream.removeListener 'data', events.onData
+    #     stream.removeListener 'end', events.onEnd
+    #     stream.removeListener 'error', events.onEnd
+    #     stream.removeListener 'close', events.onClose
 
     return new Promise (resolve, reject) =>
       return resolve @logs unless stream.readable
