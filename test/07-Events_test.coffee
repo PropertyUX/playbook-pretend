@@ -1,8 +1,8 @@
+chai = require 'chai'
+chai.should()
+
 Pretend = require '../src/index'
 pretend = new Pretend './scripts/events.coffee'
-
-chai = require 'chai'
-should = chai.should()
 
 describe 'Events', ->
 

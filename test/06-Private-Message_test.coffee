@@ -1,8 +1,8 @@
+chai = require 'chai'
+chai.should()
+
 Pretend = require '../src/index'
 pretend = new Pretend './scripts/private-message.coffee'
-
-chai = require 'chai'
-should = chai.should()
 
 describe 'private-message', ->
 

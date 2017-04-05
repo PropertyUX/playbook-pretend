@@ -1,10 +1,10 @@
-Pretend = require '../src/index'
-pretend = new Pretend './scripts/httpd-world.coffee'
-
 http = require 'http'
 co = require 'co'
 chai = require 'chai'
-should = chai.should()
+chai.should()
+
+Pretend = require '../src/index'
+pretend = new Pretend './scripts/httpd-world.coffee'
 
 process.env.EXPRESS_PORT = 8080
 

@@ -1,9 +1,9 @@
-Pretend = require '../src/index'
-pretend = new Pretend './scripts/hello-world.coffee'
-
 co = require 'co'
 chai = require 'chai'
-should = chai.should()
+chai.should()
+
+Pretend = require '../src/index'
+pretend = new Pretend './scripts/hello-world.coffee'
 
 describe 'Hello World', ->
 

@@ -1,9 +1,8 @@
-{inspect} = require 'util'
+chai = require 'chai'
+chai.should()
+
 Pretend = require '../src/index'
 pretend = new Pretend './scripts/hello-logs.coffee'
-
-chai = require 'chai'
-should = chai.should()
 
 describe 'Mock Logs', ->
 

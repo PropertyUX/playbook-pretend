@@ -1,11 +1,11 @@
+co = require 'co'
+chai = require 'chai'
+chai.should()
+
 Pretend = require '../src/index'
 pretend = new Pretend './scripts/mock-response.coffee'
 
-co = require 'co'
-chai = require 'chai'
-should = chai.should()
-
-class NewMockResponse extends Pretend.Response
+class NewResponse extends pretend.Response
   random: (items) -> 3
 
 describe 'Mock Response', ->
@@ -13,7 +13,8 @@ describe 'Mock Response', ->
   context 'user says "give me a random" number to hubot', ->
 
   beforeEach ->
-    pretend.startup response: NewMockResponse
+    pretend.Response = NewResponse
+    pretend.startup()
     co =>
       yield pretend.user('alice').send '@hubot give me a random number'
       yield pretend.user('bob').send '@hubot give me a random number'
