@@ -90,13 +90,13 @@ describe 'Hello Rooms', ->
           yield @basement.receive pretend.users.bob, '@hubot hi'
 
       it 'returns messages from just first room', ->
-        @garage.received().should.eql [
+        @garage.getMessages().should.eql [
           ['bob',   '@hubot hi']
           ['hubot', '@bob hi']
         ]
 
       it 'returns messages from just second room', ->
-        @basement.received().should.eql [
+        @basement.getMessages().should.eql [
           ['bob',   '@hubot hi']
           ['hubot', '@bob hi']
         ]

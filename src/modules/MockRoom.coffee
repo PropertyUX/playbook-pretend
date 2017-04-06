@@ -15,7 +15,7 @@ class MockRoom
    * Get filtered array of this room's messages from adapter
    * @return Array Messages ([user, message]) sent to room
   ###
-  received: =>
+  getMessages: =>
     roomMessages = _.filter @adapter.messages, (msg) => msg[0] is @name
     return _.map roomMessages, _.drop
 
