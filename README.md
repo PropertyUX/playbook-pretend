@@ -118,6 +118,14 @@ it must be shutdown after tests using `pretend.shutdown()`.
 See [the tests](test/03-HTTPD-World_test.coffee) for an example of testing the
 HTTP server.
 
+#### Hubot Internals
+
+[Sinon](http://sinonjs.org/) is used to spy on the methods of Hubot's Robot
+class, so we can test what's happening under the hood.
+
+See [this test](test/10-Hello-Spies_test.coffee) for an example of testing the
+Robot methods.
+
 #### Manual Delay
 
 Sometimes we can't access callback actions from a script.

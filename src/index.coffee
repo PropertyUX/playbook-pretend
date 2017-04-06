@@ -6,7 +6,6 @@ Room      = require './modules/MockRoom'
 
 Fs        = require 'fs'
 Path      = require 'path'
-sinon     = require 'sinon'
 _         = require 'lodash'
 Hubot     = require 'hubot'
 
@@ -100,12 +99,7 @@ class Pretend
       rooms: null
       users: null
       log: true
-
-    # spy new class on startup so it doesn't inherit calls from re-used parent
-    class Spybot extends @Robot
-    _.forIn Spybot.prototype, (v, key) -> sinon.spy Spybot.prototype, key
-    @robot = new Spybot @config.httpd
-
+    @robot = new @Robot @config.httpd
     @robot.alias = @config.alias
     @robot.logger = @log() if @config.log
     @robot.Response = @Response
@@ -113,6 +107,11 @@ class Pretend
     @robot.brain.emit 'loaded'
     @adapter = @robot.adapter
     @messages = @adapter.messages
+    @responses =
+      incoming: []
+      outgoing: []
+    @robot.on 'receive', (context) => @responses.incoming.push context.response
+    @robot.on 'respond', (context) => @responses.outgoing.push context.response
     @room r for r in @config.rooms if @config.rooms?
     @user u for u in @config.users if @config.users?
     return @adapter

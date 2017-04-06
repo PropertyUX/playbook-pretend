@@ -1,5 +1,5 @@
 # Description:
 #   Test script
 module.exports = (robot) ->
-  robot.respond /hi$/i, (msg) ->
-    msg.reply 'hi'
+  robot.respond /hi$/i, (res) ->
+    res.reply 'hi'
