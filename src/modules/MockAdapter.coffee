@@ -50,7 +50,9 @@ class MockAdapter extends Adapter
   ###
   send: (envelope, strings...) ->
     for str in strings
-      @messages.push [envelope.room, 'hubot', str]
+      record = ['hubot', str]
+      record.unshift envelope.room if envelope.room?
+      @messages.push record
     return
 
   ###*
