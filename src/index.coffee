@@ -3,6 +3,7 @@ Adapter   = require './modules/MockAdapter'
 Response  = require './modules/MockResponse'
 User      = require './modules/MockUser'
 Room      = require './modules/MockRoom'
+Observer  = require './modules/Observer'
 
 Fs        = require 'fs'
 Path      = require 'path'
@@ -23,6 +24,7 @@ class Pretend
     @Response = Response
     @User = User
     @Room = Room
+    @Observer = Observer
 
     @read scriptsPaths if scriptsPaths?
 
@@ -107,6 +109,7 @@ class Pretend
     @robot.brain.emit 'loaded'
     @adapter = @robot.adapter
     @messages = @adapter.messages
+    @observer = new @Observer @messages
     @responses =
       incoming: []
       outgoing: []
@@ -121,6 +124,7 @@ class Pretend
    * @return null
   ###
   shutdown: ->
+    @observer.stop()
     @adapter.shutdown()
     return
 
