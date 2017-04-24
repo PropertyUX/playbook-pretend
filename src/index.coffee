@@ -67,7 +67,7 @@ class Pretend
   ###
   read: (scriptsPaths) ->
     @scripts = []
-    scriptsPaths = [scriptsPaths] if not _.isArray scriptsPaths
+    scriptsPaths = _.castArray scriptsPaths
     for script in scriptsPaths
       script = Path.resolve Path.dirname(module.parent.filename), script
       if Fs.statSync(script).isDirectory()
