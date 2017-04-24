@@ -6,7 +6,6 @@ require('../vendor/mennovanslooten/underscore-observe.js')(_) # extends lodash
 ###*
  * Observer lets tests watch for message events
  * @param  {Array} @messages Array of messages
- * @return {null}
 ###
 class Observer
   constructor: (@messages) -> return
@@ -36,7 +35,6 @@ class Observer
   ###*
    * Run callback with every messages push
    * @param  {Function} cb Callback
-   * @return {null}
   ###
   all: (cb) ->
     _.observe @messages, 'create', (created) -> cb created # every time
@@ -44,7 +42,6 @@ class Observer
 
   ###*
    * Stop looking at all (alias for consistent syntax)
-   * @return {null}
   ###
   stop: ->
     _.unobserve()
