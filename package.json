@@ -11,7 +11,7 @@
     "commitmsg": "validate-commit-msg",
     "precommit": "npm test",
     "prepush": "npm test",
-    "prepublish": "coffee --compile --output lib/ src/",
+    "prepublish": "coffee --compile --output lib/ src/ && cp -r ./src/vendor ./lib/vendor",
     "commit": "git-cz"
   },
   "keywords": [
