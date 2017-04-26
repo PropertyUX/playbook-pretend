@@ -113,8 +113,11 @@ class Pretend
     @responses =
       incoming: []
       outgoing: []
-    @robot.on 'receive', (context) => @responses.incoming.push context.response
-    @robot.on 'respond', (context) => @responses.outgoing.push context.response
+    @robot.on 'receive', (context) =>
+      unless context.response.message instanceof Hubot.CatchAllMessage
+        @responses.incoming.push context.response
+    @robot.on 'respond', (context) =>
+      @responses.outgoing.push context.response
     @room r for r in @config.rooms if @config.rooms?
     @user u for u in @config.users if @config.users?
     return @adapter
