@@ -124,7 +124,6 @@ class Pretend
 
   ###*
    * Run adapter shutdown, closes server if one was started.
-   * @return null
   ###
   shutdown: ->
     @observer.stop()

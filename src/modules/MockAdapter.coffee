@@ -33,7 +33,6 @@ class MockAdapter extends Adapter
    * Process and record details of a reply from hubot - prepends '@user '
    * @param  {Object} envelope   Envelope from response object
    * @param  {Array} strings...  Array of message text strings
-   * @return null
   ###
   reply: (envelope, strings...) ->
     for str in strings
@@ -46,7 +45,6 @@ class MockAdapter extends Adapter
    * Record details of a send from hubot
    * @param  {Object} envelope   Envelope from response object
    * @param  {Array} strings...  Array of message text strings
-   * @return null
   ###
   send: (envelope, strings...) ->
     for str in strings
@@ -59,7 +57,6 @@ class MockAdapter extends Adapter
    * Record details of a private message from hubot
    * @param  {Object} envelope   Envelope from response object
    * @param  {Array} strings...  Array of message text strings
-   * @return null
   ###
   sendPrivate: (envelope, strings...) ->
     if envelope.user.name not of @privateMessages
@@ -69,7 +66,6 @@ class MockAdapter extends Adapter
 
   ###*
    * Record details of an event emitted by hubot
-   * @return null
   ###
   robotEvent: () ->
     @events.push arguments...
@@ -96,7 +92,6 @@ class MockAdapter extends Adapter
 
   ###*
    * Close hubot http server, if open
-   * @return null
   ###
   shutdown: ->
     @robot.server.close() if @robot.server

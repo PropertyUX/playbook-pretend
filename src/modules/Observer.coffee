@@ -25,7 +25,6 @@ class Observer
   ###*
    * Look for a specific message (resolve promise when found)
    * @param  {String} message The message needle
-   * @return null
   ###
   when: (message) ->
     return new Promise (resolve, reject) =>
