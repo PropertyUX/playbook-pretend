@@ -123,7 +123,7 @@ class Pretend
     return @adapter
 
   ###*
-   * Run adapter shutdown, closes server if one was started.
+   * Run adapter shutdown, closes server if one was started
   ###
   shutdown: ->
     @observer.stop()

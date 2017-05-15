@@ -45,6 +45,27 @@ describe 'Message Observer', ->
 
     it 'resolved in a probable number of rounds', ->
       pretend.messages.length.should.be.lt 60
+ 
+  context 'Wait for a message matching a pattern', ->
+    
+    beforeEach ->
+      @player = pretend.user 'player', room: 'hide'
+      pretend.robot.messageRoom 'hide', 'count to ten'
+      pretend.observer.whenMatch /\d\d/
+      .then -> pretend.robot.messageRoom 'hide', 'ok im coming'
+      co =>
+        yield @player.send '1'
+        yield @player.send '2'
+        yield @player.send '10'
+    
+    it 'resolved when the message matched', ->
+      pretend.messages.should.eql [
+        ['hide', 'hubot', 'count to ten']
+        ['hide', 'player', '1']
+        ['hide', 'player', '2']
+        ['hide', 'player', '10']
+        ['hide', 'hubot', 'ok im coming']
+      ]
 
   context 'Do something with each message sent', ->
 

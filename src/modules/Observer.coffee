@@ -23,13 +23,27 @@ class Observer
           resolve created
 
   ###*
-   * Look for a specific message (resolve promise when found)
+   * Look for a specific message, resolve promise when found
    * @param  {String} message The message needle
+   * @return {Promise}        Promise (with bluebird)
   ###
   when: (message) ->
     return new Promise (resolve, reject) =>
       _.observe @messages, 'create', (created) =>
         resolve _.unobserve() if message.toString() is created.toString()
+  
+  ###*
+   * Look for message matching pattern, resolve promise when found
+   * @param  {RegExp} regex Message matching pattern
+   * @return {Promise}      Promise (with bluebird)
+  ###
+  whenMatch: (regex) ->
+    return new Promise (resolve, reject) =>
+      _.observe @messages, 'create', (created) =>
+        match = created.toString().match regex
+        if match 
+          _.unobserve()
+          resolve match
 
   ###*
    * Run callback with every messages push
