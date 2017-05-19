@@ -23,35 +23,60 @@ class Observer
           resolve created
 
   ###*
-   * Look for a specific message, resolve promise when found
-   * @param  {String} message The message needle
-   * @return {Promise}        Promise (with bluebird)
+   * Look for a specific message, resolve promise when found or max reached
+   * @param  {Int}      [max]      Stop observing and resolve when reached
+   * @param  {Array}    [needle]   The message needle ([username, message])
+   * @param  {Function} [callback] Run with every messages push
+   * @return {Promise}             Promise (bluebird wrapped)
   ###
-  when: (message) ->
+  when: (args...) ->
+    max = args.shift() if _.isInteger args[0]
+    needle = args.shift() if _.isArray args[0]
+    callback = args.shift() if _.isFunction args[0]
+    count = 0
     return new Promise (resolve, reject) =>
-      _.observe @messages, 'create', (created) =>
-        resolve _.unobserve() if message.toString() is created.toString()
+      _.observe @messages, 'create', (created) ->
+        count++
+        if ( needle? and created.join(' ') is needle.join(' ') ) or
+        ( max? and count is max )
+          callback created if callback?
+          _.unobserve()
+          resolve created
   
   ###*
    * Look for message matching pattern, resolve promise when found
-   * @param  {RegExp} regex Message matching pattern
-   * @return {Promise}      Promise (with bluebird)
+   * @param  {RegExp}   regex      Message matching pattern
+   * @param  {Function} [callback] Run with every messages push
+   * @return {Promise}             Promise (bluebird wrapped)
   ###
-  whenMatch: (regex) ->
+  whenMatch: (args...) ->
+    regex = args.shift() if _.isRegExp args[0]
+    callback = args.shift() if _.isFunction args[0]
     return new Promise (resolve, reject) =>
-      _.observe @messages, 'create', (created) =>
-        match = created.toString().match regex
-        if match 
+      _.observe @messages, 'create', (created) ->
+        match = created.join(' ').match regex
+        if match
+          callback match if callback?
           _.unobserve()
           resolve match
 
   ###*
-   * Run callback with every messages push
-   * @param  {Function} cb Callback
+   * Observe and perform action every message (optionally up to a limit)
+   * @param  {Int}      [max]      Stop observing and resolve when reached
+   * @param  {Function} [callback] Run with every messages push
+   * @return {Promise}             Promise (bluebird wrapped)
   ###
-  all: (cb) ->
-    _.observe @messages, 'create', (created) -> cb created # every time
-    return
+  all: (args...) ->
+    max = args.shift() if _.isInteger args[0]
+    callback = args.shift() if _.isFunction args[0]
+    count = 0
+    return new Promise (resolve, reject) =>
+      _.observe @messages, 'create', (created) ->
+        callback created if callback?
+        count++
+        if max? and max is count
+          _.unobserve()
+          resolve created
 
   ###*
    * Stop looking at all (alias for consistent syntax)

@@ -34,17 +34,42 @@ describe 'Message Observer', ->
   context 'Loop until a specific message appears', ->
 
     beforeEach ->
+      @found = ''
+      @needle = ['hubot', '@player I got you!']
       @player = pretend.user 'player'
+      @wait = pretend.observer.when @needle, (msg) => @found = msg
       co =>
         yield @player.send 'hubot play'
-        marcoPolo = pretend.observer.when ['hubot', '@player I got you!']
-        yield @player.send 'polo' while marcoPolo.isPending()
+        yield @player.send 'polo' while @wait.isPending()
 
     it 'resolved after at least one round', ->
       pretend.messages.length.should.be.gt 3
 
     it 'resolved in a probable number of rounds', ->
       pretend.messages.length.should.be.lt 60
+    
+    it 'resolved with the message it was looking for', ->
+      @found.should.eql @needle
+  
+  context 'Loop until a given number of messages', ->
+    
+    beforeEach ->
+      @found = ''
+      pretend.observer.when 3, (msg) => @found = msg
+      co -> yield pretend.user('test').send "#{ i }..." for i in [1..5]
+    
+    it 'resolves only when limit reached', ->
+      @found.should.eql ['test', '3...']
+  
+  context 'Loop until a specific message within limit', ->
+    
+    beforeEach ->
+      @found = ''
+      pretend.observer.when 6, ['test', '3...'], (msg) => @found = msg
+      co -> yield pretend.user('test').send "#{ i }..." for i in [1..5]
+    
+    it 'resolves when found (before limit reached)', ->
+      @found.should.eql ['test', '3...']
  
   context 'Wait for a message matching a pattern', ->
     
@@ -72,8 +97,17 @@ describe 'Message Observer', ->
     beforeEach ->
       @msgs = ''
       pretend.observer.all (msg) => @msgs += msg[1]
-      co =>
-        yield pretend.user('test').send i for i in [1..5]
+      co -> yield pretend.user('test').send i for i in [1..5]
 
     it 'observed the series of messages', ->
       @msgs.should.eql '12345'
+  
+  context 'Do something with a given number of messages', ->
+    
+    beforeEach ->
+      @msgs = ''
+      pretend.observer.all 3, (msg) => @msgs += msg[1]
+      co -> yield pretend.user('test').send i for i in [1..5]
+    
+    it 'observed up to given limit of messages', ->
+      @msgs.should.eql '123'
