@@ -155,3 +155,24 @@ describe 'Message Observer', ->
         [ 'testing', 'hubot', 'room 4' ]
         [ 'testing', 'hubot', 'envelope 5' ]
       ]
+  
+  context 'observing both sent and received messages (alternate method)', ->
+    
+    beforeEach ->
+      wait = pretend.observer.when 5
+      @tester.in('testing').send 'receive 1'
+      .then ->
+        pretend.responses.incoming[0].reply 'reply 2'
+        pretend.responses.incoming[0].send 'send 3'
+        pretend.robot.messageRoom 'testing', 'room 4'
+        pretend.robot.send room: 'testing', 'envelope 5'
+      return wait
+    
+    it 'observed all messages', ->
+      pretend.messages.should.include.deep.members [
+        [ 'testing', 'tester', 'receive 1' ]
+        [ 'testing', 'hubot', '@tester reply 2' ]
+        [ 'testing', 'hubot', 'send 3' ]
+        [ 'testing', 'hubot', 'room 4' ]
+        [ 'testing', 'hubot', 'envelope 5' ]
+      ]
