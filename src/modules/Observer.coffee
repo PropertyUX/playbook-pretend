@@ -19,7 +19,7 @@ class Observer
       start = @messages.length
       _.observe @messages, 'create', (created) =>
         if @messages.length > start
-          _.unobserve()
+          _.unobserve @messages
           resolve created
 
   ###*
@@ -35,12 +35,13 @@ class Observer
     callback = args.shift() if _.isFunction args[0]
     count = 0
     return new Promise (resolve, reject) =>
-      _.observe @messages, 'create', (created) ->
+      _.observe @messages, 'create', (created) =>
         count++
         if ( needle? and created.join(' ') is needle.join(' ') ) or
         ( max? and count is max )
-          callback created if callback?
-          _.unobserve()
+          _.unobserve @messages # unobserve first, callback might re-observe
+          if callback?
+            try callback created catch e then console.error e
           resolve created
   
   ###*
@@ -53,11 +54,12 @@ class Observer
     regex = args.shift() if _.isRegExp args[0]
     callback = args.shift() if _.isFunction args[0]
     return new Promise (resolve, reject) =>
-      _.observe @messages, 'create', (created) ->
+      _.observe @messages, 'create', (created) =>
         match = created.join(' ').match regex
         if match
-          callback match if callback?
-          _.unobserve()
+          _.unobserve @messages
+          if callback?
+            try callback match catch e then console.error e
           resolve match
 
   ###*
@@ -71,18 +73,19 @@ class Observer
     callback = args.shift() if _.isFunction args[0]
     count = 0
     return new Promise (resolve, reject) =>
-      _.observe @messages, 'create', (created) ->
-        callback created if callback?
+      _.observe @messages, 'create', (created) =>
         count++
+        if callback?
+          try callback created catch e then console.error e
         if max? and max is count
-          _.unobserve()
+          _.unobserve @messages
           resolve created
 
   ###*
    * Stop looking at all (alias for consistent syntax)
   ###
   stop: ->
-    _.unobserve()
+    _.unobserve @messages
     return
 
 module.exports = Observer
