@@ -3,7 +3,8 @@
   "description": "Test Hubot scripts with a mock robot, rooms and users.",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "npm run test-unit && npm run test-integration",
+    "standard" : "standard 'src/modules/**/*.js' 'test/**/*.js' | snazzy",
+    "test": "npm run standard && npm run test-unit && npm run test-integration",
     "test-unit": "mocha --compilers coffee:coffee-script/register test",
     "test-unit-debug": "mocha --inspect --debug-brk --compilers coffee:coffee-script/register test",
     "test-integration": "cd dummy && npm i && npm run test",
@@ -32,6 +33,7 @@
     "husky": "^0.13.3",
     "mocha": "^3.2.0",
     "semantic-release": "^6.3.2",
+    "standard": "^10.0.2",
     "validate-commit-msg": "^2.12.0"
   },
   "author": "Tim Kinnane",
