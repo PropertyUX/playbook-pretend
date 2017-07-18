@@ -1,5 +1,5 @@
 _ = require 'lodash'
-{Robot} = require 'hubot'
+{Robot} = require 'hubot-async'
 sinon     = require 'sinon'
 
 Adapter = require './MockAdapter'

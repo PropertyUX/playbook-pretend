@@ -1,5 +1,5 @@
 _ = require 'lodash'
-Hubot = require 'hubot'
+Hubot = require 'hubot-async'
 
 ###*
  * MockUser extends Hubot User with adapter method shortcuts, prefilling user

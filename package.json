@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.5.0",
-    "hubot": ">= 2.6.0 < 3",
+    "hubot-async": "2.19.1-async",
     "lodash": "^4.17.4",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0"

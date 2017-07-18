@@ -1,4 +1,4 @@
-{Response} = require 'hubot'
+{Response} = require 'hubot-async'
 sinon = require 'sinon'
 _ = require 'lodash'
 

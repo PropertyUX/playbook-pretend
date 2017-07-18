@@ -2,7 +2,7 @@ _ = require 'lodash'
 sinon = require 'sinon'
 Promise = require 'bluebird'
 
-{Adapter,TextMessage,EnterMessage,LeaveMessage} = require 'hubot'
+{Adapter,TextMessage,EnterMessage,LeaveMessage} = require 'hubot-async'
 
 ###*
  * MockAdapter extends Hubot Adapter, routing messages to an internal array

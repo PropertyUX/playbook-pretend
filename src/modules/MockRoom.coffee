@@ -1,5 +1,5 @@
 _ = require 'lodash'
-Hubot = require 'hubot'
+Hubot = require 'hubot-async'
 
 ###*
  * MockRoom provides adapter method shortcuts, prefilling room name

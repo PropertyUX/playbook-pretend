@@ -8,7 +8,7 @@ Observer  = require './modules/Observer'
 Fs        = require 'fs'
 Path      = require 'path'
 _         = require 'lodash'
-Hubot     = require 'hubot'
+Hubot     = require 'hubot-async'
 
 process.setMaxListeners 0
 
