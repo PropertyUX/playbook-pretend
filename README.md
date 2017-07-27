@@ -26,6 +26,9 @@ migrating from
 [Hubot Test Helper](https://github.com/mtsmfm/hubot-test-helper)
 to [Hubot Pretend](https://github.com/timkinnane/hubot-pretend).
 
+Pretend uses mocks to replace adapter, event, log and message routing to observable arrays.
+It aims to leave much of the standard Hubot intact, other than attaching method spies via sinon.
+
 ---
 
 ## Install
@@ -217,7 +220,6 @@ describe 'status check', ->
 
 ## TODO
 
-- add gulp build chain for lint/test/watching
 - link back to docs for HTH #32, #37, #38
 - npm publish full release (1.0.0)
 - publish github docs pages
