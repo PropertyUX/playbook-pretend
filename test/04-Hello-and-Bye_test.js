@@ -3,7 +3,7 @@ import chai from 'chai'
 import Pretend from '../src'
 chai.should()
 
-const pretend = new Pretend(['./scripts/hello-world.js', './scripts/bye.js'])
+const pretend = new Pretend(['./scripts/hello-world.coffee', './scripts/bye.js'])
 
 describe('Hello and Bye (multiple scripts)', () =>
   context('one user says hi, other says bye to hubot', () => {

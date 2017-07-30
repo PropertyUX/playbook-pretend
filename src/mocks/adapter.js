@@ -45,7 +45,6 @@ class MockAdapter extends Adapter {
 
   /**
    * Process and record details of a reply from hubot - prepends '@user '
-   * NB: reply is applied with this bound to robot
    * @param  {Object} envelope   A Object with message, room and user details
    * @param  {Array} strings...  One or more Strings for each message to send
   */
@@ -55,7 +54,7 @@ class MockAdapter extends Adapter {
       if (envelope.room != null) {
         record.unshift(envelope.room)
       }
-      this.adapter.messages.push(record)
+      this.messages.push(record)
     }
   }
 

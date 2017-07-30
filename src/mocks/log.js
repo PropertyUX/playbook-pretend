@@ -1,5 +1,7 @@
 'use strict'
 
+import log from 'npmlog'
+
 /**
  * Mock log, keeps log messages in array
  */
@@ -8,23 +10,37 @@ export default class {
    * Create a new log
    * @return {Object} Mock log methods (debug, info, warning, error)
    */
-  constructor () {
+  constructor (level = 'error') {
     this.logs = []
+    log.level = level
+    log.heading = '[hubot]'
+    log.headingStyle = { fg: 'magenta' }
+    log.addLevel('debug', 1000, { fg: 'yellow' }, 'dbug')
+    log.addLevel('error', 5000, { fg: 'white', bg: 'red' }, 'ERR!')
+  }
+
+  prefix () {
+    // return new Date().toLocaleString()
+    return new Date().toLocaleTimeString()
   }
 
   debug (message) {
     this.logs.push(['debug', message])
+    log.debug(this.prefix(), message)
   }
 
   info (message) {
     this.logs.push(['info', message])
+    log.info(this.prefix(), message)
   }
 
   warning (message) {
     this.logs.push(['warning', message])
+    log.warn(this.prefix(), message)
   }
 
   error (message) {
     this.logs.push(['error', message])
+    log.error(this.prefix(), message)
   }
 }

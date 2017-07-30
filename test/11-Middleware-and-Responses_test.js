@@ -2,7 +2,7 @@ import chai from 'chai'
 import Pretend from '../src'
 chai.should()
 
-const pretend = new Pretend('./scripts/hello-world.js')
+const pretend = new Pretend('./scripts/hello-world.coffee')
 
 describe('Middleware and Responses', () => {
   beforeEach(() => {

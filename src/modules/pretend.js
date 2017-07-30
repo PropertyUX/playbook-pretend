@@ -4,18 +4,15 @@ import fs from 'fs'
 import path from 'path'
 import _ from 'lodash'
 import { EnterMessage, LeaveMessage } from 'hubot-async/es2015'
-import Robot from './modules/robot'
-import User from './modules/user'
-import Room from './modules/room'
+import Robot from './robot'
+import User from './user'
+import Room from './room'
 
 // prevent issues with default port in use
 if (!(process.env.PORT || process.env.EXPRESS_PORT)) process.env.PORT = '3000'
 
 // init vars
-let robot = null
-let users = {}
-let rooms = {}
-let scripts = []
+let robot, users, rooms, scripts
 
 // option fallbacks
 const defaults = {
@@ -26,13 +23,16 @@ const defaults = {
   users: null
 }
 
-function reset () {
-  // console.log('reset')
-  // robot = null
-  // users = {}
-  // rooms = {}
-  // scripts = []
+/**
+ * Initialise or reset robot and collection vars, for after tests clean up
+ */
+function init () {
+  robot = null
+  users = {}
+  rooms = {}
+  scripts = []
 }
+init()
 
 /**
  * Start (or restart) collections and create pretend robot
@@ -50,6 +50,9 @@ function start (options = {}) {
   // reset test user/room collections
   users = {}
   rooms = {}
+
+  // force a log level if given in options
+  if (options.logLevel) process.env.HUBOT_LOG_LEVEL = options.logLevel
 
   // create robot
   // TODO: update to options object when that happens in hubot core
@@ -98,14 +101,12 @@ function read (scriptPaths) {
 }
 
 /**
- * Load any read-in scripts (if robot created)
+ * Load any read-in scripts (if robot created and script not already read)
  */
 function load () {
-  console.log('loading', robot.loadFile.callCount)
   if (robot === null) return
-  scripts.map(s => robot.loadFile(s.path, s.file))
-  console.log('done', robot.loadFile.callCount)
-
+  let scriptsToLoad = _.differenceBy(scripts, robot.loaded, _.isEqual)
+  scriptsToLoad.map(s => robot.loadFile(s.path, s.file))
   return this // for chaining
 }
 
@@ -228,8 +229,8 @@ function room (name) {
  * Shortcut to robot shutdown
  */
 function shutdown () {
-  robot.shutdown()
-  reset()
+  if (robot) robot.shutdown()
+  init()
 }
 
 /**
@@ -239,7 +240,10 @@ function shutdown () {
 export default {
   start: start,
   read: read,
+  load: load,
   shutdown: shutdown,
+  user: user,
+  room: room,
   get users () { return users },
   get rooms () { return rooms },
   get scripts () { return scripts },

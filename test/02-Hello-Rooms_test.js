@@ -1,7 +1,7 @@
 import co from 'co'
 import Pretend from '../src'
 
-const pretend = new Pretend('./scripts/hello-world.js')
+const pretend = new Pretend('./scripts/hello-world.coffee')
 
 describe('Hello Rooms', () =>
   context('users in different rooms says hi to hubot', () => {

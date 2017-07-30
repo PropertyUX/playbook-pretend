@@ -6,7 +6,7 @@ import Pretend from '../src'
 chai.use(sinonChai)
 chai.should()
 
-const pretend = new Pretend('./scripts/hello-world.js')
+const pretend = new Pretend('./scripts/hello-world.coffee')
 
 describe('Hello Spies', () => {
   beforeEach(() => pretend.startup())
@@ -14,7 +14,7 @@ describe('Hello Spies', () => {
   context('after startup', () => {
     it('loads given script path and file into hubot', () => {
       const path = sinon.match(new RegExp(/scripts$/))
-      const file = 'hello-world.js'
+      const file = 'hello-world.coffee'
       return pretend.robot.loadFile.lastCall.should.have.calledWith(path, file)
     })
 

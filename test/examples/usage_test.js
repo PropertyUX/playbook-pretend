@@ -16,7 +16,7 @@ describe('pretend', function () {
   describe('Scripts Usage', () => {
     it('makes a robot, reads and loads scripts, records messages', () => {
       pretend.start()
-      pretend.read('../scripts/hello-world.js')
+      pretend.read('../scripts/hello-world.coffee')
       pretend.user('jo').send('hi')
       pretend.messages.should.eql([
         ['jo', 'hi'],
@@ -27,7 +27,7 @@ describe('pretend', function () {
 
   describe('Pre-Read Usage', () => {
     it('reads scripts, makes a robot, loads scripts, records messages', () => {
-      pretend.read('../scripts/hello-world.js')
+      pretend.read('../scripts/hello-world.coffee')
       pretend.start()
       pretend.user('jo').send('hi')
       pretend.messages.should.eql([

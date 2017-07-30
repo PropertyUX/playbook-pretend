@@ -1,5 +1,5 @@
-import pretend from '../src/pretend'
-import Robot from '../src/modules/robot'
+import pretend from '../../src/modules/pretend'
+import Robot from '../../src/modules/robot'
 import chai from 'chai'
 import sinonChai from 'sinon-chai'
 import chaiThings from 'chai-things'
@@ -8,12 +8,12 @@ chai.use(chaiThings)
 chai.should()
 
 describe('Pretend', function () {
+  afterEach(() => {
+    pretend.shutdown()
+  })
   describe('.start', () => {
     beforeEach(() => {
       pretend.start()
-    })
-    afterEach(() => {
-      pretend.shutdown()
     })
     it('has a pretend robot', () => {
       pretend.robot.should.be.instanceof(Robot)
@@ -33,17 +33,27 @@ describe('Pretend', function () {
   })
   describe('.read', () => {
     it('readss in script files', () => {
-      pretend.read('./scripts/hello-world.js').scripts[0].should.have.keys('path', 'file')
+      pretend.read('../scripts/hello-world.coffee').scripts[0].should.have.keys('path', 'file')
     })
     it('reads in script directory', () => {
-      pretend.read('./scripts').scripts.should.all.have.keys('path', 'file')
+      pretend.read('../scripts').scripts.should.all.have.keys('path', 'file')
     })
   })
   describe('.load', () => {
-    it('calls robot method for each script', () => {
-      let scriptCount = pretend.read('./scripts').scripts.length
-      console.log(scriptCount, pretend.robot.loadFile.args)
-      pretend.robot.loadFile.callCount.should.equal(scriptCount)
+    it('robot loads each script once only', () => {
+      pretend.start()
+      pretend.read('../scripts')
+      pretend.load()
+      pretend.robot.loadFile.callCount.should.equal(pretend.scripts.length)
     })
   })
+  describe('shutdown', () => {
+    it('calls robot shutdown', () => {
+      pretend.start()
+      let robot = pretend.robot
+      pretend.shutdown()
+      robot.shutdown.should.have.calledWith()
+    })
+  })
+
 })

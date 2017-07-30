@@ -1,33 +1,33 @@
 'use strict'
 
-// import _ from 'lodash'
 import sinon from 'sinon'
 import mockery from 'mockery'
 import { Robot, CatchAllMessage } from 'hubot-async/es2015'
 import MockLog from '../mocks/log'
 import MockAdapter from '../mocks/adapter'
 
+require('coffee-script').register() // register extension for loading legacy coffee scripts
+
 /**
  * Extends Hubot with mocked response, events, logs and adapter loading
  */
 export default class extends Robot {
   /**
-   * Create a pretend Robot
-   * @param  {String} adapterPath Path to built-in adapters (defaults to src/adapters)
-   * @param  {String} adapter     Adapter name (overwritten by mocked adapter)
+   * Create a pretend Robot (overrides adapter and adapterPath declaration)
    * @param  {Boolean} httpd      Whether to enable the HTTP daemon.
    * @param  {String} name        Robot name, defaults to Hubot.
    * @param  {String} alias       Robot alias, defaults to null
    * @return {Robot}              The pretend robot
    */
-  constructor (httpd, name, alias) {
+  constructor (httpd, name = 'hubot', alias = 'pretend') {
     // replace robot required packages with mocks (adapter also replaces Response)
-    mockery.enable({ warnOnUnregistered: false })
+    mockery.enable({ warnOnUnregistered: false, useCleanCache: true })
     mockery.registerMock('hubot-pretend-adapter', MockAdapter)
     mockery.registerMock('log', MockLog) // BUG: mockery can't replace log used in Robot require, as its private
 
     super(null, 'pretend-adapter', httpd, name, alias)
-    this.logger = new MockLog() // TODO: remove this when log mockery issue resovled (should capture load logs)
+    this.logger = new MockLog(process.env.HUBOT_LOG_LEVEL) // TODO: remove this when log mockery issue resovled (should capture load logs)
+    this.loaded = []
     this.eventLog = []
     this.responses = {
       incoming: [],
@@ -64,6 +64,19 @@ export default class extends Robot {
        * the stackTrace property for readability when logging spied objects
        */
     })
+  }
+
+  /**
+   * Loads a file in path (storing each for tests to compare)
+   * @param  {String} filepath Path on the filesystem
+   * @param  {String} filename Name of file at filepath
+   */
+  loadFile (filepath, filename) {
+    this.loaded.push({
+      path: filepath,
+      file: filename
+    })
+    Robot.prototype.loadFile.call(this, filepath, filename)
   }
 
   /**
