@@ -3,7 +3,6 @@
 import fs from 'fs'
 import path from 'path'
 import _ from 'lodash'
-import { EnterMessage, LeaveMessage } from 'hubot-async/es2015'
 import Robot from './robot'
 import User from './user'
 import Room from './room'
@@ -121,21 +120,21 @@ function userSend (user, message) {
 }
 
 /**
- * Send an enter message to robot from user
- * @param  {User} user The user
+ * Send an enter message from a given user
+ * @param  {User} user The user (assumes with room already set)
  * @return {Promise}   Promise resolving when receive middleware complete
  */
 function userEnter (user) {
-  return robot.receive(new EnterMessage(user))
+  return robot.adapter.enter(user)
 }
 
 /**
  * Send a leave message to robot from user
- * @param  {User} user The user
+ * @param  {User} user The user (assumes with room already set)
  * @return {Promise}   Promise resolving when receive middleware complete
  */
 function userLeave (user) {
-  return robot.receive(new LeaveMessage(user))
+  return robot.adapter.leave(user)
 }
 
 /**
@@ -201,7 +200,7 @@ function user (name, options = {}) {
     user.send = message => userSend(user, message)
     user.enter = () => userEnter(user)
     user.leave = () => userLeave(user)
-    user.private = () => userPrivates(user)
+    user.privates = () => userPrivates(user)
     users[name] = user
   }
   return users[name]
@@ -215,7 +214,7 @@ function user (name, options = {}) {
  */
 function room (name) {
   if (!_.keys(rooms).includes(name)) {
-    let room = new Room(robot.adapter, name)
+    let room = new Room(name)
     room.messages = () => roomMessages(room)
     room.receive = (user, message) => roomReceive(room, user, message)
     room.enter = (user) => roomEnter(room, user)

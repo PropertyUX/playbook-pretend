@@ -1,7 +1,6 @@
 'use strict'
 
 import _ from 'lodash'
-import Promise from 'bluebird'
 
 /**
  * Let tests observe additions to an array (of messages)

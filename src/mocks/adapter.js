@@ -1,7 +1,6 @@
 'use strict'
 
-import Promise from 'bluebird'
-import { Adapter, TextMessage } from 'hubot-async/es2015'
+import { Adapter, TextMessage, EnterMessage, LeaveMessage } from 'hubot-async/es2015'
 import MockResponse from './response'
 
 /**
@@ -36,10 +35,8 @@ class MockAdapter extends Adapter {
   send (envelope, ...strings) {
     for (let str of strings) {
       let record = ['hubot', str]
-      if (envelope.room != null) {
-        record.unshift(envelope.room)
-      }
-      this.adapter.messages.push(record)
+      if (envelope.room != null) record.unshift(envelope.room)
+      this.messages.push(record)
     }
   }
 
@@ -51,15 +48,12 @@ class MockAdapter extends Adapter {
   reply (envelope, ...strings) {
     for (let str of strings) {
       let record = ['hubot', `@${envelope.user.name} ${str}`]
-      if (envelope.room != null) {
-        record.unshift(envelope.room)
-      }
+      if (envelope.room != null) record.unshift(envelope.room)
       this.messages.push(record)
     }
   }
 
   /**
-   * TODO: this is pretend.receive, not adapter.receive
    * Process and record details of received message
    * @param  {MockUser} user    Sender's user object
    * @param  {String}   message Message text
@@ -68,11 +62,31 @@ class MockAdapter extends Adapter {
   receive (user, message) {
     return new Promise(resolve => {
       let record = [user.name, message]
-      if (user.room != null) {
-        record.unshift(user.room)
-      }
+      if (user.room != null) record.unshift(user.room)
       this.messages.push(record)
       return this.robot.receive(new TextMessage(user, message), resolve)
+    })
+  }
+
+  /**
+   * Process an enter message from user (not stored in messages)
+   * @param  {User} user The entering user (assumes with room set)
+   * @return {Promise}   Promise resolving when receive middleware complete
+   */
+  enter (user) {
+    return new Promise(resolve => {
+      return this.robot.receive(new EnterMessage(user), resolve)
+    })
+  }
+
+  /**
+   * Process a leave message from user (not stored in messages)
+   * @param  {User} user The leaving user (assumes with room set)
+   * @return {Promise}   Promise resolving when receive middleware complete
+   */
+  leave (user) {
+    return new Promise(resolve => {
+      return this.robot.receive(new LeaveMessage(user), resolve)
     })
   }
 
@@ -83,8 +97,8 @@ class MockAdapter extends Adapter {
    */
   sendPrivate (envelope, ...strings) {
     let username = envelope.user.name
-    if (!(username in this.privateMessages)) this.privateMessages[username] = []
-    for (let str of strings) this.privateMessages.username.push(['hubot', str])
+    if (!this.privateMessages[username]) this.privateMessages[username] = []
+    for (let str of strings) this.privateMessages[username].push(str)
   }
 }
 

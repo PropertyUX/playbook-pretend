@@ -154,8 +154,6 @@ Test the second callback response we use the following script...
 ```coffee
 Pretend = require 'hubot-pretend'
 pretend = new Pretend '../scripts/http.coffee'
-
-Promise = require 'bluebird'
 co = require 'co'
 {expect} = require 'chai'
 
