@@ -29,7 +29,6 @@ function init () {
   robot = null
   users = {}
   rooms = {}
-  scripts = []
 }
 init()
 
@@ -197,10 +196,18 @@ function user (name, options = {}) {
   if (!_.keys(users).includes(name)) {
     options.name = name
     let user = new User(options)
-    user.send = message => userSend(user, message)
-    user.enter = () => userEnter(user)
-    user.leave = () => userLeave(user)
-    user.privates = () => userPrivates(user)
+    user.send = function (message) {
+      return userSend(this, message)
+    }
+    user.enter = function () {
+      return userEnter(this)
+    }
+    user.leave = function () {
+      return userLeave(this)
+    }
+    user.privates = function () {
+      return userPrivates(this)
+    }
     users[name] = user
   }
   return users[name]
@@ -237,6 +244,7 @@ function shutdown () {
  * @type {Object} Containing exposed methods and propterties
  */
 export default {
+  startup: start, // support pre-release method
   start: start,
   read: read,
   load: load,
@@ -248,7 +256,9 @@ export default {
   get scripts () { return scripts },
   get robot () { return robot },
   get adapter () { return robot.adapter },
+  get http () { return robot.http },
   get messages () { return robot.adapter.messages },
+  get observer () { return robot.adapter.observer },
   get responses () { return robot.responses },
   get events () { return robot.eventLog },
   get logs () { return robot.logger.logs }

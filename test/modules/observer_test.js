@@ -28,11 +28,11 @@ describe('Observer', function () {
     })
   })
   describe('.proxy', () => {
-    it('proxies array, calling observers with any new value', () => {
+    it('proxies array, calling observers with new value and state', () => {
       this.observer.observers.test = this.testSpy
       let testArray = this.observer.proxy([])
       testArray.push(1)
-      this.testSpy.should.have.calledWith(1)
+      this.testSpy.should.have.calledWith(1, [1])
     })
   })
   describe('.get', () => {
@@ -62,84 +62,86 @@ describe('Observer', function () {
     })
   })
   describe('.next', () => {
-    it('resolves promise with the next value added', () => {
+    it('resolves promise with the next value added', (done) => {
       this.testTimeout = setTimeout(() => {
         this.messages.push(['tester', 'testing'])
       }, 15)
       this.observer.next().should.eventually.eql({
-        next: ['tester', 'testing'],
-        observed: [
+        value: ['tester', 'testing'],
+        state: [
           ['hubot', 'hello'],
           ['tester', 'testing']
-        ]
-      })
+        ],
+        count: 1
+      }).notify(done)
     })
   })
   describe('.find', () => {
-    it('resolves when "needle" found', () => {
+    it('resolves when "needle" found', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
         this.observer.observed.push(['test', `ping ${count}`])
       }, 15)
       this.observer.find(['test', 'ping 2']).should.eventually.eql({
-        count: 2,
-        found: ['test', 'ping 2'],
-        observed: [
+        value: ['test', 'ping 2'],
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping 1'],
           ['test', 'ping 2']
-        ]
-      })
+        ],
+        count: 2
+      }).notify(done)
     })
-    it('with max, returns when found before max', () => {
+    it('with max, returns when found before max', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
         this.observer.observed.push(['test', `ping ${count}`])
       }, 15)
       this.observer.find(['test', 'ping 2'], 3).should.eventually.eql({
-        count: 2,
-        found: ['test', 'ping 2'],
-        observed: [
+        value: ['test', 'ping 2'],
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping 1'],
           ['test', 'ping 2']
-        ]
-      })
+        ],
+        count: 2
+      }).notify(done)
     })
-    it('with max, returns when max before found', () => {
+    it('with max, returns when max before found', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
         this.observer.observed.push(['test', `ping ${count}`])
       }, 15)
       this.observer.find(['test', 'ping 3'], 2).should.eventually.eql({
-        count: 2,
-        found: null,
-        observed: [
+        value: null,
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping 1'],
           ['test', 'ping 2']
-        ]
-      })
+        ],
+        count: 2
+      }).notify(done)
     })
-    it('with iterator, calls iterator on every addition', () => {
+    it('with iterator, calls iterator on every addition', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
         this.observer.observed.push(['test', `ping ${count}`])
       }, 15)
-      this.observer.find(['test', 'ping 2'], this.testSpy).then(() => {
+      this.observer.find(['test', 'ping 2'], this.testSpy).then((result) => {
         this.testSpy.args.should.eql([
-          ['test', 'ping 1'],
-          ['test', 'ping 2']
+          [ ['test', 'ping 1'] ],
+          [ ['test', 'ping 2'] ]
         ])
+        done()
       })
     })
   })
   describe('.match', () => {
-    it('resolves on match', () => {
+    it('resolves on match', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
@@ -147,15 +149,16 @@ describe('Observer', function () {
       }, 15)
       this.observer.match(/ping 2/).should.eventually.eql({
         count: 2,
-        match: ['test', 'ping 2'].join(' ').match(/ping 2/),
-        observed: [
+        value: ['test', 'ping 2'],
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping 1'],
           ['test', 'ping 2']
-        ]
-      })
+        ],
+        match: ['test', 'ping 2'].join(' ').match(/ping 2/)
+      }).notify(done)
     })
-    it('wtth max, returns on match before max', () => {
+    it('wtth max, returns on match before max', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
@@ -163,15 +166,16 @@ describe('Observer', function () {
       }, 15)
       this.observer.match(/ping 2/, 3).should.eventually.eql({
         count: 2,
-        match: ['test', 'ping 2'].join(' ').match(/ping 2/),
-        observed: [
+        value: ['test', 'ping 2'],
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping 1'],
           ['test', 'ping 2']
-        ]
-      })
+        ],
+        match: ['test', 'ping 2'].join(' ').match(/ping 2/)
+      }).notify(done)
     })
-    it('with max, returns on max before matched', () => {
+    it('with max, returns on max before matched', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
@@ -179,53 +183,56 @@ describe('Observer', function () {
       }, 15)
       this.observer.match(/ping 3/, 2).should.eventually.eql({
         count: 2,
-        match: null,
-        observed: [
+        value: null,
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping 1'],
           ['test', 'ping 2']
         ]
-      })
+      }).notify(done)
     })
-    it('with iterator, calls iterator on every addition', () => {
+    it('with iterator, calls iterator on every addition', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
         this.observer.observed.push(['test', `ping ${count}`])
       }, 15)
-      this.observer.match(/pint 2/, this.testSpy).then(() => {
+      this.observer.match(/ping 2/, this.testSpy).then((result) => {
         this.testSpy.args.should.eql([
-          ['test', 'ping 1'],
-          ['test', 'ping 2']
+          [ ['test', 'ping 1'] ],
+          [ ['test', 'ping 2'] ]
         ])
+        done()
       })
     })
   })
   describe('.all', () => {
-    it('with max, resolves when max reached', () => {
+    it('with max, resolves when max reached', (done) => {
       this.testInterval = setInterval(() => {
         this.observer.observed.push(['test', 'ping'])
       }, 15)
       this.observer.all(2).should.eventually.eql({
-        count: 2,
-        observed: [
+        value: ['test', 'ping'],
+        state: [
           ['hubot', 'hello'],
           ['test', 'ping'],
           ['test', 'ping']
-        ]
-      })
+        ],
+        count: 2
+      }).notify(done)
     })
-    it('with iterator, calls iterator on every addition', () => {
+    it('with iterator, calls iterator on every addition', (done) => {
       let count = 0
       this.testInterval = setInterval(() => {
         count++
         this.observer.observed.push(['test', `ping ${count}`])
       }, 15)
-      this.observer.all(this.testSpy).then(() => {
+      this.observer.all(2, this.testSpy).then(() => {
         this.testSpy.args.should.eql([
-          ['test', 'ping 1'],
-          ['test', 'ping 2']
+          [ ['test', 'ping 1'] ],
+          [ ['test', 'ping 2'] ]
         ])
+        done()
       })
     })
   })

@@ -218,8 +218,9 @@ describe 'status check', ->
 
 ## TODO
 
-- link back to docs for HTH #32, #37, #38
 - npm publish full release (1.0.0)
 - publish github docs pages
+- link back to docs for HTH #32, #37, #38
 - helper methods to test hubot brain - HTH #31
 - helper methods to test user id, other attributes - HTH #26
+- helpers and promise returns for get/post request tests

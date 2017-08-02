@@ -1,7 +1,10 @@
 'use strict'
 
 import { Adapter, TextMessage, EnterMessage, LeaveMessage } from 'hubot-async/es2015'
+import Observer from '../modules/observer'
 import MockResponse from './response'
+
+let _this // to be adapter's `this`, for when method's `this` is bound to robot
 
 /**
  * Extends Hubot Adapter, routing messages to internal collections
@@ -14,8 +17,10 @@ class MockAdapter extends Adapter {
   */
   constructor (robot) {
     super(robot)
+    _this = this
     this.name = 'pretend'
-    this.messages = []
+    this.observer = new Observer([])
+    this.messages = this.observer.get()
     this.privateMessages = []
   }
 
@@ -28,7 +33,7 @@ class MockAdapter extends Adapter {
 
   /**
    * Record details of a send from hubot
-   * NB: send is applied with this bound to robot
+   * NB: robot.send calls adapter.send with this bound to robot
    * @param  {Object} envelope   A Object with message, room and user details
    * @param  {Array} strings...  One or more Strings for each message to send
   */
@@ -36,7 +41,7 @@ class MockAdapter extends Adapter {
     for (let str of strings) {
       let record = ['hubot', str]
       if (envelope.room != null) record.unshift(envelope.room)
-      this.messages.push(record)
+      _this.messages.push(record)
     }
   }
 
@@ -49,7 +54,7 @@ class MockAdapter extends Adapter {
     for (let str of strings) {
       let record = ['hubot', `@${envelope.user.name} ${str}`]
       if (envelope.room != null) record.unshift(envelope.room)
-      this.messages.push(record)
+      _this.messages.push(record)
     }
   }
 

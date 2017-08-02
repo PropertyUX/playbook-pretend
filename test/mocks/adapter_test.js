@@ -61,8 +61,8 @@ describe('Adapter', function () {
     it('returns a promise', () => {
       this.promise.should.be.instanceof(Promise)
     })
-    it('resolves when robot finished processing', () => {
-      this.promise.should.eventually.equal('mock result')
+    it('resolves when robot finished processing', (done) => {
+      this.promise.should.eventually.equal('mock result').notify(done)
     })
   })
   describe('.enter', () => {
@@ -76,8 +76,8 @@ describe('Adapter', function () {
     it('returns a promise', () => {
       this.promise.should.be.instanceof(Promise)
     })
-    it('resolves when robot finished processing', () => {
-      this.promise.should.eventually.equal('mock result')
+    it('resolves when robot finished processing', (done) => {
+      this.promise.should.eventually.equal('mock result').notify(done)
     })
   })
   describe('.leave', () => {
@@ -91,8 +91,8 @@ describe('Adapter', function () {
     it('returns a promise', () => {
       this.promise.should.be.instanceof(Promise)
     })
-    it('resolves when robot finished processing', () => {
-      this.promise.should.eventually.equal('mock result')
+    it('resolves when robot finished processing', (done) => {
+      this.promise.should.eventually.equal('mock result').notify(done)
     })
   })
   describe('.sendPrivate', () => {

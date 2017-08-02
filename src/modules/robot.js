@@ -21,7 +21,7 @@ export default class extends Robot {
    */
   constructor (httpd, name = 'hubot', alias = 'pretend') {
     // replace robot required packages with mocks (adapter also replaces Response)
-    mockery.enable({ warnOnUnregistered: false, useCleanCache: true })
+    mockery.enable({ warnOnReplace: false, warnOnUnregistered: false, useCleanCache: true })
     mockery.registerMock('hubot-pretend-adapter', MockAdapter)
     mockery.registerMock('log', MockLog) // BUG: mockery can't replace log used in Robot require, as its private
 
@@ -93,7 +93,7 @@ export default class extends Robot {
    * Stop mockery replacements and do prototype shutdown
    */
   shutdown () {
-    Robot.prototype.shutdown.call(this)
     mockery.deregisterAll()
+    Robot.prototype.shutdown.call(this)
   }
 }

@@ -3,7 +3,22 @@
 import _ from 'lodash'
 
 /**
- * Let tests observe additions to an array (of messages)
+ * Let tests observe additions to an array (of messages) via helper methods:
+ * - `.next` - Watch for the next new element
+ * - `.find` - Fidn a specific element
+ * - `.match` - Find element matching a pattern
+ * - `.all` - Do something with every element
+ *
+ * Each return an object with result attributes:
+ * - _value_ - the last observed value when conditions were met
+ * - _state_ - the state of the observed when the conditions were met
+ * - _count_ - the number of additions between first call and a result
+ *
+ * `find`, `match` and `all` accept a _limit_ (int) of additions to observe, as
+ * well as an _iterator_ (function) to call with every addition.
+ *
+ * With `find` and `match`, if limit is reached before main condition met
+ * _value_ will be null
  */
 export default class {
   /**
@@ -17,7 +32,8 @@ export default class {
   }
 
   /**
-   * Proxy the array to observe value setting
+   * Proxy the array, call observers to when setting a value
+   * Callbacks are passed an array with 0: the value, 1: the current array state
    * Applies only on setting an index (int), not propterties like length
    * @param  {Array} arrayToObserve Array to observe
    * @return {Array}                Observed (proxy) array
@@ -25,13 +41,13 @@ export default class {
   proxy (arrayToObserve) {
     let observers = this.observers
     this.observed = new Proxy(arrayToObserve, {
-      get: function (target, property) {
-        return target[property]
-      },
       set: function (target, property, value, receiver) {
-        let propertyIsIndex = Number.isInteger(parseInt(property))
-        if (propertyIsIndex) _.map(observers, (cb) => cb.call(this, value))
         target[property] = value
+        if (Number.isInteger(parseInt(property))) {
+          _.map(observers, (cb, id) => {
+            cb.call(this, value, _.clone(target), id)
+          })
+        }
         return true
       }
     })
@@ -77,103 +93,121 @@ export default class {
    * @return {Promise} Resolves with the next value added to observed array
    */
   next () {
-    let observerId
     return new Promise((resolve, reject) => {
-      observerId = this.observe(resolve)
-    }).then((result) => {
-      this.unobserve(observerId)
-      return {
-        next: result,
-        observed: this.observed
-      }
+      this.observe((value, state, id) => {
+        this.unobserve(id)
+        return resolve({
+          value: value,
+          state: state,
+          count: 1
+        })
+      })
     })
   }
 
   /**
    * Look for a specific element (optionally up to limit or with iterator)
    * @param  {Mixed} needle        The element to find (e.g. [username, message])
-   * @param  {Int} [max]           Stop observing and resolve when reached
+   * @param  {Int} [limit]           Stop observing and resolve when reached
    * @param  {Function} [iterator] Run with every push
-   * @return {Promise}             Resolves with result object attributes
+   * @return {Promise}             Resolves with result attributes
    */
-  find (...args) {
-    let observerId, max, find, iterator
+  find (needle, ...args) {
     let count = 0
-    if (_.isInteger(args[0])) max = args.shift()
-    if (_.isArray(args[0])) find = args.shift()
-    if (_.isFunction(args[0])) iterator = args.shift()
-    if (max == null && find == null) throw new Error('Must be called with either max or find argument')
+    let limit = _.isInteger(args[0]) ? args.shift() : false
+    let iterator = _.isFunction(args[0]) ? args.shift() : false
     return new Promise((resolve, reject) => {
-      observerId = this.observe((value) => {
+      this.observe((value, state, id) => {
+        if (iterator) iterator(value)
         count++
-        if (iterator != null) iterator(value)
-        if (find != null && find.join(' ') === value.join(' ')) resolve(value)
-        if ((max != null && count === max)) resolve()
+        let found = _.isEqual(needle, value)
+        let maxed = (count === limit)
+        if (found || maxed) {
+          this.unobserve(id)
+          if (found) {
+            return resolve({
+              value: value,
+              state: state,
+              count: count
+            })
+          }
+          if (maxed) {
+            return resolve({
+              value: null,
+              state: state,
+              count: count
+            })
+          }
+        }
       })
-    }).then((result) => {
-      this.unobserve(observerId)
-      return {
-        count: count,
-        found: result,
-        observed: this.observed
-      }
     })
   }
 
   /**
-   * Look for message matching pattern (optionally up to limit or with iterator)
-   * @param  {RegExp} regex        Pattern to match on element (forced to string)
-   * @param  {Int} [max]           Stop observing and resolve when reached
+   * Look for element matching pattern (optionally up to limit or with iterator)
+   * @param  {RegExp} regex        Pattern to match element (joined as string)
+   * @param  {Int} [limit]         Stop observing and resolve when reached
    * @param  {Function} [iterator] Run with every push
-   * @return {Promise}             Resolves with result object attributes
+   * @return {Promise}             Resolves with result atts and match object
   */
   match (regex, ...args) {
-    let observerId, max, iterator
     let count = 0
-    if (_.isInteger(args[0])) max = args.shift()
-    if (_.isFunction(args[0])) iterator = args.shift()
+    let limit = _.isInteger(args[0]) ? args.shift() : false
+    let iterator = _.isFunction(args[0]) ? args.shift() : false
     return new Promise((resolve, reject) => {
-      observerId = this.observe((value) => {
+      this.observe((value, state, id) => {
+        if (iterator) iterator(value)
+
         count++
-        if (iterator != null) iterator(value)
         let match = value.join(' ').match(regex)
-        if (match) resolve(match)
-        if ((max != null && count === max)) resolve()
+        let maxed = (count === limit)
+        if (match || maxed) {
+          this.unobserve(id)
+          if (match) {
+            return resolve({
+              value: value,
+              state: state,
+              count: count,
+              match: match
+            })
+          }
+          if (maxed) {
+            return resolve({
+              value: null,
+              state: state,
+              count: count
+            })
+          }
+        }
       })
-    }).then((result) => {
-      this.unobserve(observerId)
-      return {
-        count: count,
-        match: result,
-        observed: this.observed
-      }
     })
   }
 
   /**
    * Observe all additions, up to limit or with iterator (must have either)
-   * @param  {Int} [max]           Stop observing and resolve when reached
+   * @param  {Int} [limit]         Stop observing and resolve when reached
    * @param  {Function} [iterator] Run with every push
    * @return {Promise}             Resolves with result object attributes
    */
   all (...args) {
-    let observerId, max, iterator
     let count = 0
-    if (_.isInteger(args[0])) max = args.shift()
-    if (_.isFunction(args[0])) iterator = args.shift()
-    if (iterator == null && max == null) throw new Error('Must be called with either max or iterator')
+    let limit = _.isInteger(args[0]) ? args.shift() : false
+    let iterator = _.isFunction(args[0]) ? args.shift() : false
+    if (!limit && !iterator) throw new Error('Must be called with either limit or iterator')
     return new Promise((resolve, reject) => {
-      observerId = this.observe((value) => {
+      this.observe((value, state, id) => {
+        if (iterator) iterator(value)
+
         count++
-        if (iterator != null) iterator(value)
-        if ((max != null && count === max)) resolve()
+        if (count === limit) {
+          this.unobserve(id)
+          return resolve({
+            value: value,
+            state: state,
+            count: count
+          })
+        }
       })
-    }).then((result) => {
-      this.unobserve(observerId)
-      return {
-        count: count,
-        observed: this.observed
-      }
     })
   }
 }

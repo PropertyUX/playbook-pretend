@@ -15,7 +15,7 @@ describe('Pretend', function () {
   })
   describe('.start', () => {
     beforeEach(() => {
-      pretend.start()
+      pretend.start({ httpd: true })
     })
     it('has a pretend robot', () => {
       pretend.robot.should.be.instanceof(Robot)
@@ -32,10 +32,13 @@ describe('Pretend', function () {
     it('events are accessable', () => {
       pretend.events.should.eql(pretend.robot.eventLog)
     })
+    it('http is accessable', () => {
+      pretend.http.should.eql(pretend.robot.http)
+    })
   })
   describe('.read', () => {
     it('readss in script files', () => {
-      let fullpath = path.resolve('test/scripts/basic-reply-hi.js')
+      let fullpath = path.resolve('test/scripts/basic-reply.js')
       pretend.read(fullpath).scripts[0].should.eql({
         path: path.dirname(fullpath),
         file: path.basename(fullpath)
