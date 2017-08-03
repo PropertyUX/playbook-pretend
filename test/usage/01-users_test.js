@@ -1,7 +1,6 @@
 import pretend from '../../src/modules/pretend'
 import chai from 'chai'
 chai.should()
-pretend.read('../scripts/basic-reply.js')
 
 /**
  * Examples below show different approaches to setting up users to send messages
@@ -17,6 +16,12 @@ pretend.read('../scripts/basic-reply.js')
  * [see the script being tested here]{@link '../scripts/basic-reply.js'}
  */
 describe('Sending from users', function () {
+  before(() => {
+    pretend.read('../scripts/basic-reply.js')
+  })
+  after(() => {
+    pretend.clear()
+  })
   afterEach(() => {
     pretend.shutdown()
   })

@@ -23,14 +23,36 @@ const defaults = {
 }
 
 /**
- * Initialise or reset robot and collection vars, for after tests clean up
+ * Read in scripts from path/s, will overwrite any previous reads
+ * @param  {Array|String} scriptPaths Paths to read for loading into hubot
+ * @return {Int}                      Number of scripts found
  */
-function init () {
-  robot = null
-  users = {}
-  rooms = {}
+function read (scriptPaths) {
+  scripts = []
+  if (!Array.isArray(scriptPaths)) scriptPaths = [scriptPaths]
+  for (let scriptPath of scriptPaths) {
+    // get scripts if file path given, or all from directory
+    scriptPath = path.resolve(path.dirname(module.parent.filename), scriptPath)
+    if (fs.statSync(scriptPath).isDirectory()) {
+      for (let file of fs.readdirSync(scriptPath).sort()) {
+        scripts.push({
+          path: scriptPath,
+          file: file
+        })
+      }
+    } else {
+      scripts.push({
+        path: path.dirname(scriptPath),
+        file: path.basename(scriptPath)
+      })
+    }
+  }
+
+  // robot, load scripts
+  load()
+
+  return this // for chaining
 }
-init()
 
 /**
  * Start (or restart) collections and create pretend robot
@@ -60,41 +82,37 @@ function start (options = {}) {
   if (config.rooms != null) config.rooms.map(r => room(r))
   if (config.users != null) config.users.map(u => user(u))
 
-  // tell robot to load scripts
+  // tell robot to load and go
+  robot.run() // run before load, so scripts can extend robot after pretend does
   load()
 
   return this // for chaining
 }
 
 /**
- * Read in scripts from path/s, will overwrite any previous reads
- * @param  {Array|String} scriptPaths Paths to read for loading into hubot
- * @return {Int}                      Number of scripts found
+ * Shortcut to robot shutdown
  */
-function read (scriptPaths) {
+function shutdown () {
+  if (robot) robot.shutdown()
+  reset()
+  return this // for chaining
+}
+
+/**
+ * Reset (or init) robot and collection vars, for after tests clean up
+ */
+function reset () {
+  robot = null
+  users = {}
+  rooms = {}
+}
+reset()
+
+/**
+ * Clear read-in scripts, to ensure nothing loaded on next `.start()`
+ */
+function clear () {
   scripts = []
-  if (!Array.isArray(scriptPaths)) scriptPaths = [scriptPaths]
-  for (let scriptPath of scriptPaths) {
-    // get scripts if file path given, or all from directory
-    scriptPath = path.resolve(path.dirname(module.parent.filename), scriptPath)
-    if (fs.statSync(scriptPath).isDirectory()) {
-      for (let file of fs.readdirSync(scriptPath).sort()) {
-        scripts.push({
-          path: scriptPath,
-          file: file
-        })
-      }
-    } else {
-      scripts.push({
-        path: path.dirname(scriptPath),
-        file: path.basename(scriptPath)
-      })
-    }
-  }
-
-  // robot, load scripts
-  load()
-
   return this // for chaining
 }
 
@@ -187,7 +205,7 @@ function roomLeave (room, user) {
 
 /**
  * Create or get existing user, for entering/leaving and sending messages
- * Add methods routing to shortcuts with this user provided as argument
+ * Extend with methods routing to pretend helpers with this user provided
  * @param  {String} name         Name for the user
  * @param  {Object} [options={}] Optional attributes for user
  * @return {MockUser}            A new mock user
@@ -215,28 +233,28 @@ function user (name, options = {}) {
 
 /**
  * Create or get existing room, for entering/leaving and receiving messages
- * Add methods routing to shortcuts with this room provided as argument
+ * Extend with methods routing to pretend helpers with this room provided
  * @param  {String} name Name for the room
  * @return {MockRoom}    A new room
  */
 function room (name) {
   if (!_.keys(rooms).includes(name)) {
     let room = new Room(name)
-    room.messages = () => roomMessages(room)
-    room.receive = (user, message) => roomReceive(room, user, message)
-    room.enter = (user) => roomEnter(room, user)
-    room.leave = (user) => roomLeave(room, user)
+    room.messages = function () {
+      return roomMessages(this)
+    }
+    room.receive = function (user, message) {
+      return roomReceive(this, user, message)
+    }
+    room.enter = function (user) {
+      return roomEnter(room, user)
+    }
+    room.leave = function (user) {
+      return roomLeave(this, user)
+    }
     rooms[name] = (room)
   }
   return rooms[name]
-}
-
-/**
- * Shortcut to robot shutdown
- */
-function shutdown () {
-  if (robot) robot.shutdown()
-  init()
 }
 
 /**
@@ -247,6 +265,7 @@ export default {
   startup: start, // support pre-release method
   start: start,
   read: read,
+  clear: clear,
   load: load,
   shutdown: shutdown,
   user: user,
@@ -255,11 +274,12 @@ export default {
   get rooms () { return rooms },
   get scripts () { return scripts },
   get robot () { return robot },
-  get adapter () { return robot.adapter },
   get http () { return robot.http },
+  get adapter () { return robot.adapter },
   get messages () { return robot.adapter.messages },
   get observer () { return robot.adapter.observer },
   get responses () { return robot.responses },
   get events () { return robot.eventLog },
+  get log () { return robot.logger },
   get logs () { return robot.logger.logs }
 }

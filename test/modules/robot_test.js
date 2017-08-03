@@ -52,19 +52,19 @@ describe('Robot', function () {
   describe('.loadFile', () => {
     it('stores the file reference', () => {
       let filepath = path.resolve('test/scripts')
-      let filename = 'say-hi.js'
+      let filename = 'basic-reply.js'
       robot.loadFile(filepath, filename)
       robot.loaded.shift(-1).should.eql({ path: filepath, file: filename })
     })
     it('loads js files normmally', () => {
       let filepath = path.resolve('test/scripts')
-      let filename = 'say-hi.js'
+      let filename = 'basic-reply.js'
       robot.loadFile(filepath, filename)
       robot.parseHelp.should.have.calledWith(path.join(filepath, filename))
     })
     it('loads coffee files normmally', () => {
       let filepath = path.resolve('test/scripts')
-      let filename = 'legacy-hi.coffee'
+      let filename = 'legacy-reply.coffee'
       robot.loadFile(filepath, filename)
       robot.parseHelp.should.have.calledWith(path.join(filepath, filename))
     })

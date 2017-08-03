@@ -3,7 +3,6 @@ import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
 chai.should()
 chai.use(chaiPromise)
-pretend.read('../scripts/random-messages.js')
 
 /**
  * These examples show how to make assertions for messages with unpredictable
@@ -18,6 +17,12 @@ pretend.read('../scripts/random-messages.js')
  * [see the script being tested here]{@link '../scripts/random-messages.js'}
  */
 describe('Observering messages', () => {
+  before(() => {
+    pretend.read('../scripts/random-messages.js')
+  })
+  after(() => {
+    pretend.clear()
+  })
   beforeEach(() => {
     pretend.startup()
   })

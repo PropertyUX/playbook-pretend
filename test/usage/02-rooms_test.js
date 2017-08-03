@@ -1,7 +1,6 @@
 import pretend from '../../src/modules/pretend'
 import chai from 'chai'
 chai.should()
-pretend.read('../scripts/basic-reply.js')
 
 /**
  * Examples below show different approaches to setting up rooms for users to
@@ -14,6 +13,12 @@ pretend.read('../scripts/basic-reply.js')
  * [see the script being tested here]{@link '../scripts/basic-reply.js'}
  */
 describe('Receiving in rooms', function () {
+  before(() => {
+    pretend.read('../scripts/basic-reply.js')
+  })
+  after(() => {
+    pretend.clear()
+  })
   afterEach(() => {
     pretend.shutdown()
   })
@@ -83,7 +88,7 @@ describe('Receiving in rooms', function () {
       let basement = pretend.room('basement')
       yield garage.receive(pretend.users.bob, '@hubot hi')
       yield basement.receive(pretend.users.bob, '@hubot hi')
-      garage.getMessages().should.eql([
+      garage.messages().should.eql([
         ['bob', '@hubot hi'],
         ['hubot', '@bob hi']
       ])

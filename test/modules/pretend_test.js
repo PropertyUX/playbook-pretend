@@ -7,11 +7,24 @@ import sinonChai from 'sinon-chai'
 import chaiThings from 'chai-things'
 chai.use(sinonChai)
 chai.use(chaiThings)
-chai.should()
+const should = chai.should()
 
 describe('Pretend', function () {
   afterEach(() => {
     pretend.shutdown()
+    pretend.clear()
+  })
+  describe('.read', () => {
+    it('readss in script files', () => {
+      let fullpath = path.resolve('test/scripts/basic-reply.js')
+      pretend.read(fullpath).scripts[0].should.eql({
+        path: path.dirname(fullpath),
+        file: path.basename(fullpath)
+      })
+    })
+    it('reads in script directory', () => {
+      pretend.read('../scripts').scripts.should.all.have.keys('path', 'file')
+    })
   })
   describe('.start', () => {
     beforeEach(() => {
@@ -36,32 +49,46 @@ describe('Pretend', function () {
       pretend.http.should.eql(pretend.robot.http)
     })
   })
-  describe('.read', () => {
-    it('readss in script files', () => {
-      let fullpath = path.resolve('test/scripts/basic-reply.js')
-      pretend.read(fullpath).scripts[0].should.eql({
-        path: path.dirname(fullpath),
-        file: path.basename(fullpath)
-      })
-    })
-    it('reads in script directory', () => {
-      pretend.read('../scripts').scripts.should.all.have.keys('path', 'file')
-    })
-  })
-  describe('.load', () => {
-    it('robot loads each script once only', () => {
-      pretend.start()
-      pretend.read('../scripts')
-      pretend.load()
-      pretend.robot.loadFile.callCount.should.equal(pretend.scripts.length)
-    })
-  })
   describe('shutdown', () => {
     it('calls robot shutdown', () => {
       pretend.start()
       let robot = pretend.robot
       pretend.shutdown()
       robot.shutdown.should.have.calledWith()
+    })
+    it('next start has new robot', () => {
+      pretend.start()
+      pretend.robot.hear(/foo/, res => res.reply('bar'))
+      pretend.shutdown()
+      pretend.start()
+      pretend.robot.hear(/baz/, res => res.reply('qux'))
+      pretend.robot.listeners.length.should.equal(1)
+    })
+  })
+  describe('reset', () => {
+    it('deletes robot', () => {
+      should.not.exist(pretend.robot)
+    })
+    it('resets user coollection', () => {
+      pretend.users.should.eql({})
+    })
+    it('resets room coollection', () => {
+      pretend.rooms.should.eql({})
+    })
+  })
+  describe('.clear', () => {
+    it('clears scripts', () => {
+      pretend.read('../scripts')
+      pretend.clear()
+      pretend.scripts.should.eql([])
+    })
+  })
+  describe('.load', () => {
+    it('robot loads each script once only', () => {
+      pretend.start({ httpd: true }) // http enabled avoids warning from script
+      pretend.read('../scripts')
+      pretend.load()
+      pretend.robot.loadFile.callCount.should.equal(pretend.scripts.length)
     })
   })
   describe('.user', () => {
@@ -84,9 +111,6 @@ describe('Pretend', function () {
         sinon.stub(pretend.adapter, 'receive')
         sinon.stub(pretend.adapter, 'enter')
         sinon.stub(pretend.adapter, 'leave')
-      })
-      afterEach(() => {
-        pretend.shutdown()
       })
       describe('.send', () => {
         it('calls adapter receive with user', () => {
@@ -142,9 +166,6 @@ describe('Pretend', function () {
         sinon.stub(pretend.adapter, 'receive')
         sinon.stub(pretend.adapter, 'enter')
         sinon.stub(pretend.adapter, 'leave')
-      })
-      afterEach(() => {
-        pretend.shutdown()
       })
       describe('.messages', () => {
         it('returns adapter messages for room', () => {

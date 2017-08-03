@@ -220,6 +220,9 @@ describe 'status check', ->
 
 - npm publish full release (1.0.0)
 - publish github docs pages
+- generate coverage and write missing module tests
+- convert mocha-co usage to babel async/await
+- convert room/user messages to property getter
 - link back to docs for HTH #32, #37, #38
 - helper methods to test hubot brain - HTH #31
 - helper methods to test user id, other attributes - HTH #26

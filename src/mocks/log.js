@@ -43,4 +43,8 @@ export default class {
     this.logs.push(['error', message])
     log.error(this.prefix(), message)
   }
+
+  set level (lvl) {
+    log.level = lvl
+  }
 }

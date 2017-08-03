@@ -1,7 +1,6 @@
 import chai from 'chai'
 import pretend from '../../src/modules/pretend'
 chai.should()
-pretend.read('../scripts/httpd.js')
 process.env.PORT = 8080
 
 /**
@@ -16,6 +15,12 @@ process.env.PORT = 8080
  * [see the script being tested here]{@link '../scripts/httpd.js'}
  */
 describe('Receiving HTTP requests', function () {
+  before(() => {
+    pretend.read('../scripts/httpd.js')
+  })
+  after(() => {
+    pretend.clear()
+  })
   beforeEach(() => {
     pretend.start({ httpd: true })
   })
@@ -52,7 +57,7 @@ describe('Receiving HTTP requests', function () {
           if (err) console.log(err)
           pretend.messages.should.eql([
             [ 'testing', 'hubot', '...' ],
-            [ 'testing', 'hubot', 'hello there' ],
+            [ 'testing', 'hubot', 'hello there' ]
           ])
           done()
         })

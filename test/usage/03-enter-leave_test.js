@@ -1,7 +1,6 @@
 import pretend from '../../src/modules/pretend'
 import chai from 'chai'
 chai.should()
-pretend.read('../scripts/enter-leave.js')
 
 /**
  * Simple example of enter and leave messages being triggered from a room method
@@ -15,8 +14,11 @@ pretend.read('../scripts/enter-leave.js')
  * [see the script being tested here]{@link '../scripts/enter-leave.js'}
  */
 describe('Entering and leaving a room', function () {
-  beforeEach(() => {
-    pretend.start()
+  before(() => {
+    pretend.read('../scripts/enter-leave.js')
+  })
+  after(() => {
+    pretend.clear()
   })
   afterEach(() => {
     pretend.shutdown()
