@@ -15,7 +15,7 @@ describe('Pretend', function () {
     pretend.clear()
   })
   describe('.read', () => {
-    it('readss in script files', () => {
+    it('reads in script files', () => {
       let fullpath = path.resolve('test/scripts/basic-reply.js')
       pretend.read(fullpath).scripts[0].should.eql({
         path: path.dirname(fullpath),
@@ -23,7 +23,7 @@ describe('Pretend', function () {
       })
     })
     it('reads in script directory', () => {
-      pretend.read('../scripts').scripts.should.all.have.keys('path', 'file')
+      pretend.read('test/scripts').scripts.should.all.have.keys('path', 'file')
     })
   })
   describe('.start', () => {
@@ -78,7 +78,7 @@ describe('Pretend', function () {
   })
   describe('.clear', () => {
     it('clears scripts', () => {
-      pretend.read('../scripts')
+      pretend.read('test/scripts')
       pretend.clear()
       pretend.scripts.should.eql([])
     })
@@ -86,7 +86,7 @@ describe('Pretend', function () {
   describe('.load', () => {
     it('robot loads each script once only', () => {
       pretend.start({ httpd: true }) // http enabled avoids warning from script
-      pretend.read('../scripts')
+      pretend.read('test/scripts')
       pretend.load()
       pretend.robot.loadFile.callCount.should.equal(pretend.scripts.length)
     })
@@ -108,14 +108,22 @@ describe('Pretend', function () {
       beforeEach(() => {
         pretend.start({ rooms: ['testing'], users: ['tester'] })
         pretend.users.tester.room = 'testing'
-        sinon.stub(pretend.adapter, 'receive')
-        sinon.stub(pretend.adapter, 'enter')
-        sinon.stub(pretend.adapter, 'leave')
+        sinon.stub(pretend.adapter, 'receive').resolves()
+        sinon.stub(pretend.adapter, 'enter').resolves()
+        sinon.stub(pretend.adapter, 'leave').resolves()
       })
       describe('.send', () => {
         it('calls adapter receive with user', () => {
           pretend.users.tester.send('hi')
           pretend.adapter.receive.should.have.calledWith(pretend.users.tester, 'hi')
+        })
+        it('resolves with error from robot rejecting promise', (done) => {
+          pretend.adapter.receive.restore()
+          sinon.stub(pretend.adapter, 'receive').rejects('TypeError')
+          pretend.users.tester.send('hi').catch((err) => {
+            err.should.be.instanceof(Error)
+            done()
+          })
         })
       })
       describe('.enter', () => {
@@ -163,9 +171,9 @@ describe('Pretend', function () {
           ['A', 'hubot', 'tester hi'],
           ['B', 'tester', 'just testing']
         ]
-        sinon.stub(pretend.adapter, 'receive')
-        sinon.stub(pretend.adapter, 'enter')
-        sinon.stub(pretend.adapter, 'leave')
+        sinon.stub(pretend.adapter, 'receive').resolves()
+        sinon.stub(pretend.adapter, 'enter').resolves()
+        sinon.stub(pretend.adapter, 'leave').resolves()
       })
       describe('.messages', () => {
         it('returns adapter messages for room', () => {

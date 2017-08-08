@@ -1,10 +1,15 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
 /**
- * Examples below show different approaches to setting up rooms for users to
- * receive and send messages similar to a live chat environment.
+ * By default, pretend is a room-less environment for receiving basic messages.
+ * We can however setup an array of rooms, for listening and responding, across
+ * multiple parallel rooms, or with different users in each, similar to a live
+ * chat platform.
+ *
+ * The record of messages will prepend the name of the room where it was
+ * received (if there was a room defined).
  *
  * Note the difference where users `send` to room, rooms `receive` from user.
  *
@@ -14,7 +19,7 @@ chai.should()
  */
 describe('Receiving in rooms', function () {
   before(() => {
-    pretend.read('../scripts/basic-reply.js')
+    pretend.read('test/scripts/basic-reply.js')
   })
   after(() => {
     pretend.clear()

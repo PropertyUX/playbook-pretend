@@ -4,15 +4,12 @@
   "private": true,
   "author": "Tim Kinnane",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register test"
+    "pretest": "npm install",
+    "test": "mocha test"
   },
   "dependencies": {
-    "hubot": "latest"
-  },
-  "devDependencies": {
     "hubot-pretend": "file:../",
     "chai": "latest",
-    "co": "latest",
     "mocha": "latest"
   }
 }

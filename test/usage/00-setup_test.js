@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
@@ -43,7 +43,7 @@ describe('Using pretend', function () {
   context('by reading a script into pretend robot', () => {
     it('makes a robot, reads and loads scripts, stores messages', (done) => {
       pretend.start()
-      pretend.read('../scripts/basic-reply.js')
+      pretend.read('test/scripts/basic-reply.js')
       pretend.user('jo').send('hubot hi').then(() => {
         pretend.messages.should.eql([
           ['jo', 'hubot hi'],
@@ -55,7 +55,7 @@ describe('Using pretend', function () {
   })
   context('by reading scripts first, then initialise robot', () => {
     it('reads scripts, makes a robot, loads scripts, stores messages', (done) => {
-      pretend.read('../scripts/basic-reply.js')
+      pretend.read('test/scripts/basic-reply.js')
       pretend.start()
       pretend.user('jo').send('hubot hi').then(() => {
         pretend.messages.should.eql([

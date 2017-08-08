@@ -1,5 +1,5 @@
+import pretend from '../../lib'
 import chai from 'chai'
-import pretend from '../../src/modules/pretend'
 chai.should()
 process.env.PORT = 8080
 
@@ -16,7 +16,7 @@ process.env.PORT = 8080
  */
 describe('Receiving HTTP requests', function () {
   before(() => {
-    pretend.read('../scripts/httpd.js')
+    pretend.read('test/scripts/httpd.js')
   })
   after(() => {
     pretend.clear()

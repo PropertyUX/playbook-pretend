@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -19,7 +19,7 @@ chai.use(sinonChai)
  */
 describe('Method spies', () => {
   before(() => {
-    pretend.read('../scripts/basic-reply.js')
+    pretend.read('test/scripts/basic-reply.js')
   })
   after(() => {
     pretend.clear()

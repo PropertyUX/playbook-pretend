@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":[],"mappings":"2EAAA,4C","file":"index.js","sourcesContent":["import pretend from './modules/pretend'\nexport default pretend\n"]}

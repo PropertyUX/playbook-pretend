@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
@@ -15,7 +15,7 @@ chai.should()
  */
 describe('Entering and leaving a room', function () {
   before(() => {
-    pretend.read('../scripts/enter-leave.js')
+    pretend.read('test/scripts/enter-leave.js')
   })
   after(() => {
     pretend.clear()

@@ -32,7 +32,7 @@ function read (scriptPaths) {
   if (!Array.isArray(scriptPaths)) scriptPaths = [scriptPaths]
   for (let scriptPath of scriptPaths) {
     // get scripts if file path given, or all from directory
-    scriptPath = path.resolve(path.dirname(module.parent.filename), scriptPath)
+    scriptPath = path.resolve(scriptPath)
     if (fs.statSync(scriptPath).isDirectory()) {
       for (let file of fs.readdirSync(scriptPath).sort()) {
         scripts.push({

@@ -6,7 +6,7 @@ import { Robot, CatchAllMessage } from 'hubot-async/es2015'
 import MockLog from '../mocks/log'
 import MockAdapter from '../mocks/adapter'
 
-require('coffee-script').register() // register extension for loading legacy coffee scripts
+require('coffee-script/register') // register extension for legacy coffee script
 
 /**
  * Extends Hubot with mocked response, events, logs and adapter loading

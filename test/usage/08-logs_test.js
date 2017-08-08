@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
@@ -11,9 +11,9 @@ chai.should()
  *
  * [see the script being tested here]{@link '../scripts/write-logs.js'}
  */
-describe('Reading logs', () => {
+describe('Testing logs', () => {
   before(() => {
-    pretend.read('../scripts/write-logs.js')
+    pretend.read('test/scripts/write-logs.js')
   })
   after(() => {
     pretend.clear()

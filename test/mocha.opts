@@ -3,3 +3,4 @@
 --require source-map-support
 --require babel-register
 --reporter spec
+--recursive

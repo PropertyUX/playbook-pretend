@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
@@ -8,9 +8,9 @@ chai.should()
  *
  * [see the script being tested here]{@link '../scripts/random-messages.js'}
  */
-describe('Custom response', () => {
+describe('Custom response objects', () => {
   before(() => {
-    pretend.read('../scripts/custom-response.js')
+    pretend.read('test/scripts/custom-response.js')
   })
   after(() => {
     pretend.clear()

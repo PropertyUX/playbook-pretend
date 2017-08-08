@@ -1,0 +1,4 @@
+--require source-map-support
+--reporter spec
+--recursive
+--bail

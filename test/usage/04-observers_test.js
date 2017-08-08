@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
 chai.should()
@@ -18,7 +18,7 @@ chai.use(chaiPromise)
  */
 describe('Observering messages', () => {
   before(() => {
-    pretend.read('../scripts/random-messages.js')
+    pretend.read('test/scripts/random-messages.js')
   })
   after(() => {
     pretend.clear()

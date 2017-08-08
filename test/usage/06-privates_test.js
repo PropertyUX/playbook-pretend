@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
@@ -14,7 +14,7 @@ chai.should()
  */
 describe('Private messages', () => {
   before(() => {
-    pretend.read('../scripts/private-message.js')
+    pretend.read('test/scripts/private-message.js')
   })
   after(() => {
     pretend.clear()

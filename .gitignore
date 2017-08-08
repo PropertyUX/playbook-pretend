@@ -1,6 +1,3 @@
-/node_modules
-/lib
-/yarn.lock
-/npm-debug.log
-/dummy/npm-debug.log
+npm-debug.log
 .DS_Store
+/node_modules

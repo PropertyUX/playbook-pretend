@@ -1,4 +1,4 @@
-import pretend from '../../src/modules/pretend'
+import pretend from '../../lib'
 import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
 import chaiSubset from 'chai-subset'
@@ -19,7 +19,7 @@ chai.use(chaiSubset)
  */
 describe('Middleware and Responses', () => {
   before(() => {
-    pretend.read('../scripts/basic-reply.js')
+    pretend.read('test/scripts/basic-reply.js')
   })
   after(() => {
     pretend.clear()
