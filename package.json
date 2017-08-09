@@ -69,6 +69,7 @@
     "mocha-co": "^1.17.2",
     "rimraf": "^2.6.1",
     "semantic-release": "^6.3.6",
+    "snazzy": "^7.0.0",
     "standard": "^10.0.2",
     "validate-commit-msg": "^2.12.0"
   },
