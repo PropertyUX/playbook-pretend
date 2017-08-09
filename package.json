@@ -22,7 +22,7 @@
     "docs:api": "docco ./md/*/*/*.md --template assets/docco.jst --css assets/docco.css --output docs/api",
     "docs:source": "docco ./src/*/*.js --template assets/docco.jst --css assets/docco.css --output docs/source",
     "docs:scripts": "docco ./test/scripts/*.js --template assets/docco.jst --css assets/docco.css --output docs/scripts",
-    "postdocs" : "node -e \"require('fs').rename('./docs/README.html','./docs/index.html')\"",
+    "postdocs": "node -e \"require('fs').rename('./docs/README.html','./docs/index.html')\"",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commitmsg": "validate-commit-msg",
     "precommit": "npm test",
@@ -83,7 +83,7 @@
     "type": "git",
     "url": "https://github.com/propertyux/hubot-pretend"
   },
-  "version": "0.1.0",
+  "version": "1.0.0",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
