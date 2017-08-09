@@ -1,3 +1,15 @@
+// # Middleware and Responses
+//
+// At the top of each middleware stack an event emits corresponding to the type
+// of middleware, to test the context object going into each stack's execution.
+// It also stores the incoming and outgoing response objects at this point.
+// Examples below show how to make assertions that middleware is fired and
+// response objects are being produced and processed correclty.
+//
+// Note responses on catch-all or ignored listeners will not be stored.
+//
+// [See the script being tested here](../scripts/basic-reply.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
@@ -6,17 +18,6 @@ chai.should()
 chai.use(chaiPromise)
 chai.use(chaiSubset)
 
-/**
- * At the top of each middleware stack an event emits corresponding to the type
- * of middleware, to test the context object going into each stack's execution.
- * It also stores the incoming and outgoing response objects at this point.
- * Examples below show how to make assertions that middleware is fired and
- * response objects are being produced and processed correclty.
- *
- * Note responses on catch-all or ignored listeners will not be stored.
- *
- * [see the script being tested here]{@link '../scripts/basic-reply.js'}
- */
 describe('Middleware and Responses', () => {
   before(() => {
     pretend.read('test/scripts/basic-reply.js')

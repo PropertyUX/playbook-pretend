@@ -1,18 +1,19 @@
+// # Entering and leaving a room
+//
+// Simple example of enter and leave messages being triggered from a room method
+//
+// Note the room methods accept a user as the source of the enter/leave message
+// where the user methods will just send from the users current room.
+// The third example uses the user.in method to set their room on the fly.
+//
+// [See the pretend module docs here](../api/pretend.js.html)
+//
+// [See the script being tested here](../scripts/enter-leave.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
-/**
- * Simple example of enter and leave messages being triggered from a room method
- *
- * Note the room methods accept a user as the source of the enter/leave message
- * where the user methods will just send from the users current room.
- * The third example uses the user.in method to set their room on the fly.
- *
- * [see the pretend module docs here]{@link '../../src/modules/pretend.js'}
- *
- * [see the script being tested here]{@link '../scripts/enter-leave.js'}
- */
 describe('Entering and leaving a room', function () {
   before(() => {
     pretend.read('test/scripts/enter-leave.js')

@@ -1,19 +1,20 @@
+// # Receiving HTTP requests
+//
+// Examples below make and test requests using the built-in http daemon
+//
+// Note that in a normal hubot, it's enabled by default, but its less common for
+// tests to require the server, so in pretend its disabled by default and must
+// be enabled in the starting options.
+//
+// pretend.http is an alias for robot's technoweenie/node-scoped-http-client
+//
+// [See the script being tested here](../scripts/httpd.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 process.env.PORT = 8080
 
-/**
- * Examples below make and test requests using the built-in http daemon
- *
- * Note that in a normal hubot, it's enabled by default, but its less common for
- * tests to require the server, so in pretend its disabled by default and must
- * be enabled in the starting options.
- *
- * pretend.http is an alias for robot's technoweenie/node-scoped-http-client
- *
- * [see the script being tested here]{@link '../scripts/httpd.js'}
- */
 describe('Receiving HTTP requests', function () {
   before(() => {
     pretend.read('test/scripts/httpd.js')

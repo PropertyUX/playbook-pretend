@@ -1,16 +1,17 @@
+// # Testing logs
+//
+// Pretend keeps a copy of every* log written by hubot. These can be used to
+// make assertions on the behind-the-scenes robot operations.
+//
+// Currently the log is extended after robot starts, so it might miss a couple
+// on load logs.
+//
+// [See the script being tested here](../scripts/write-logs.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
-/**
- * Pretend keeps a copy of every* log written by hubot. These can be used to
- * make assertions on the behind-the-scenes robot operations.
- *
- * *Currently the log is extended after robot starts, so it might miss a couple
- * on load logs.
- *
- * [see the script being tested here]{@link '../scripts/write-logs.js'}
- */
 describe('Testing logs', () => {
   before(() => {
     pretend.read('test/scripts/write-logs.js')

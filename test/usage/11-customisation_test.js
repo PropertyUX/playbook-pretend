@@ -1,13 +1,14 @@
+// # Custom response objects
+//
+// Custom response objects can replace the prototype used by hubot. There's
+// no new features shown here, just another use case demonstration.
+//
+// [See the script being tested here](../scripts/random-messages.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
-/**
- * Custom response objects can replace the prototype used by hubot. There's
- * no new features shown here, just another use case demonstration.
- *
- * [see the script being tested here]{@link '../scripts/random-messages.js'}
- */
 describe('Custom response objects', () => {
   before(() => {
     pretend.read('test/scripts/custom-response.js')

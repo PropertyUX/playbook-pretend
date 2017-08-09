@@ -3,7 +3,8 @@
 import log from 'npmlog'
 
 /**
- * Mock log, keeps log messages in array
+ * Keeps log messages in array
+ * @module MockLog
  */
 export default class {
   /**
@@ -19,8 +20,11 @@ export default class {
     log.addLevel('error', 5000, { fg: 'white', bg: 'red' }, 'ERR!')
   }
 
+  /**
+   * Put time in front of all logs
+   * @return {string} Current time
+   */
   prefix () {
-    // return new Date().toLocaleString()
     return new Date().toLocaleTimeString()
   }
 

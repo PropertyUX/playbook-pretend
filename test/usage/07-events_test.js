@@ -1,16 +1,17 @@
+// # Testing events
+//
+// Examples below show how to make assertions on event emits.
+// You could add event listeners directly in tests, but the pretend.events array
+// can be useful if you need to make assertions on a series of prior events.
+//
+// [See the script being tested here](../scripts/events.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
 chai.should()
 chai.use(chaiPromise)
 
-/**
- * Examples below show how to make assertions on event emits.
- * You could add event listeners directly in tests, but the pretend.events array
- * can be useful if you need to make assertions on a series of prior events.
- *
- * [see the script being tested here]{@link '../scripts/events.js'}
- */
 describe('Testing events', () => {
   before(() => {
     pretend.read('test/scripts/events.js')

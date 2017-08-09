@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Hubot Pretend</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        <nav role="menubar">
+          <a href="../docs/index.html">Documentation</a>
+          <a href="../usage/00-setup_test.html">Usage</a>
+          <a href="../api/pretend.js.html">API</a>
+          <a href="../source/pretend.html">Source</a>
+          <a href="https://github.com/timkinnane/hubot-pretend">GitHub</a>
+        </nav>
+
+        <div class="robot">
+          <?xml version="1.0" encoding="UTF-8"?>
+          <svg width="100px" height="100px" viewBox="0 0 479 479" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <defs>
+                  <linearGradient x1="103.785262%" y1="-54.4416279%" x2="0.657684949%" y2="99.3423151%" id="linearGradient-1">
+                      <stop stop-color="#A473FF" offset="0%"></stop>
+                      <stop stop-color="#6A41B8" offset="100%"></stop>
+                  </linearGradient>
+                  <linearGradient x1="94.8372393%" y1="-48.2448529%" x2="-2.32010461%" y2="260.650243%" id="linearGradient-2">
+                      <stop stop-color="#FDEB4E" offset="0%"></stop>
+                      <stop stop-color="#F8D800" offset="100%"></stop>
+                  </linearGradient>
+              </defs>
+              <g id="pretend-robot" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="Artboard">
+                      <path d="M34.3800345,306.34444 C27.6404639,285.440807 24,263.145542 24,240 C24,120.706494 120.706494,24 240,24 C359.293506,24 456,120.706494 456,240 C456,263.2768 452.318129,285.693653 445.505006,306.699939 C419.86126,282.355694 359.194247,273 240.350941,273 C121.681243,273 60.2484025,282.122282 34.3800345,306.34444 L34.3800345,306.34444 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+                      <path d="M239.859843,264.566727 C375.578462,264.566727 401.727426,247.103761 387.750959,193.02399 C373.774493,138.944218 321.537851,97.4332727 239.859843,97.4332727 C158.181835,97.4332727 104.471952,139.338755 91.9687271,193.02399 C79.4655022,246.709224 104.141224,264.566727 239.859843,264.566727 Z" id="Combined-Shape" stroke="#979797" fill="#FFFFFF"></path>
+                      <path d="M239.889816,224.120886 C121.136025,224.120886 99.5447677,211.843853 110.48509,174.935254 C121.425411,138.026655 168.421559,109.216636 239.889816,109.216636 C311.358073,109.216636 357.065134,137.755411 369.294543,174.935254 C381.523951,212.115097 358.643608,224.120886 239.889816,224.120886 Z M433.667671,335.757871 L433.66767,335.757864 C398.369171,407.011528 324.905521,456 240,456 C155.627257,456 82.5532401,407.624399 47.0013195,337.096565 C47.287091,300.507472 94.0447398,288 240.682073,288 C385.328433,288 431.482203,300.445093 433.667671,335.757871 Z" id="Combined-Shape" fill="url(#linearGradient-2)"></path>
+                      <path d="M161.549437,441.312103 C161.567231,441.075436 161.564125,440.833861 161.538437,440.589454 L144.304887,276.623183 C144.073969,274.426146 142.105723,272.832291 139.908686,273.063209 L113.072672,275.883788 C110.875635,276.114706 109.281781,278.082952 109.512699,280.279989 L124.464433,422.536238 C136.117336,429.927346 148.52638,436.233343 161.549437,441.312103 L161.549437,441.312103 Z M357.397369,421.34195 L372.223578,280.279989 C372.454496,278.082952 370.860642,276.114706 368.663605,275.883788 L341.827591,273.063209 C339.630554,272.832291 337.662308,274.426146 337.43139,276.623183 L320.19784,440.589454 C320.196656,440.600719 320.19552,440.611977 320.194432,440.62323 C333.275265,435.38976 345.724868,428.914042 357.397369,421.34195 L357.397369,421.34195 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+                  </g>
+              </g>
+          </svg>
+        </div>
+
+        
+
+        
+          
+          <h1 id="hubot-pretend">Hubot Pretend</h1>
+<p><strong>Pretend</strong> is a powerful test suite for <a href="https://hubot.github.com">Hubot</a>,
+providing mock messaging and internal processes, with helpers to make shorthand
+assertions using mocha, chai and sinon.</p>
+<p><a href="https://www.npmjs.com/package/hubot-pretend"><img src="https://img.shields.io/npm/v/hubot-pretend.svg?style=flat" alt="npm version"></a>
+<a href="https://travis-ci.org/timkinnane/hubot-pretend"><img src="https://travis-ci.org/timkinnane/hubot-pretend.svg?branch=master" alt="Build Status"></a>
+<a href="https://david-dm.org/timkinnane/hubot-pretend"><img src="https://david-dm.org/timkinnane/hubot-pretend/status.svg" alt="dependencies Status"></a>
+<a href="https://david-dm.org/timkinnane/hubot-pretend?type=dev"><img src="https://david-dm.org/timkinnane/hubot-pretend/dev-status.svg" alt="devDependencies Status"></a></p>
+<p><a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
+<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
+<a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="JavaScript Style Guide"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></p>
+<hr>
+
+          
+        
+      </div>
+
+      
+        
+        <h2 id="install">Install</h2>
+<p><code>npm install hubot-pretend --save-dev</code></p>
+<p>or</p>
+<p><code>yarn add hubot-pretend --dev</code></p>
+<h2 id="usage-examples">Usage examples</h2>
+<h3 id="-see-the-docs-https-timkinnane-github-io-hubot-pretend-usage-00-setup_test-html-for-specific-usage-examples"><em><a href="https://timkinnane.github.io/hubot-pretend/usage/00-setup_test.html">See the docs</a></em> for specific usage examples</h3>
+<h2 id="quick-usage">Quick Usage</h2>
+<p>We have the following Hubot script (<em>hello-world.coffee</em>)…</p>
+<pre><code class="lang-coffee"><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-params">(robot)</span> -&gt;</span>
+robot.respond <span class="hljs-regexp">/hello$/i</span>, <span class="hljs-function"><span class="hljs-params">(msg)</span> -&gt;</span> msg.reply <span class="hljs-string">'hello'</span>
+</code></pre>
+<p>Test file processes some messages…</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> pretend = <span class="hljs-built_in">require</span>(<span class="hljs-string">'hubot-pretend'</span>)
+<span class="hljs-keyword">const</span> {expect} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chai'</span>)
+
+describe(<span class="hljs-string">'Hello World'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+it(<span class="hljs-string">'says hello back'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+pretend.read(<span class="hljs-string">'scripts/hello-world.coffee'</span>).start()
+pretend.user(<span class="hljs-string">'margaret'</span>).send(<span class="hljs-string">'hubot hello'</span>).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+expect(pretend.messages).to.eql([
+[<span class="hljs-string">'margaret'</span>, <span class="hljs-string">'hubot hello'</span>],
+[<span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@margaret hello'</span>]
+])
+pretend.shutdown()
+done()
+})
+})
+})
+</code></pre>
+<ul>
+<li><code>.read</code> reads in scripts (can be done before test)</li>
+<li><code>.start</code> creates a robot and adapter to route messages</li>
+<li><code>.user</code> creates user with helpers for pre-populated message envelopes</li>
+<li><code>.send</code> passes messages to <code>robot.receive</code> and returns a promise*</li>
+<li><code>.messages</code> keeps a record of all messages sent and received by the robot</li>
+<li><code>.shutdown</code> resets collections and runs shutdown on the robot</li>
+</ul>
+<p>This example shows a minimal dependency approach using the tests’s <code>done</code>
+function on the promise <code>.then</code>. Other <a href="./test/usage/01-users_test.js">examples in the docs</a>
+show how to improve the style of such tests using generators with <em>mocha-co</em>.</p>
+<hr>
+
+        
+      
+        
+        <h2 id="important-notes">Important Notes</h2>
+<p>Script paths are resolved from the package root, <em>not</em> relative to tests.</p>
+<p>Currently, Pretend uses a custom fork of hubot that adds promises to middleware,
+to allow async tests. It can test your hubot scripts, but it won’t use your own
+package’s hubot version. Hopefully in later versions of hubot, async will be
+supported and Pretend can be adapted to test with the exact dependencies of your
+hubot projects.</p>
+<h2 id="contributing">Contributing</h2>
+<p>This is a fairly new project, so there’s no contrib guidelines yet. Just follow
+<a href="https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution">the standard process</a>.</p>
+<p>See the TODO list below for the roadmap of objectives if you’d like to help. Or
+just create an issue and start working on it if you’ve found something wrong.</p>
+<p>Use the NPM scripts to test and build any changes:</p>
+<ul>
+<li><code>npm run dev</code> (lint and test while you’re working)</li>
+<li><code>npm run test</code> (lint, test, build, regenerate docs)</li>
+</ul>
+<p>Follow <a href="https://standardjs.com/">standardsj</a> syntax to avoid bikeshedding.</p>
+<p>Use the <a href="https://github.com/commitizen/cz-cli">commitizen cli</a> for writing
+commit messages.</p>
+<hr>
+
+        
+      
+        
+        <h2 id="todo">TODO</h2>
+<ul>
+<li>publish github docs pages</li>
+<li>npm publish full release (1.0.0)</li>
+<li>generate coverage and write missing module tests</li>
+<li>clean up jsDoc format for default export modules</li>
+<li>convert mocha-co usage to babel async/await</li>
+<li>convert room/user messages to property getter</li>
+<li>link back to docs for HTH #32, #37, #38</li>
+<li>helper methods to test hubot brain - HTH #31</li>
+<li>helper methods to test user id, other attributes - HTH #26</li>
+<li>helpers and promise returns for get/post request tests</li>
+<li>add end to end test with internal IRC server and adapter</li>
+</ul>
+
+        
+      
+      <div class="arms">
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg width="100px" height="100px" viewBox="0 0 479 479" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+                <linearGradient x1="103.785262%" y1="-54.4416279%" x2="0.657684949%" y2="99.3423151%" id="linearGradient-1">
+                    <stop stop-color="#A473FF" offset="0%"></stop>
+                    <stop stop-color="#6A41B8" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <g id="pretend-arms" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Artboard" fill="url(#linearGradient-1)">
+                    <path d="M123.624199,221.36186 C119.665983,220.836173 116.42724,219.302539 114.226197,216.679437 C112.15124,214.2066 111.189937,210.993688 111.228731,207.291403 C95.2101487,186.852275 97.5884983,170.518353 108.292092,156.819185 L94.5163857,140.401937 C75.4591932,147.065168 53.4447671,141.714899 39.698942,125.333262 C21.9488523,104.179529 24.7080505,72.6417494 45.8617836,54.8916597 C47.5659395,53.4617031 49.3374879,52.1648518 51.1637908,51 L61.0842278,68.5936104 C60.3075008,69.129095 59.5490325,69.7060618 58.8116942,70.3247621 C46.1814281,80.9228137 44.5339928,99.7530857 55.1320444,112.383352 C65.730096,125.013618 84.560368,126.661053 97.1906341,116.063002 C109.8209,105.46495 111.468335,86.634678 100.870284,74.0044119 C100.007272,72.975915 99.089673,72.0202455 98.1252784,71.1380854 L107.178894,52.5754225 C110.490035,54.9575794 113.56124,57.7865381 116.303386,61.0545014 C131.001453,78.5709753 131.636781,103.207547 119.410082,121.240023 L132.335714,136.644191 C147.513802,128.573301 163.815404,128.966216 180.949676,147.6595 C185.127621,148.121869 188.540726,149.671662 190.830641,152.400676 C193.235588,155.266781 194.144496,159.127074 193.734171,163.591214 C194.563339,164.655443 195.435496,165.775666 196.348279,166.948854 C200.296063,167.481779 203.532153,169.021199 205.735916,171.647542 C208.14042,174.513118 209.057219,178.364294 208.661512,182.809059 C217.51616,194.233682 228.106211,207.931479 239.464259,222.661684 C250.723731,208.059874 261.219621,194.484086 270.006551,183.146836 C269.610844,178.702071 270.527643,174.850895 272.932148,171.985318 C275.135911,169.358976 278.372001,167.819555 282.319784,167.286631 C283.232567,166.113442 284.104724,164.993219 284.933893,163.928991 C284.523567,159.464851 285.432475,155.604557 287.837422,152.738453 C290.127338,150.009438 293.540442,148.459645 297.718385,147.997277 C314.85266,129.303992 331.154261,128.911078 346.33235,136.981967 L359.257982,121.577799 C347.031282,103.545324 347.66661,78.9087518 362.364677,61.3922779 C365.106824,58.1243146 368.178028,55.295356 371.489169,52.913199 L380.542785,71.4758619 C379.57839,72.3580221 378.660791,73.3136915 377.797779,74.3421884 C367.199728,86.9724545 368.847163,105.802727 381.477429,116.400778 C394.107695,126.99883 412.937967,125.351394 423.536019,112.721128 C434.134071,100.090862 432.486635,81.2605902 419.856369,70.6625386 C419.119031,70.0438383 418.360563,69.4668715 417.583836,68.931387 L427.504273,51.3377765 C429.330575,52.5026283 431.102124,53.7994796 432.80628,55.2294362 C453.960013,72.9795259 456.719211,104.517306 438.969121,125.671039 C425.223296,142.052675 403.20887,147.402945 384.151678,140.739714 L370.375971,157.156961 C381.079565,170.856129 383.457915,187.190052 367.439333,207.629179 C367.478127,211.331465 366.516823,214.544377 364.441867,217.017213 C362.240823,219.640315 359.00208,221.17395 355.043864,221.699637 C353.81601,223.060123 352.49529,224.522036 351.088589,226.077743 C351.04456,229.595191 350.073766,232.656998 348.075678,235.038227 C345.87752,237.657889 342.652281,239.196152 338.718151,239.732828 C325.806749,253.963622 309.383975,272.009018 291.983816,291.060323 C323.683977,332.554224 350.307134,367.896326 351.618966,371.134702 C360.456504,392.950949 364.980325,409.459514 350.772374,421.381399 C336.54145,433.322563 321.020272,425.976159 301.045268,413.4292 C298.291974,411.699766 271.782965,383.353423 239.489659,348.309869 C207.055582,383.508887 180.38493,412.031989 177.622796,413.766977 C157.647791,426.313936 142.126613,433.660339 127.895689,421.719176 C113.687739,409.79729 118.211559,393.288726 127.049097,371.472478 C128.364805,368.224537 155.141585,332.682935 186.965286,291.030247 C169.460971,271.8656 152.930806,253.702438 139.949912,239.395052 C136.015783,238.858375 132.790543,237.320113 130.592385,234.70045 C128.594297,232.319222 127.623504,229.257414 127.579474,225.739966 C126.172773,224.184259 124.852053,222.722347 123.624199,221.36186 L123.624199,221.36186 Z M124.989708,208.832206 C125.145527,209.021218 125.303117,209.210689 125.462491,209.400623 C125.913198,209.937755 127.472527,211.703126 129.951196,214.485033 C133.698948,204.980572 141.721411,194.247111 152.843015,184.914978 C163.663485,175.835525 175.280859,169.875429 185.121541,167.680238 C182.953621,164.93615 181.572958,163.2043 181.136713,162.684403 C180.880802,162.379421 180.625267,162.079171 180.370106,161.783613 C170.307947,162.318196 157.702275,167.745019 146.327425,177.289652 C134.677328,187.065244 127.056914,198.862405 124.989708,208.832206 L124.989708,208.832206 Z M115.331248,192.605073 C119.639493,183.914999 127.169769,174.501675 137.107897,166.162595 C146.714432,158.101755 156.918789,152.430888 165.994429,149.592274 C152.386182,142.22452 139.956463,147.177146 128.649081,156.665166 C117.241743,166.23706 110.181859,177.735416 115.331247,192.605068 L115.331248,192.605073 Z M141.158455,227.00934 C182.050849,272.592069 288.370117,390.276131 293.376006,393.569675 C303.725245,400.37879 310.14191,402.533909 316.209675,400.934114 C315.348856,395.713241 317.187733,390.18535 321.534954,386.537599 C325.883625,382.88863 331.649246,382.038248 336.642472,383.794907 C339.26039,378.121806 338.263346,371.455264 333.388201,360.116363 C331.006371,354.576561 233.082921,228.800448 195.482301,180.855852 C185.562258,181.320515 173.163286,186.605831 162.00399,195.969592 C150.576965,205.558005 143.135739,217.169148 141.158455,227.00934 Z M245.089875,229.960497 C258.585078,247.47666 272.908154,266.118963 286.529216,283.925222 C306.456728,261.884445 325.029974,241.258158 337.509608,227.347117 C335.532325,217.506925 328.091099,205.895781 316.664073,196.307368 C305.504777,186.943608 293.105805,181.658292 283.185762,181.193629 C273.565675,193.460213 259.996929,210.821555 245.089875,229.960497 L245.089875,229.960497 Z M192.783419,297.39783 C167.010542,330.805213 146.357963,357.946628 145.279862,360.45414 C140.404717,371.79304 139.407674,378.459582 142.025592,384.132684 C147.018818,382.376024 152.784439,383.226407 157.133109,386.875375 C161.480331,390.523127 163.319207,396.051018 162.458388,401.27189 C168.526154,402.871686 174.942818,400.716566 185.292057,393.907452 C187.418757,392.508224 207.831377,370.4628 233.744483,342.071143 C220.467131,327.643697 206.420087,312.316594 192.783419,297.39783 L192.783419,297.39783 Z M298.297958,162.121389 C298.042797,162.416948 297.787261,162.717197 297.53135,163.02218 C297.095105,163.542077 295.714443,165.273926 293.546522,168.018015 C303.387205,170.213205 315.004579,176.173302 325.825048,185.252754 C336.946652,194.584888 344.969116,205.318348 348.716867,214.822809 C351.195536,212.040903 352.754866,210.275532 353.205573,209.7384 C353.364946,209.548466 353.522537,209.358994 353.678355,209.169983 C351.61115,199.200182 343.990735,187.40302 332.340639,177.627428 C320.965789,168.082796 308.360116,162.655973 298.297958,162.121389 L298.297958,162.121389 Z M312.673634,149.930051 C321.749274,152.768665 331.953631,158.439531 341.560166,166.500371 C351.498295,174.839452 359.028571,184.252776 363.336815,192.942849 C368.486204,178.073192 361.426321,166.574836 350.018982,157.002943 C338.7116,147.514923 326.281881,142.562297 312.673634,149.930051 L312.673634,149.930051 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

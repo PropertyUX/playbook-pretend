@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 /**
  * Provides room attributes for envolope and adapter method shortcuts
- * @param  {String} @name=null Name for the room
+ * @param  {string} @name=null Name for the room
  * @return Room                A new test room
 */
 export default class {

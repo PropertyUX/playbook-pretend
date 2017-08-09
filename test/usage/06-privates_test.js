@@ -1,17 +1,18 @@
+// # Private messages
+//
+// Some platform adapters have a custom method to process private messages,
+// the examples below shows how to retrieve a user's private messages, but these
+// arrays are not currently observable.
+//
+// They can all be accessed from `pretend.adapter.privateMessages`, or per user
+// as shown below.
+//
+// [See the script being tested here](../scripts/private-message.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
-/**
- * Some platform adapters have a custom method to process private messages,
- * the examples below shows how to retrieve a user's private messages, but these
- * arrays are not currently observable.
- *
- * They can all be accessed from `pretend.adapter.privateMessages`, or per user
- * as shown below.
- *
- * [see the script being tested here]{@link '../scripts/private-message.js'}
- */
 describe('Private messages', () => {
   before(() => {
     pretend.read('test/scripts/private-message.js')

@@ -1,3 +1,17 @@
+// # Method spies
+//
+// All robot and response object methods are extended with sinon spies. Below
+// are examples of how to interogate hubot's internal methods, which can be
+// helpful for complex scripts that do more than send messages.
+//
+// [Read more testing with sinon spies here](http://sinonjs.org)
+//
+// [See how robot methods are spied here](../source/robot.html)
+//
+// [See how response methods are spied here](../source/response.html)
+//
+// [See the script being tested here](../scripts/basic-reply.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 import sinon from 'sinon'
@@ -5,18 +19,6 @@ import sinonChai from 'sinon-chai'
 chai.should()
 chai.use(sinonChai)
 
-/**
- * All robot and response object methods are extended with sinon spies. Below
- * are examples of how to interogate hubot's internal methods, which can be
- * helpful for complex scripts that do more than send messages.
- *
- * [read more testing with sinon spies here]{@link 'http://sinonjs.org'}
- *
- * [see how robot methods are spied here]{@link '../../src/modules/robot.js'}
- * [see how response methods are spied here]{@link '../../src/mocks/response.js'}
- *
- * [see the script being tested here]{@link '../scripts/basic-reply.js'}
- */
 describe('Method spies', () => {
   before(() => {
     pretend.read('test/scripts/basic-reply.js')

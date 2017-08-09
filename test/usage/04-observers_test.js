@@ -1,21 +1,22 @@
+// # Observering messages
+//
+// These examples show how to make assertions for messages with unpredictable
+// content or timing usiang the observer module.
+//
+// Note the use of chai-as-promised to shorthand assertions on promise results.
+// When using assertions on a promise, tests must return the promise or call
+// the test's `done` function, the latter is used here for consistent style.
+//
+// [See the observer module docs here](../api/observer.js.html)
+//
+// [See the script being tested here](../scripts/random-messages.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
 chai.should()
 chai.use(chaiPromise)
 
-/**
- * These examples show how to make assertions for messages with unpredictable
- * content or timing usiang the observer module.
- *
- * Note the use of chai-as-promised to shorthand assertions on promise results.
- * When using assertions on a promise, tests must return the promise or call
- * the test's `done` function, the latter is used here for consistent style.
- *
- * [see the observer method docs here]{@link '../../src/modules/observer.js'}
- *
- * [see the script being tested here]{@link '../scripts/random-messages.js'}
- */
 describe('Observering messages', () => {
   before(() => {
     pretend.read('test/scripts/random-messages.js')

@@ -6,7 +6,7 @@ import { User } from 'hubot-async/es2015'
 /**
  * Represents a participating user in the chat
  * NB: not used as mock because it changes constructor to remove id argument
- * @param  {String} [name]    Name for the user (alternative to giving as attribute in options)
+ * @param  {string} [name]    Name for the user (alternative to giving as attribute in options)
  * @param  {Object} [options] Key/valye user attributes
  * @return User                A new test user
 */

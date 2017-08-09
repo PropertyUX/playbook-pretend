@@ -24,8 +24,8 @@ const defaults = {
 
 /**
  * Read in scripts from path/s, will overwrite any previous reads
- * @param  {Array|String} scriptPaths Paths to read for loading into hubot
- * @return {Int}                      Number of scripts found
+ * @param  {array|string} scriptPaths Paths to read for loading into hubot
+ * @return {pretend}                  Self for chaining
  */
 function read (scriptPaths) {
   scripts = []
@@ -51,18 +51,18 @@ function read (scriptPaths) {
   // robot, load scripts
   load()
 
-  return this // for chaining
+  return this
 }
 
 /**
  * Start (or restart) collections and create pretend robot
- * @param  {Object} [options={}] Config object, optional attributes:
- *                               - httpd: enable server (default: false)
- *                               - name: robot name
- *                               - alias: robot alias
- *                               - rooms: array of room names to start with
- *                               - users: array of user names to start with
- * @return {[type]}              [description]
+ * @param  {Object} [options={}]     Config object, optional attributes:
+ * @param  {boolean} [options.httpd] Enable server (default: false)
+ * @param  {string} [options.name]   Robot name
+ * @param  {string} [options.alias]  Robot alias
+ * @param  {array} [options.rooms]   Room names to start with
+ * @param  {array} [options.rooms]   User names to start with
+ * @return {pretend}                 Self for chaining
  */
 function start (options = {}) {
   let config = Object.assign({}, defaults, options)
@@ -86,16 +86,17 @@ function start (options = {}) {
   robot.run() // run before load, so scripts can extend robot after pretend does
   load()
 
-  return this // for chaining
+  return this
 }
 
 /**
  * Shortcut to robot shutdown
+ * @return {pretend}             Self for chaining
  */
 function shutdown () {
   if (robot) robot.shutdown()
   reset()
-  return this // for chaining
+  return this
 }
 
 /**
@@ -110,20 +111,22 @@ reset()
 
 /**
  * Clear read-in scripts, to ensure nothing loaded on next `.start()`
+ * @return {pretend}             Self for chaining
  */
 function clear () {
   scripts = []
-  return this // for chaining
+  return this
 }
 
 /**
  * Load any read-in scripts (if robot created and script not already read)
+ * @return {pretend}             Self for chaining
  */
 function load () {
   if (robot === null) return
   let scriptsToLoad = _.differenceBy(scripts, robot.loaded, _.isEqual)
   scriptsToLoad.map(s => robot.loadFile(s.path, s.file))
-  return this // for chaining
+  return this
 }
 
 /**
@@ -157,7 +160,7 @@ function userLeave (user) {
 /**
  * Get any private message entries in adapter assigned to username
  * @param  {User} user The user
- * @return {Array}     Private messages for user
+ * @return {array}     Private messages for user
  */
 function userPrivates (user) {
   return robot.adapter.privateMessages[user.name]
@@ -165,7 +168,7 @@ function userPrivates (user) {
 
 /**
  * Get filtered array of given room's messages from adapter
- * @return {Array} Messages [user, message] sent to room
+ * @return {array} Messages [user, message] sent to room
 */
 function roomMessages (room) {
   let messages = _.filter(robot.adapter.messages, msg => msg[0] === room.name)
@@ -206,7 +209,7 @@ function roomLeave (room, user) {
 /**
  * Create or get existing user, for entering/leaving and sending messages
  * Extend with methods routing to pretend helpers with this user provided
- * @param  {String} name         Name for the user
+ * @param  {string} name         Name for the user
  * @param  {Object} [options={}] Optional attributes for user
  * @return {MockUser}            A new mock user
  */
@@ -234,7 +237,7 @@ function user (name, options = {}) {
 /**
  * Create or get existing room, for entering/leaving and receiving messages
  * Extend with methods routing to pretend helpers with this room provided
- * @param  {String} name Name for the room
+ * @param  {string} name Name for the room
  * @return {MockRoom}    A new room
  */
 function room (name) {
@@ -257,10 +260,7 @@ function room (name) {
   return rooms[name]
 }
 
-/**
- * Revealed API, uses getters to return current state of collections
- * @type {Object} Containing exposed methods and propterties
- */
+// Revealed API, uses getters to return current state of collections
 export default {
   startup: start, // support pre-release method
   start: start,

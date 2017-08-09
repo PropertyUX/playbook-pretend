@@ -1,22 +1,23 @@
+// # Receiving in rooms
+//
+// By default, pretend is a room-less environment for receiving basic messages.
+// We can however setup an array of rooms, for listening and responding, across
+// multiple parallel rooms, or with different users in each, similar to a live
+// chat platform.
+//
+// The record of messages will prepend the name of the room where it was
+// received (if there was a room defined).
+//
+// Note the difference where users `send` to room, rooms `receive` from user.
+//
+// [See the pretend module docs here](../api/pretend.js.html)
+//
+// [See the script being tested here](../scripts/basic-reply.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
-/**
- * By default, pretend is a room-less environment for receiving basic messages.
- * We can however setup an array of rooms, for listening and responding, across
- * multiple parallel rooms, or with different users in each, similar to a live
- * chat platform.
- *
- * The record of messages will prepend the name of the room where it was
- * received (if there was a room defined).
- *
- * Note the difference where users `send` to room, rooms `receive` from user.
- *
- * [see the pretend module docs here]{@link '../../src/modules/pretend.js'}
- *
- * [see the script being tested here]{@link '../scripts/basic-reply.js'}
- */
 describe('Receiving in rooms', function () {
   before(() => {
     pretend.read('test/scripts/basic-reply.js')

@@ -1,5 +1,9 @@
 # Hubot Pretend
 
+**Pretend** is a powerful test suite for [Hubot](https://hubot.github.com),
+providing mock messaging and internal processes, with helpers to make shorthand
+assertions using mocha, chai and sinon.
+
 [![npm version](https://img.shields.io/npm/v/hubot-pretend.svg?style=flat)](https://www.npmjs.com/package/hubot-pretend)
 [![Build Status](https://travis-ci.org/timkinnane/hubot-pretend.svg?branch=master)](https://travis-ci.org/timkinnane/hubot-pretend)
 [![dependencies Status](https://david-dm.org/timkinnane/hubot-pretend/status.svg)](https://david-dm.org/timkinnane/hubot-pretend)
@@ -10,36 +14,23 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Hubot Pretend** is a powerful test suite for [Hubot](hubot.github.com). It
-provides mock messaging and internal processes, with helpers to make shorthand
-assertions using mocha, chai and sinon.
-
 ---
 
 ## Install
 
 `npm install hubot-pretend --save-dev`
 
+or
+
+`yarn add hubot-pretend --dev`
+
 ## Usage examples
 
-*[See the docs]()* for specific usage examples:
-
-- [Using pretend]()
-- [Sending from users]()
-- [Receiving in rooms]()
-- [Entering and leaving a room]()
-- [Observering messages]()
-- [Receiving HTTP requests]()
-- [Private messages]()
-- [Teting events]()
-- [Testing logs]()
-- [Method spies]()
-- [Middleware and responses]()
-- [Custom response objects]()
+### *[See the docs](https://timkinnane.github.io/hubot-pretend/usage/00-setup_test.html)* for specific usage examples
 
 ## Quick Usage
 
-We have the following Hubot script (_my-script.coffee_)...
+We have the following Hubot script (_hello-world.coffee_)...
 
 ```coffee
 module.exports = (robot) ->
@@ -48,7 +39,7 @@ module.exports = (robot) ->
 
 Test file processes some messages...
 
-```js
+```javascript
 const pretend = require('hubot-pretend')
 const {expect} = require('chai')
 
@@ -90,13 +81,31 @@ package's hubot version. Hopefully in later versions of hubot, async will be
 supported and Pretend can be adapted to test with the exact dependencies of your
 hubot projects.
 
+## Contributing
+
+This is a fairly new project, so there's no contrib guidelines yet. Just follow
+[the standard process](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution).
+
+See the TODO list below for the roadmap of objectives if you'd like to help. Or
+just create an issue and start working on it if you've found something wrong.
+
+Use the NPM scripts to test and build any changes:
+- `npm run dev` (lint and test while you're working)
+- `npm run test` (lint, test, build, regenerate docs)
+
+Follow [standardsj](https://standardjs.com/) syntax to avoid bikeshedding.
+
+Use the [commitizen cli](https://github.com/commitizen/cz-cli) for writing
+commit messages.
+
 ---
 
 ## TODO
 
-- npm publish full release (1.0.0)
 - publish github docs pages
+- npm publish full release (1.0.0)
 - generate coverage and write missing module tests
+- clean up jsDoc format for default export modules
 - convert mocha-co usage to babel async/await
 - convert room/user messages to property getter
 - link back to docs for HTH #32, #37, #38

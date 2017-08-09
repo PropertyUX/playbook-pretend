@@ -1,20 +1,20 @@
+// # Sending from users
+//
+// Examples below show different approaches to setting up users to send messages
+// Note the use of *generators* and *yield* to wait for messages to be processed
+// by middleware before assertions test the success of responses. This is
+// achieved by requiring *mocha-co* in mocha.opts, but can also be done inline
+// with packages like *co*. Eventually async will be supported by standard js
+// and replace the need for these dependencies.
+//
+// [See the pretend module docs here](../api/pretend.js.html)
+//
+// [See the script being tested here](../scripts/basic-reply.html)
+
 import pretend from '../../lib'
 import chai from 'chai'
 chai.should()
 
-/**
- * Examples below show different approaches to setting up users to send messages
- *
- * Note the use of *generators* and *yield* to wait for messages to be processed
- * by middleware before assertions test the success of responses. This is
- * achieved by requiring *mocha-co* in mocha.opts, but can also be done inline
- * with packages like *co*. Eventually async will be supported by standard js
- * and replace the need for these dependencies.
- *
- * [see the pretend module docs here]{@link '../../src/modules/pretend.js'}
- *
- * [see the script being tested here]{@link '../scripts/basic-reply.js'}
- */
 describe('Sending from users', function () {
   before(() => {
     pretend.read('test/scripts/basic-reply.js')
