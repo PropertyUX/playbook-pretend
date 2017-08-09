@@ -102,8 +102,6 @@ commit messages.
 
 ## TODO
 
-- publish github docs pages
-- npm publish full release (1.0.0)
 - generate coverage and write missing module tests
 - clean up jsDoc format for default export modules
 - convert mocha-co usage to babel async/await

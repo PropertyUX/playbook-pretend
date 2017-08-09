@@ -68,7 +68,7 @@
     "mocha-clean": "^1.0.0",
     "mocha-co": "^1.17.2",
     "rimraf": "^2.6.1",
-    "semantic-release": "^6.3.2",
+    "semantic-release": "^6.3.6",
     "standard": "^10.0.2",
     "validate-commit-msg": "^2.12.0"
   },
@@ -81,7 +81,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/propertyux/hubot-pretend"
+    "url": "https://github.com/PropertyUX/hubot-pretend"
   },
   "version": "1.0.0",
   "config": {
