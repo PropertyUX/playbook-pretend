@@ -17,12 +17,12 @@
     "postbuild": "npm run docs",
     "predocs": "rimraf md && rimraf docs && node assets/jsdoc2md.js",
     "docs": "npm run docs:readme && npm run docs:usage && npm run docs:api && npm run docs:source && npm run docs:scripts",
-    "docs:readme": "docco README.md --template assets/docco.jst --css assets/docco.css --output docs/docs",
+    "docs:readme": "docco README.md --template assets/docco.jst --css assets/docco.css --output docs",
     "docs:usage": "docco ./test/usage/*_test.js --template assets/docco.jst --css assets/docco.css --output docs/usage",
     "docs:api": "docco ./md/*/*/*.md --template assets/docco.jst --css assets/docco.css --output docs/api",
     "docs:source": "docco ./src/*/*.js --template assets/docco.jst --css assets/docco.css --output docs/source",
     "docs:scripts": "docco ./test/scripts/*.js --template assets/docco.jst --css assets/docco.css --output docs/scripts",
-    "postdocs" : "node -e \"require('fs').rename('./docs/docs/README.html','./docs/docs/index.html')\"",
+    "postdocs" : "node -e \"require('fs').rename('./docs/README.html','./docs/index.html')\"",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commitmsg": "validate-commit-msg",
     "precommit": "npm test",
@@ -81,7 +81,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/timkinnane/hubot-pretend"
+    "url": "https://github.com/propertyux/hubot-pretend"
   },
   "version": "0.1.0",
   "config": {

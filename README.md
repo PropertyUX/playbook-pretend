@@ -5,9 +5,9 @@ providing mock messaging and internal processes, with helpers to make shorthand
 assertions using mocha, chai and sinon.
 
 [![npm version](https://img.shields.io/npm/v/hubot-pretend.svg?style=flat)](https://www.npmjs.com/package/hubot-pretend)
-[![Build Status](https://travis-ci.org/timkinnane/hubot-pretend.svg?branch=master)](https://travis-ci.org/timkinnane/hubot-pretend)
-[![dependencies Status](https://david-dm.org/timkinnane/hubot-pretend/status.svg)](https://david-dm.org/timkinnane/hubot-pretend)
-[![devDependencies Status](https://david-dm.org/timkinnane/hubot-pretend/dev-status.svg)](https://david-dm.org/timkinnane/hubot-pretend?type=dev)
+[![Build Status](https://travis-ci.org/propertyux/hubot-pretend.svg?branch=master)](https://travis-ci.org/propertyux/hubot-pretend)
+[![dependencies Status](https://david-dm.org/propertyux/hubot-pretend/status.svg)](https://david-dm.org/propertyux/hubot-pretend)
+[![devDependencies Status](https://david-dm.org/propertyux/hubot-pretend/dev-status.svg)](https://david-dm.org/propertyux/hubot-pretend?type=dev)
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
@@ -26,7 +26,7 @@ or
 
 ## Usage examples
 
-### *[See the docs](https://timkinnane.github.io/hubot-pretend/usage/00-setup_test.html)* for specific usage examples
+### *[See the docs](https://propertyux.github.io/hubot-pretend/usage/00-setup_test.html)* for specific usage examples
 
 ## Quick Usage
 
@@ -66,7 +66,7 @@ describe('Hello World', function () {
 - `.shutdown` resets collections and runs shutdown on the robot
 
 This example shows a minimal dependency approach using the tests's `done`
-function on the promise `.then`. Other [examples in the docs](./test/usage/01-users_test.js)
+function on the promise `.then`. Other [examples in the docs](https://propertyux.github.io/hubot-pretend/usage/01-users_test.html)
 show how to improve the style of such tests using generators with _mocha-co_.
 
 ---
