@@ -178,17 +178,30 @@
    */</span>
   proxy (arrayToObserve) {
     <span class="hljs-keyword">let</span> observers = <span class="hljs-keyword">this</span>.observers
-    <span class="hljs-keyword">this</span>.observed = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(arrayToObserve, {
-      <span class="hljs-attr">set</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">target, property, value, receiver</span>) </span>{
+
+    arrayToObserve.push = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-built_in">Array</span>.prototype.push.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> arg <span class="hljs-keyword">of</span> <span class="hljs-built_in">arguments</span>) {
+        _.map(observers, (cb, id) =&gt; {
+          cb.call(<span class="hljs-keyword">this</span>, arg, _.clone(<span class="hljs-keyword">this</span>), id)
+        })
+      }
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+    <span class="hljs-keyword">this</span>.observed = arrayToObserve
+    <span class="hljs-comment">/*
+    this.observed = new Proxy(arrayToObserve, {
+      set: function (target, property, value, receiver) {
         target[property] = value
-        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Number</span>.isInteger(<span class="hljs-built_in">parseInt</span>(property))) {
+        if (Number.isInteger(parseInt(property))) {
           _.map(observers, (cb, id) =&gt; {
-            cb.call(<span class="hljs-keyword">this</span>, value, _.clone(target), id)
+            cb.call(this, value, _.clone(target), id)
           })
         }
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+        return true
       }
     })
+    */</span>
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.observed
   }
 

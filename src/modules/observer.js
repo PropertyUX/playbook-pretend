@@ -40,6 +40,18 @@ export default class {
    */
   proxy (arrayToObserve) {
     let observers = this.observers
+
+    arrayToObserve.push = function () {
+      Array.prototype.push.apply(this, arguments)
+      for (let arg of arguments) {
+        _.map(observers, (cb, id) => {
+          cb.call(this, arg, _.clone(this), id)
+        })
+      }
+      return true
+    }
+    this.observed = arrayToObserve
+    /*
     this.observed = new Proxy(arrayToObserve, {
       set: function (target, property, value, receiver) {
         target[property] = value
@@ -51,6 +63,7 @@ export default class {
         return true
       }
     })
+    */
     return this.observed
   }
 

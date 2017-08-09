@@ -91,7 +91,9 @@ just create an issue and start working on it if you've found something wrong.
 
 Use the NPM scripts to test and build any changes:
 - `npm run dev` (lint and test while you're working)
-- `npm run test` (lint, test, build, regenerate docs)
+- `npm run test` (lint, build, test, regenerate docs)
+
+NB: Full test includes usage with compiled JS from build (not tested in dev)
 
 Follow [standardsj](https://standardjs.com/) syntax to avoid bikeshedding.
 

@@ -393,7 +393,7 @@ reset()
  * @return {MockUser}            A new mock user
  */</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">user</span> (<span class="hljs-params">name, options = {}</span>) </span>{
-  <span class="hljs-keyword">if</span> (!_.keys(users).includes(name)) {
+  <span class="hljs-keyword">if</span> (!_(users).keys().includes(name)) {
     options.name = name
     <span class="hljs-keyword">let</span> user = <span class="hljs-keyword">new</span> User(options)
     user.send = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">message</span>) </span>{
@@ -420,7 +420,7 @@ reset()
  * @return {MockRoom}    A new room
  */</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">room</span> (<span class="hljs-params">name</span>) </span>{
-  <span class="hljs-keyword">if</span> (!_.keys(rooms).includes(name)) {
+  <span class="hljs-keyword">if</span> (!_(rooms).keys().includes(name)) {
     <span class="hljs-keyword">let</span> room = <span class="hljs-keyword">new</span> Room(name)
     room.messages = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">return</span> roomMessages(<span class="hljs-keyword">this</span>)

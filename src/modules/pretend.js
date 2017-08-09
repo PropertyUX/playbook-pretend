@@ -214,7 +214,7 @@ function roomLeave (room, user) {
  * @return {MockUser}            A new mock user
  */
 function user (name, options = {}) {
-  if (!_.keys(users).includes(name)) {
+  if (!_(users).keys().includes(name)) {
     options.name = name
     let user = new User(options)
     user.send = function (message) {
@@ -241,7 +241,7 @@ function user (name, options = {}) {
  * @return {MockRoom}    A new room
  */
 function room (name) {
-  if (!_.keys(rooms).includes(name)) {
+  if (!_(rooms).keys().includes(name)) {
     let room = new Room(name)
     room.messages = function () {
       return roomMessages(this)

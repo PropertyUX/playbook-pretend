@@ -4,17 +4,15 @@
   "main": "./lib/index.js",
   "scripts": {
     "standard": "standard 'src/**/*.js' 'test/**/*.js' | snazzy",
-    "predev": "npm run standard",
-    "dev": "mocha test --bail --watch",
-    "pretest": "npm run standard",
-    "test": "mocha test --bail",
+    "dev": "npm run standard && mocha test/mocks test/modules --bail --watch",
+    "prebuild": "rimraf lib",
+    "build": "babel src --source-maps --out-dir lib",
+    "pretest": "npm run build",
+    "test": "npm run standard && mocha test --bail",
     "posttest": "npm run integration",
     "preintegration": "rimraf ./integration/node_modules/hubot-pretend",
     "integration": "cd integration && npm i && npm test",
-    "postintegration": "npm run build",
-    "prebuild": "rimraf lib",
-    "build": "babel src --source-maps --out-dir lib",
-    "postbuild": "npm run docs",
+    "postintegration": "npm run docs",
     "predocs": "rimraf md && rimraf docs && node assets/jsdoc2md.js",
     "docs": "npm run docs:readme && npm run docs:usage && npm run docs:api && npm run docs:source && npm run docs:scripts",
     "docs:readme": "docco README.md --template assets/docco.jst --css assets/docco.css --output docs",
@@ -71,7 +69,7 @@
     "semantic-release": "^6.3.6",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2",
-    "validate-commit-msg": "^2.12.0"
+    "validate-commit-msg": "^2.14.0"
   },
   "standard": {
     "env": [
