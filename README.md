@@ -90,8 +90,10 @@ See the TODO list below for the roadmap of objectives if you'd like to help. Or
 just create an issue and start working on it if you've found something wrong.
 
 Use the NPM scripts to test and build any changes:
-- `npm run dev` (lint and test while you're working)
-- `npm run test` (lint, build, test, regenerate docs)
+- `npm run test` - lint and test current build
+- `npm run dev` - lint, compile and test development changes
+- `npm run dev:watch` - run dev scripts automatically on change
+- `npm run build` - lint, compile, test, regenerate docs
 
 NB: Full test includes usage with compiled JS from build (not tested in dev)
 

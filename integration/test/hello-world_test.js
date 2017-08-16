@@ -1,5 +1,5 @@
 const pretend = require('hubot-pretend')
-const { expect } = require('chai')
+const expect = require('chai').expect
 
 describe('Hello World (js)', function () {
   it('says hello back', function () {

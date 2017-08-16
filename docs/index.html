@@ -127,8 +127,10 @@ hubot projects.</p>
 just create an issue and start working on it if you’ve found something wrong.</p>
 <p>Use the NPM scripts to test and build any changes:</p>
 <ul>
-<li><code>npm run dev</code> (lint and test while you’re working)</li>
-<li><code>npm run test</code> (lint, build, test, regenerate docs)</li>
+<li><code>npm run test</code> - lint and test current build</li>
+<li><code>npm run dev</code> - lint, compile and test development changes</li>
+<li><code>npm run dev:watch</code> - run dev scripts automatically on change</li>
+<li><code>npm run build</code> - lint, compile, test, regenerate docs</li>
 </ul>
 <p>NB: Full test includes usage with compiled JS from build (not tested in dev)</p>
 <p>Follow <a href="https://standardjs.com/">standardsj</a> syntax to avoid bikeshedding.</p>
