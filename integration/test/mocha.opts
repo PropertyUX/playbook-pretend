@@ -1,5 +1,4 @@
---require source-map-support
---require babel-register
+--compilers coffee:coffee-script/register
 --reporter spec
 --recursive
 --bail

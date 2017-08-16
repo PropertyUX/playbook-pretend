@@ -32,25 +32,37 @@ export default class {
   }
 
   /**
-   * Proxy the array, call observers to when setting a value
-   * Callbacks are passed an array with 0: the value, 1: the current array state
-   * Applies only on setting an index (int), not propterties like length
+   * Proxy the array, call observers to when setting a value.
+   *
+   * Callbacks are passed an array with the value and the current array state.
+   *
+   * Applies only on push calls, not direct propterty sets.
+   *
    * @param  {array} arrayToObserve Array to observe
    * @return {array}                Observed (proxy) array
    */
   proxy (arrayToObserve) {
     let observers = this.observers
 
-    arrayToObserve.push = function () {
-      Array.prototype.push.apply(this, arguments)
-      for (let arg of arguments) {
-        _.map(observers, (cb, id) => {
-          cb.call(this, arg, _.clone(this), id)
-        })
+    class ObservedArray extends Array {
+      clone () {
+        return this.slice(0)
       }
-      return true
+      push () {
+        Array.prototype.push.apply(this, arguments)
+        for (let arg of arguments) {
+          _.map(observers, (cb, id) => {
+            cb.call(this, arg, this.clone(), id)
+          })
+        }
+        return true
+      }
     }
-    this.observed = arrayToObserve
+    let observed = new ObservedArray()
+    arrayToObserve.map((el, index) => {
+      observed[index] = el // copy over any existing values
+    })
+    this.observed = arrayToObserve = observed
     /*
     this.observed = new Proxy(arrayToObserve, {
       set: function (target, property, value, receiver) {

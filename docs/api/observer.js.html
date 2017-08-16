@@ -110,9 +110,9 @@
         <h2 id="functions">Functions</h2>
 <dl>
 <dt><a href="#proxy">proxy(arrayToObserve)</a> ⇒ <code>array</code></dt>
-<dd><p>Proxy the array, call observers to when setting a value
-Callbacks are passed an array with 0: the value, 1: the current array state
-Applies only on setting an index (int), not propterties like length</p>
+<dd><p>Proxy the array, call observers to when setting a value.</p>
+<p>Callbacks are passed an array with the value and the current array state.</p>
+<p>Applies only on push calls, not direct propterty sets.</p>
 </dd>
 <dt><a href="#get">get()</a> ⇒ <code>array</code></dt>
 <dd><p>Get the observed array</p>
@@ -142,9 +142,9 @@ Applies only on setting an index (int), not propterties like length</p>
 
 <p><a name="proxy"></a></p>
 <h2 id="proxy-arraytoobserve-code-array-code-">proxy(arrayToObserve) ⇒ <code>array</code></h2>
-<p>Proxy the array, call observers to when setting a value
-Callbacks are passed an array with 0: the value, 1: the current array state
-Applies only on setting an index (int), not propterties like length</p>
+<p>Proxy the array, call observers to when setting a value.</p>
+<p>Callbacks are passed an array with the value and the current array state.</p>
+<p>Applies only on push calls, not direct propterty sets.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>array</code> - Observed (proxy) array  </p>
 <table>
 <thead>

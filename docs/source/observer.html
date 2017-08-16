@@ -170,25 +170,37 @@
   }
 
   <span class="hljs-comment">/**
-   * Proxy the array, call observers to when setting a value
-   * Callbacks are passed an array with 0: the value, 1: the current array state
-   * Applies only on setting an index (int), not propterties like length
+   * Proxy the array, call observers to when setting a value.
+   *
+   * Callbacks are passed an array with the value and the current array state.
+   *
+   * Applies only on push calls, not direct propterty sets.
+   *
    * @param  {array} arrayToObserve Array to observe
    * @return {array}                Observed (proxy) array
    */</span>
   proxy (arrayToObserve) {
     <span class="hljs-keyword">let</span> observers = <span class="hljs-keyword">this</span>.observers
 
-    arrayToObserve.push = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-      <span class="hljs-built_in">Array</span>.prototype.push.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> arg <span class="hljs-keyword">of</span> <span class="hljs-built_in">arguments</span>) {
-        _.map(observers, (cb, id) =&gt; {
-          cb.call(<span class="hljs-keyword">this</span>, arg, _.clone(<span class="hljs-keyword">this</span>), id)
-        })
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObservedArray</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Array</span> </span>{
+      clone () {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.slice(<span class="hljs-number">0</span>)
       }
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+      push () {
+        <span class="hljs-built_in">Array</span>.prototype.push.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> arg <span class="hljs-keyword">of</span> <span class="hljs-built_in">arguments</span>) {
+          _.map(observers, (cb, id) =&gt; {
+            cb.call(<span class="hljs-keyword">this</span>, arg, <span class="hljs-keyword">this</span>.clone(), id)
+          })
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+      }
     }
-    <span class="hljs-keyword">this</span>.observed = arrayToObserve
+    <span class="hljs-keyword">let</span> observed = <span class="hljs-keyword">new</span> ObservedArray()
+    arrayToObserve.map(<span class="hljs-function">(<span class="hljs-params">el, index</span>) =&gt;</span> {
+      observed[index] = el <span class="hljs-comment">// copy over any existing values</span>
+    })
+    <span class="hljs-keyword">this</span>.observed = arrayToObserve = observed
     <span class="hljs-comment">/*
     this.observed = new Proxy(arrayToObserve, {
       set: function (target, property, value, receiver) {

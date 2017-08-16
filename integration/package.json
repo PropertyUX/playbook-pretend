@@ -7,9 +7,10 @@
     "pretest": "npm install",
     "test": "mocha test"
   },
-  "dependencies": {
+  "devDependencies": {
     "hubot-pretend": "file:../",
     "chai": "latest",
-    "mocha": "latest"
+    "mocha": "latest",
+    "coffee-script": "latest"
   }
 }
