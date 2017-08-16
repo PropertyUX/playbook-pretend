@@ -114,6 +114,9 @@ show how to improve the style of such tests using generators with <em>mocha-co</
       
         
         <h2 id="important-notes">Important Notes</h2>
+<p>Currently has trouble installing in node v8, I think because of incompatibility
+with dependencies for node v4. Needs more testing and possibly prune some less
+important deps. For now node v8 is being removed from Travis supported versions.</p>
 <p>Script paths are resolved from the package root, <em>not</em> relative to tests.</p>
 <p>Currently, Pretend uses a custom fork of hubot that adds promises to middleware,
 to allow async tests. It can test your hubot scripts, but it won’t use your own
@@ -144,6 +147,7 @@ commit messages.</p>
         
         <h2 id="todo">TODO</h2>
 <ul>
+<li>fix dependency incompatibility between node 4 and 8</li>
 <li>generate coverage and write missing module tests</li>
 <li>clean up jsDoc format for default export modules</li>
 <li>convert mocha-co usage to babel async/await</li>

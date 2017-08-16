@@ -73,6 +73,10 @@ show how to improve the style of such tests using generators with _mocha-co_.
 
 ## Important Notes
 
+Currently has trouble installing in node v8, I think because of incompatibility
+with dependencies for node v4. Needs more testing and possibly prune some less
+important deps. For now node v8 is being removed from Travis supported versions.
+
 Script paths are resolved from the package root, *not* relative to tests.
 
 Currently, Pretend uses a custom fork of hubot that adds promises to middleware,
@@ -108,6 +112,7 @@ commit messages.
 
 ## TODO
 
+- fix dependency incompatibility between node 4 and 8
 - generate coverage and write missing module tests
 - clean up jsDoc format for default export modules
 - convert mocha-co usage to babel async/await
