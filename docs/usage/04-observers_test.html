@@ -219,7 +219,7 @@ describe(<span class="hljs-string">'Observering messages'</span>, () =&gt; {
       <span class="hljs-keyword">let</span> tester = pretend.user(<span class="hljs-string">'tester'</span>)
       <span class="hljs-keyword">let</span> targetMessage = [<span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@tester I got you!'</span>]
       <span class="hljs-keyword">let</span> promise = pretend.observer.find(targetMessage, <span class="hljs-number">60</span>).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
-        result.state.length.should.be.gt(<span class="hljs-number">3</span>).and.lt(<span class="hljs-number">60</span>)
+        result.state.length.should.be.gt(<span class="hljs-number">3</span>).and.lt(<span class="hljs-number">63</span>)
         result.value.should.eql(targetMessage)
         clearInterval(intervalId)
         done()

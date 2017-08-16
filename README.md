@@ -95,6 +95,8 @@ Use the NPM scripts to test and build any changes:
 - `npm run dev:watch` - run dev scripts automatically on change
 - `npm run build` - lint, compile, test, regenerate docs
 
+NB: Before publishing, build from Node v4 to ensure babel compatibility
+
 NB: Full test includes usage with compiled JS from build (not tested in dev)
 
 Follow [standardsj](https://standardjs.com/) syntax to avoid bikeshedding.

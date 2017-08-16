@@ -56,7 +56,7 @@ describe('Observering messages', () => {
       let tester = pretend.user('tester')
       let targetMessage = ['hubot', '@tester I got you!']
       let promise = pretend.observer.find(targetMessage, 60).then((result) => {
-        result.state.length.should.be.gt(3).and.lt(60)
+        result.state.length.should.be.gt(3).and.lt(63)
         result.value.should.eql(targetMessage)
         clearInterval(intervalId)
         done()
