@@ -12,9 +12,12 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 import chaiPromise from 'chai-as-promised'
 import chaiSubset from 'chai-subset'
 chai.should()
+chai.use(sinonChai)
 chai.use(chaiPromise)
 chai.use(chaiSubset)
 
@@ -30,6 +33,19 @@ describe('Middleware and Responses', () => {
   })
   afterEach(() => {
     pretend.shutdown()
+  })
+  context('user sending an unmatched message', () => {
+    it('emits the receive event with context and response', (done) => {
+      let receive = new Promise(resolve => pretend.robot.on('receive', resolve))
+      receive.should.eventually.have.property('response').notify(done)
+      pretend.user('alice').send('hubot hi')
+    })
+    it('does not emit listen event because nothing matched', function * () {
+      let listenSpy = sinon.spy()
+      pretend.robot.on('listen', listenSpy)
+      yield pretend.user('alice').send('hubot do nothing')
+      listenSpy.should.not.have.calledOnce // eslint-disable-line
+    })
   })
   context('user sending a matched message', () => {
     it('emits the receive event with context and response', (done) => {

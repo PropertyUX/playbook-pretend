@@ -3,6 +3,7 @@ import { TextMessage, User } from 'hubot-async/es2015'
 import MockLog from '../../src/mocks/log'
 import path from 'path'
 import chai from 'chai'
+import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 chai.use(sinonChai)
 chai.should()
@@ -47,6 +48,23 @@ describe('Robot', function () {
       robot.hear(/.*/, (res) => res.reply('hello there'))
       yield robot.receive(message)
       robot.responses.outgoing[0].message.should.eql(message)
+    })
+    it('processes any further middleware as normmal', function * () {
+      let user = new User(111, {name: 'tester'})
+      let message = new TextMessage(user, 'testing', 999)
+      let middlewareSpy = sinon.spy()
+      robot.responseMiddleware((context, next, done) => {
+        middlewareSpy(context)
+        next()
+      })
+      robot.hear(/.*/, (res) => res.reply('hello there'))
+      yield robot.receive(message)
+      middlewareSpy.lastCall.should.have.calledWith({
+        'response': robot.responses.outgoing[0],
+        'strings': ['hello there'],
+        'method': 'reply',
+        'plaintext': true
+      })
     })
   })
   describe('.loadFile', () => {

@@ -37,15 +37,15 @@ export default class extends Robot {
     // allow tests to listen in on middleware stacks and record context response
     // BUG: because it prepends a middleware piece, it could throw off some tests expecting a given number in the stack
     // TODO: extend Middleware to listen on each piece's context, without adding a middleware
-    this.middleware.listener.register((context, next, done) => {
-      this.emit('listen', context)
+    this.middleware.receive.register((context, next, done) => {
+      this.emit('receive', context)
       return next()
     })
-    this.middleware.receive.register((context, next, done) => {
+    this.middleware.listener.register((context, next, done) => {
       if (!(context.response.message instanceof CatchAllMessage)) {
         this.responses.incoming.push(context.response)
       }
-      this.emit('receive', context)
+      this.emit('listen', context)
       return next()
     })
     this.middleware.response.register((context, next, done) => {

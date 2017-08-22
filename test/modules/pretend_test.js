@@ -202,4 +202,17 @@ describe('Pretend', function () {
       })
     })
   })
+  describe('lastIncoming', () => {
+    it('returns null if no matching listens', function * () {
+      pretend.start()
+      yield pretend.user('tester').send('hello there')
+      should.equal(pretend.lastIncoming(), undefined)
+    })
+    it('returns last res if matching listens', function * () {
+      pretend.start()
+      pretend.robot.hear(/.*/, () => {})
+      yield pretend.user('tester').send('hello there')
+      should.equal(pretend.lastIncoming(), pretend.responses.incoming[0])
+    })
+  })
 })

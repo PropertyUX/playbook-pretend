@@ -176,9 +176,12 @@ response objects are being produced and processed correclty.</p>
             <div class='highlight'><pre>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
+<span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon'</span>
+<span class="hljs-keyword">import</span> sinonChai <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon-chai'</span>
 <span class="hljs-keyword">import</span> chaiPromise <span class="hljs-keyword">from</span> <span class="hljs-string">'chai-as-promised'</span>
 <span class="hljs-keyword">import</span> chaiSubset <span class="hljs-keyword">from</span> <span class="hljs-string">'chai-subset'</span>
 chai.should()
+chai.use(sinonChai)
 chai.use(chaiPromise)
 chai.use(chaiSubset)
 
@@ -194,6 +197,19 @@ describe(<span class="hljs-string">'Middleware and Responses'</span>, () =&gt; {
   })
   afterEach(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
     pretend.shutdown()
+  })
+  context(<span class="hljs-string">'user sending an unmatched message'</span>, () =&gt; {
+    it(<span class="hljs-string">'emits the receive event with context and response'</span>, (done) =&gt; {
+      <span class="hljs-keyword">let</span> receive = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> pretend.robot.on(<span class="hljs-string">'receive'</span>, resolve))
+      receive.should.eventually.have.property(<span class="hljs-string">'response'</span>).notify(done)
+      pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot hi'</span>)
+    })
+    it(<span class="hljs-string">'does not emit listen event because nothing matched'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">let</span> listenSpy = sinon.spy()
+      pretend.robot.on(<span class="hljs-string">'listen'</span>, listenSpy)
+      <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot do nothing'</span>)
+      listenSpy.should.not.have.calledOnce <span class="hljs-comment">// eslint-disable-line</span>
+    })
   })
   context(<span class="hljs-string">'user sending a matched message'</span>, () =&gt; {
     it(<span class="hljs-string">'emits the receive event with context and response'</span>, (done) =&gt; {

@@ -184,15 +184,15 @@ BUG: because it prepends a middleware piece, it could throw off some tests expec
 TODO: extend Middleware to listen on each piece’s context, without adding a middleware</p>
 
         
-          <div class='highlight'><pre>    <span class="hljs-keyword">this</span>.middleware.listener.register(<span class="hljs-function">(<span class="hljs-params">context, next, done</span>) =&gt;</span> {
-      <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'listen'</span>, context)
+          <div class='highlight'><pre>    <span class="hljs-keyword">this</span>.middleware.receive.register(<span class="hljs-function">(<span class="hljs-params">context, next, done</span>) =&gt;</span> {
+      <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'receive'</span>, context)
       <span class="hljs-keyword">return</span> next()
     })
-    <span class="hljs-keyword">this</span>.middleware.receive.register(<span class="hljs-function">(<span class="hljs-params">context, next, done</span>) =&gt;</span> {
+    <span class="hljs-keyword">this</span>.middleware.listener.register(<span class="hljs-function">(<span class="hljs-params">context, next, done</span>) =&gt;</span> {
       <span class="hljs-keyword">if</span> (!(context.response.message <span class="hljs-keyword">instanceof</span> CatchAllMessage)) {
         <span class="hljs-keyword">this</span>.responses.incoming.push(context.response)
       }
-      <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'receive'</span>, context)
+      <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'listen'</span>, context)
       <span class="hljs-keyword">return</span> next()
     })
     <span class="hljs-keyword">this</span>.middleware.response.register(<span class="hljs-function">(<span class="hljs-params">context, next, done</span>) =&gt;</span> {
