@@ -66,8 +66,10 @@ describe('Hello World', function () {
 - `.shutdown` resets collections and runs shutdown on the robot
 
 This example shows a minimal dependency approach using the tests's `done`
-function on the promise `.then`. Other [examples in the docs](https://PropertyUX.github.io/hubot-pretend/usage/01-users_test.html)
-show how to improve the style of such tests using generators with _mocha-co_.
+function on the promise `.then`.
+
+Other [examples in the docs](https://PropertyUX.github.io/hubot-pretend/usage/01-users_test.html)
+show how to improve the style of such tests using generators with _co_.
 
 ---
 
@@ -115,7 +117,7 @@ commit messages.
 - fix dependency incompatibility between node 4 and 8
 - generate coverage and write missing module tests
 - clean up jsDoc format for default export modules
-- convert mocha-co usage to babel async/await
+- convert co usage to babel async/await
 - convert room/user messages to property getter
 - link back to docs for HTH #32, #37, #38
 - helper methods to test hubot brain - HTH #31

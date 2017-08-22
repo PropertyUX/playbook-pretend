@@ -11,6 +11,7 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import co from 'co'
 chai.should()
 
 describe('Private messages', () => {
@@ -27,15 +28,15 @@ describe('Private messages', () => {
     pretend.shutdown()
   })
   context('requested from hubot', () => {
-    it('does not post to the originating room', function * () {
+    it('does not post to the originating room', () => co(function * () {
       yield pretend.user('alice').send('hubot tell me a secret')
       pretend.messages.should.eql([
         ['alice', 'hubot tell me a secret']
       ])
-    })
-    it('private messages user', function * () {
+    }))
+    it('private messages user', () => co(function * () {
       yield pretend.user('alice').send('hubot tell me a secret')
       pretend.user('alice').privates().should.eql(['whisper whisper whisper'])
-    })
+    }))
   })
 })

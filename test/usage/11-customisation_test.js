@@ -7,6 +7,7 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import co from 'co'
 chai.should()
 
 describe('Custom response objects', () => {
@@ -17,12 +18,12 @@ describe('Custom response objects', () => {
     pretend.clear()
   })
   context('when user asks for a random number', () => {
-    it('replies to user with a random number', function * () {
+    it('replies to user with a random number', () => co(function * () {
       pretend.start()
       yield pretend.user('cecil').send('hubot give me a random number')
       let random = pretend.messages.pop().pop()
       parseInt(random).should.be.gt(0).and.lt(5)
       pretend.shutdown()
-    })
+    }))
   })
 })

@@ -175,6 +175,7 @@ The third example uses the user.in method to set their room on the fly.</p>
             <div class='highlight'><pre>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 
 describe(<span class="hljs-string">'Entering and leaving a room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -188,7 +189,7 @@ describe(<span class="hljs-string">'Entering and leaving a room'</span>, <span c
     pretend.shutdown()
   })
   context(<span class="hljs-string">'triggered from room, given user'</span>, () =&gt; {
-    it(<span class="hljs-string">'greets and farewells the user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'greets and farewells the user'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start({ <span class="hljs-attr">rooms</span>: [<span class="hljs-string">'hub'</span>] })
       <span class="hljs-keyword">yield</span> pretend.rooms.hub.enter(pretend.user(<span class="hljs-string">'Toshi'</span>))
       <span class="hljs-keyword">yield</span> pretend.rooms.hub.leave(pretend.user(<span class="hljs-string">'Toshi'</span>))
@@ -196,10 +197,10 @@ describe(<span class="hljs-string">'Entering and leaving a room'</span>, <span c
         [<span class="hljs-string">'hub'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'Hi Toshi!'</span>],
         [<span class="hljs-string">'hub'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'Bye Toshi!'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'triggered from user, with set room'</span>, () =&gt; {
-    it(<span class="hljs-string">'greets and farewells the user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'greets and farewells the user'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start({ <span class="hljs-attr">users</span>: [<span class="hljs-string">'Toshi'</span>] })
       pretend.users.Toshi.room = <span class="hljs-string">'hub'</span>
       <span class="hljs-keyword">yield</span> pretend.users.Toshi.enter()
@@ -208,10 +209,10 @@ describe(<span class="hljs-string">'Entering and leaving a room'</span>, <span c
         [<span class="hljs-string">'hub'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'Hi Toshi!'</span>],
         [<span class="hljs-string">'hub'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'Bye Toshi!'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'triggered from user, with dynamic user/room'</span>, () =&gt; {
-    it(<span class="hljs-string">'greets and farewells the user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'greets and farewells the user'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start()
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'Toshi'</span>).in(<span class="hljs-string">'hub'</span>).enter()
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'Toshi'</span>).in(<span class="hljs-string">'pub'</span>).leave()
@@ -219,7 +220,7 @@ describe(<span class="hljs-string">'Entering and leaving a room'</span>, <span c
         [<span class="hljs-string">'hub'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'Hi Toshi!'</span>],
         [<span class="hljs-string">'pub'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'Bye Toshi!'</span>]
       ])
-    })
+    }))
   })
 })</pre></div>
           

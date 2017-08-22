@@ -16,6 +16,7 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import co from 'co'
 chai.should()
 
 describe('Receiving in rooms', function () {
@@ -29,7 +30,7 @@ describe('Receiving in rooms', function () {
     pretend.shutdown()
   })
   context('from users with room option set', () => {
-    it('replies to user in the right room', function * () {
+    it('replies to user in the right room', () => co(function * () {
       pretend.start()
       let alice = pretend.user('alice', { room: 'dining' })
       let bob = pretend.user('bob', { room: 'kitchen' })
@@ -41,10 +42,10 @@ describe('Receiving in rooms', function () {
         ['kitchen', 'bob', '@hubot hi'],
         ['kitchen', 'hubot', '@bob hi']
       ])
-    })
+    }))
   })
   context('from user cloned into room as required)', () => {
-    it('replies to user in the right room', function * () {
+    it('replies to user in the right room', () => co(function * () {
       pretend.start()
       let alice = pretend.user('alice', { room: 'dining' })
       yield alice.send('@hubot hi')
@@ -55,10 +56,10 @@ describe('Receiving in rooms', function () {
         ['kitchen', 'alice', '@hubot hi'],
         ['kitchen', 'hubot', '@alice hi']
       ])
-    })
+    }))
   })
   context('from room setup to accept users)', () => {
-    it('replies to user in the right room', function * () {
+    it('replies to user in the right room', () => co(function * () {
       pretend.start({ users: ['alice', 'bob'] })
       let kitchen = pretend.room('kitchen')
       yield kitchen.receive(pretend.users.alice, '@hubot hi')
@@ -69,10 +70,10 @@ describe('Receiving in rooms', function () {
         ['kitchen', 'bob', '@hubot hi'],
         ['kitchen', 'hubot', '@bob hi']
       ])
-    })
+    }))
   })
   context('from users and rooms as collection properties', () => {
-    it('replies to user in the right room', function * () {
+    it('replies to user in the right room', () => co(function * () {
       pretend.start({
         users: ['alice', 'bob'],
         rooms: ['kitchen', 'dining']
@@ -85,10 +86,10 @@ describe('Receiving in rooms', function () {
         ['kitchen', 'bob', '@hubot hi'],
         ['kitchen', 'hubot', '@bob hi']
       ])
-    })
+    }))
   })
   context('with filtered results for specific room', () => {
-    it('returns only messages for the right room', function * () {
+    it('returns only messages for the right room', () => co(function * () {
       pretend.start({ users: ['bob'] })
       let garage = pretend.room('garage')
       let basement = pretend.room('basement')
@@ -98,6 +99,6 @@ describe('Receiving in rooms', function () {
         ['bob', '@hubot hi'],
         ['hubot', '@bob hi']
       ])
-    })
+    }))
   })
 })

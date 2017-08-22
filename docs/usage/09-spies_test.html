@@ -178,6 +178,7 @@ helpful for complex scripts that do more than send messages.</p>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
 <span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon'</span>
 <span class="hljs-keyword">import</span> sinonChai <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon-chai'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 chai.use(sinonChai)
 
@@ -205,11 +206,11 @@ describe(<span class="hljs-string">'Method spies'</span>, () =&gt; {
     })
   })
   context(<span class="hljs-string">'on robot processing listeners'</span>, () =&gt; {
-    it(<span class="hljs-string">'received both messages'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'received both messages'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot hi'</span>)
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'bob'</span>).send(<span class="hljs-string">'hubot hi'</span>)
       pretend.robot.receive.should.have.calledTwice <span class="hljs-comment">// eslint-disable-line</span>
-    })
+    }))
   })
 })</pre></div>
           

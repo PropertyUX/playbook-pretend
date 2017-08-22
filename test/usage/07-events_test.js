@@ -9,6 +9,7 @@
 import pretend from '../../lib'
 import chai from 'chai'
 import chaiPromise from 'chai-as-promised'
+import co from 'co'
 chai.should()
 chai.use(chaiPromise)
 
@@ -29,12 +30,12 @@ describe('Testing events', () => {
     })
   })
   context('hubot emits event on listener match', () => {
-    it('triggers an event', function * () {
+    it('triggers an event', () => co(function * () {
       pretend.startup()
       yield pretend.user('bob').send('hubot send event')
       pretend.events.slice(-1).pop().should.eql([
         'response-event', [ 'hello there' ]
       ])
-    })
+    }))
   })
 })

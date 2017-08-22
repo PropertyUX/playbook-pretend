@@ -440,19 +440,27 @@ reset()
 }
 
 <span class="hljs-comment">/**
+ * Helper, retrieves the latest res before listens matched or not
+ * @return {Response} A Hubot Response object
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lastReceive</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> robot.responses.receive.slice(<span class="hljs-number">-1</span>).pop()
+}
+
+<span class="hljs-comment">/**
  * Helper, retrieves the latest res from user matching a listener
  * @return {Response} A Hubot Response object
  */</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lastIncoming</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> robot.responses.incoming.slice(<span class="hljs-number">-1</span>).pop()
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lastListen</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> robot.responses.listen.slice(<span class="hljs-number">-1</span>).pop()
 }
 
 <span class="hljs-comment">/**
  * Helper, retrieves the latest res from a hubot sent response
  * @return {Response} A Hubot Response object
  */</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lastOutgoing</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> robot.responses.outgoing.slice(<span class="hljs-number">-1</span>).pop()
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lastRespond</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> robot.responses.respond.slice(<span class="hljs-number">-1</span>).pop()
 }</pre></div>
         
       
@@ -469,8 +477,9 @@ reset()
   <span class="hljs-attr">shutdown</span>: shutdown,
   <span class="hljs-attr">user</span>: user,
   <span class="hljs-attr">room</span>: room,
-  <span class="hljs-attr">lastIncoming</span>: lastIncoming,
-  <span class="hljs-attr">lastOutgoing</span>: lastOutgoing,
+  <span class="hljs-attr">lastReceive</span>: lastReceive,
+  <span class="hljs-attr">lastListen</span>: lastListen,
+  <span class="hljs-attr">lastRespond</span>: lastRespond,
   get users () { <span class="hljs-keyword">return</span> users },
   get rooms () { <span class="hljs-keyword">return</span> rooms },
   get scripts () { <span class="hljs-keyword">return</span> scripts },

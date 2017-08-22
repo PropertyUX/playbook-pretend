@@ -1,6 +1,7 @@
 import Robot from '../../src/modules/robot'
 import { TextMessage, User } from 'hubot-async/es2015'
 import MockLog from '../../src/mocks/log'
+import co from 'co'
 import path from 'path'
 import chai from 'chai'
 import sinon from 'sinon'
@@ -9,8 +10,8 @@ chai.use(sinonChai)
 chai.should()
 
 /**
- * Some tests below require mocha-co to process generator functions
- * Generators (unlike arrow functions) set block scope so we inherit robot
+ * Some tests below use generators that (unlike arrow functions) set block
+ * scope, so we `let` that here to allow inheriting in each function's scope.
  * @type {Object}
  */
 let robot
@@ -35,21 +36,27 @@ describe('Robot', function () {
     })
   })
   describe('middleware', () => {
-    it('stores incoming (matched) responses', function * () {
+    it('stores received responses', () => co(function * () {
+      let user = new User(111, {name: 'tester'})
+      let message = new TextMessage(user, 'testing', 999)
+      yield robot.receive(message)
+      robot.responses.receive[0].message.should.eql(message)
+    }))
+    it('stores listen (matched) responses', () => co(function * () {
       let user = new User(111, {name: 'tester'})
       let message = new TextMessage(user, 'testing', 999)
       robot.hear(/.*/, () => {})
       yield robot.receive(message)
-      robot.responses.incoming[0].message.should.eql(message)
-    })
-    it('stores outgoing (sent) responses', function * () {
+      robot.responses.listen[0].message.should.eql(message)
+    }))
+    it('stores respond (sent) responses', () => co(function * () {
       let user = new User(111, {name: 'tester'})
       let message = new TextMessage(user, 'testing', 999)
       robot.hear(/.*/, (res) => res.reply('hello there'))
       yield robot.receive(message)
-      robot.responses.outgoing[0].message.should.eql(message)
-    })
-    it('processes any further middleware as normmal', function * () {
+      robot.responses.respond[0].message.should.eql(message)
+    }))
+    it('processes any further middleware as normmal', () => co(function * () {
       let user = new User(111, {name: 'tester'})
       let message = new TextMessage(user, 'testing', 999)
       let middlewareSpy = sinon.spy()
@@ -60,12 +67,12 @@ describe('Robot', function () {
       robot.hear(/.*/, (res) => res.reply('hello there'))
       yield robot.receive(message)
       middlewareSpy.lastCall.should.have.calledWith({
-        'response': robot.responses.outgoing[0],
+        'response': robot.responses.respond[0],
         'strings': ['hello there'],
         'method': 'reply',
         'plaintext': true
       })
-    })
+    }))
   })
   describe('.loadFile', () => {
     it('stores the file reference', () => {

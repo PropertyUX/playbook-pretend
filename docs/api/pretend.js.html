@@ -159,10 +159,13 @@ Extend with methods routing to pretend helpers with this user provided</p>
 <dd><p>Create or get existing room, for entering/leaving and receiving messages
 Extend with methods routing to pretend helpers with this room provided</p>
 </dd>
-<dt><a href="#lastIncoming">lastIncoming()</a> ⇒ <code>Response</code></dt>
+<dt><a href="#lastReceive">lastReceive()</a> ⇒ <code>Response</code></dt>
+<dd><p>Helper, retrieves the latest res before listens matched or not</p>
+</dd>
+<dt><a href="#lastListen">lastListen()</a> ⇒ <code>Response</code></dt>
 <dd><p>Helper, retrieves the latest res from user matching a listener</p>
 </dd>
-<dt><a href="#lastOutgoing">lastOutgoing()</a> ⇒ <code>Response</code></dt>
+<dt><a href="#lastRespond">lastRespond()</a> ⇒ <code>Response</code></dt>
 <dd><p>Helper, retrieves the latest res from a hubot sent response</p>
 </dd>
 </dl>
@@ -470,11 +473,14 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </tr>
 </tbody>
 </table>
-<p><a name="lastIncoming"></a></p>
-<h2 id="lastincoming-code-response-code-">lastIncoming() ⇒ <code>Response</code></h2>
+<p><a name="lastReceive"></a></p>
+<h2 id="lastreceive-code-response-code-">lastReceive() ⇒ <code>Response</code></h2>
+<p>Helper, retrieves the latest res before listens matched or not</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object<br><a name="lastListen"></a></p>
+<h2 id="lastlisten-code-response-code-">lastListen() ⇒ <code>Response</code></h2>
 <p>Helper, retrieves the latest res from user matching a listener</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object<br><a name="lastOutgoing"></a></p>
-<h2 id="lastoutgoing-code-response-code-">lastOutgoing() ⇒ <code>Response</code></h2>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object<br><a name="lastRespond"></a></p>
+<h2 id="lastrespond-code-response-code-">lastRespond() ⇒ <code>Response</code></h2>
 <p>Helper, retrieves the latest res from a hubot sent response</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object  </p>
 

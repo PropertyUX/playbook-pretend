@@ -10,6 +10,7 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import co from 'co'
 chai.should()
 
 describe('Testing logs', () => {
@@ -26,7 +27,7 @@ describe('Testing logs', () => {
     pretend.shutdown()
   })
   context('user triggers log events', () => {
-    it('can read from internal array', function * () {
+    it('can read from internal array', () => co(function * () {
       let latestLogs = []
       pretend.log.level = 'silent'
       yield pretend.user('bob').send('hubot debug')
@@ -43,7 +44,7 @@ describe('Testing logs', () => {
         ['warning', 'log warning test'],
         ['error', 'log error test']
       ])
-    })
+    }))
   })
   context('robot loading writes standard logs', () => {
     it('can assert on errors or warnings', () => {

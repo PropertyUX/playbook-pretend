@@ -178,6 +178,7 @@ received (if there was a room defined).</p>
             <div class='highlight'><pre>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 
 describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -191,7 +192,7 @@ describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hlj
     pretend.shutdown()
   })
   context(<span class="hljs-string">'from users with room option set'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to user in the right room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to user in the right room'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start()
       <span class="hljs-keyword">let</span> alice = pretend.user(<span class="hljs-string">'alice'</span>, { <span class="hljs-attr">room</span>: <span class="hljs-string">'dining'</span> })
       <span class="hljs-keyword">let</span> bob = pretend.user(<span class="hljs-string">'bob'</span>, { <span class="hljs-attr">room</span>: <span class="hljs-string">'kitchen'</span> })
@@ -203,10 +204,10 @@ describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hlj
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'bob'</span>, <span class="hljs-string">'@hubot hi'</span>],
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'from user cloned into room as required)'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to user in the right room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to user in the right room'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start()
       <span class="hljs-keyword">let</span> alice = pretend.user(<span class="hljs-string">'alice'</span>, { <span class="hljs-attr">room</span>: <span class="hljs-string">'dining'</span> })
       <span class="hljs-keyword">yield</span> alice.send(<span class="hljs-string">'@hubot hi'</span>)
@@ -217,10 +218,10 @@ describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hlj
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'alice'</span>, <span class="hljs-string">'@hubot hi'</span>],
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@alice hi'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'from room setup to accept users)'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to user in the right room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to user in the right room'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start({ <span class="hljs-attr">users</span>: [<span class="hljs-string">'alice'</span>, <span class="hljs-string">'bob'</span>] })
       <span class="hljs-keyword">let</span> kitchen = pretend.room(<span class="hljs-string">'kitchen'</span>)
       <span class="hljs-keyword">yield</span> kitchen.receive(pretend.users.alice, <span class="hljs-string">'@hubot hi'</span>)
@@ -231,10 +232,10 @@ describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hlj
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'bob'</span>, <span class="hljs-string">'@hubot hi'</span>],
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'from users and rooms as collection properties'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to user in the right room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to user in the right room'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start({
         <span class="hljs-attr">users</span>: [<span class="hljs-string">'alice'</span>, <span class="hljs-string">'bob'</span>],
         <span class="hljs-attr">rooms</span>: [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'dining'</span>]
@@ -247,10 +248,10 @@ describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hlj
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'bob'</span>, <span class="hljs-string">'@hubot hi'</span>],
         [<span class="hljs-string">'kitchen'</span>, <span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'with filtered results for specific room'</span>, () =&gt; {
-    it(<span class="hljs-string">'returns only messages for the right room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'returns only messages for the right room'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start({ <span class="hljs-attr">users</span>: [<span class="hljs-string">'bob'</span>] })
       <span class="hljs-keyword">let</span> garage = pretend.room(<span class="hljs-string">'garage'</span>)
       <span class="hljs-keyword">let</span> basement = pretend.room(<span class="hljs-string">'basement'</span>)
@@ -260,7 +261,7 @@ describe(<span class="hljs-string">'Receiving in rooms'</span>, <span class="hlj
         [<span class="hljs-string">'bob'</span>, <span class="hljs-string">'@hubot hi'</span>],
         [<span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
 })</pre></div>
           

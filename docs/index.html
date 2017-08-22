@@ -106,8 +106,9 @@ done()
 <li><code>.shutdown</code> resets collections and runs shutdown on the robot</li>
 </ul>
 <p>This example shows a minimal dependency approach using the tests’s <code>done</code>
-function on the promise <code>.then</code>. Other <a href="https://PropertyUX.github.io/hubot-pretend/usage/01-users_test.html">examples in the docs</a>
-show how to improve the style of such tests using generators with <em>mocha-co</em>.</p>
+function on the promise <code>.then</code>.</p>
+<p>Other <a href="https://PropertyUX.github.io/hubot-pretend/usage/01-users_test.html">examples in the docs</a>
+show how to improve the style of such tests using generators with <em>co</em>.</p>
 <hr>
 
         
@@ -150,7 +151,7 @@ commit messages.</p>
 <li>fix dependency incompatibility between node 4 and 8</li>
 <li>generate coverage and write missing module tests</li>
 <li>clean up jsDoc format for default export modules</li>
-<li>convert mocha-co usage to babel async/await</li>
+<li>convert co usage to babel async/await</li>
 <li>convert room/user messages to property getter</li>
 <li>link back to docs for HTH #32, #37, #38</li>
 <li>helper methods to test hubot brain - HTH #31</li>

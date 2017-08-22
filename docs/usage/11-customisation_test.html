@@ -172,6 +172,7 @@ no new features shown here, just another use case demonstration.</p>
             <div class='highlight'><pre>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 
 describe(<span class="hljs-string">'Custom response objects'</span>, () =&gt; {
@@ -182,13 +183,13 @@ describe(<span class="hljs-string">'Custom response objects'</span>, () =&gt; {
     pretend.clear()
   })
   context(<span class="hljs-string">'when user asks for a random number'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to user with a random number'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to user with a random number'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start()
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'cecil'</span>).send(<span class="hljs-string">'hubot give me a random number'</span>)
       <span class="hljs-keyword">let</span> random = pretend.messages.pop().pop()
       <span class="hljs-built_in">parseInt</span>(random).should.be.gt(<span class="hljs-number">0</span>).and.lt(<span class="hljs-number">5</span>)
       pretend.shutdown()
-    })
+    }))
   })
 })</pre></div>
           

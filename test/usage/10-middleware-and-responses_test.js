@@ -16,6 +16,7 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import chaiPromise from 'chai-as-promised'
 import chaiSubset from 'chai-subset'
+import co from 'co'
 chai.should()
 chai.use(sinonChai)
 chai.use(chaiPromise)
@@ -40,12 +41,12 @@ describe('Middleware and Responses', () => {
       receive.should.eventually.have.property('response').notify(done)
       pretend.user('alice').send('hubot hi')
     })
-    it('does not emit listen event because nothing matched', function * () {
+    it('does not emit listen event because nothing matched', () => co(function * () {
       let listenSpy = sinon.spy()
       pretend.robot.on('listen', listenSpy)
       yield pretend.user('alice').send('hubot do nothing')
       listenSpy.should.not.have.calledOnce // eslint-disable-line
-    })
+    }))
   })
   context('user sending a matched message', () => {
     it('emits the receive event with context and response', (done) => {
@@ -69,25 +70,34 @@ describe('Middleware and Responses', () => {
       respond.should.eventually.have.property('method', 'reply').notify(done)
       pretend.user('alice').send('hubot hi')
     })
-    it('stores the incoming response object', function * () {
+    it('stores the last received response object', () => co(function * () {
+      yield pretend.user('alice').send('foo')
+      pretend.lastReceive().should.containSubset({
+        message: {
+          user: { name: 'alice' },
+          text: 'foo'
+        }
+      })
+    }))
+    it('stores the last listened response object', () => co(function * () {
       yield pretend.user('alice').send('hubot hi')
-      pretend.responses.incoming.pop().should.containSubset({
+      pretend.lastListen().should.containSubset({
         message: {
           user: { name: 'alice' },
           text: 'hubot hi'
         }
       })
-    })
-    it('stores the outgoing response object', function * () {
+    }))
+    it('stores the last respond response object', () => co(function * () {
       let message = 'hubot hi'
       yield pretend.user('alice').send(message)
-      pretend.responses.outgoing.pop().should.containSubset({
+      pretend.lastRespond().should.containSubset({
         match: ['hubot hi'],
         message: {
           user: { name: 'alice' },
           text: 'hubot hi'
         }
       })
-    })
+    }))
   })
 })

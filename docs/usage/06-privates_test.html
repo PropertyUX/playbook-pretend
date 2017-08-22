@@ -175,6 +175,7 @@ as shown below.</p>
             <div class='highlight'><pre>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 
 describe(<span class="hljs-string">'Private messages'</span>, () =&gt; {
@@ -191,16 +192,16 @@ describe(<span class="hljs-string">'Private messages'</span>, () =&gt; {
     pretend.shutdown()
   })
   context(<span class="hljs-string">'requested from hubot'</span>, () =&gt; {
-    it(<span class="hljs-string">'does not post to the originating room'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'does not post to the originating room'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot tell me a secret'</span>)
       pretend.messages.should.eql([
         [<span class="hljs-string">'alice'</span>, <span class="hljs-string">'hubot tell me a secret'</span>]
       ])
-    })
-    it(<span class="hljs-string">'private messages user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    }))
+    it(<span class="hljs-string">'private messages user'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot tell me a secret'</span>)
       pretend.user(<span class="hljs-string">'alice'</span>).privates().should.eql([<span class="hljs-string">'whisper whisper whisper'</span>])
-    })
+    }))
   })
 })</pre></div>
           

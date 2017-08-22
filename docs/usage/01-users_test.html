@@ -167,9 +167,8 @@
 <p>Examples below show different approaches to setting up users to send messages
 Note the use of <em>generators</em> and <em>yield</em> to wait for messages to be processed
 by middleware before assertions test the success of responses. This is
-achieved by requiring <em>mocha-co</em> in mocha.opts, but can also be done inline
-with packages like <em>co</em>. Eventually async will be supported by standard js
-and replace the need for these dependencies.</p>
+achieved by returning the generator to co. Eventually async will be
+supported by standard js and replace the need for these dependencies.</p>
 <p><a href="../api/pretend.js.html">See the pretend module docs here</a></p>
 <p><a href="../scripts/basic-reply.html">See the script being tested here</a></p>
 
@@ -177,6 +176,7 @@ and replace the need for these dependencies.</p>
             <div class='highlight'><pre>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 
 describe(<span class="hljs-string">'Sending from users'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -190,7 +190,7 @@ describe(<span class="hljs-string">'Sending from users'</span>, <span class="hlj
     pretend.shutdown()
   })
   context(<span class="hljs-string">'with prepared user objects'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to each'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to each'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start()
       <span class="hljs-keyword">let</span> alice = pretend.user(<span class="hljs-string">'alice'</span>)
       <span class="hljs-keyword">let</span> bob = pretend.user(<span class="hljs-string">'bob'</span>)
@@ -202,10 +202,10 @@ describe(<span class="hljs-string">'Sending from users'</span>, <span class="hlj
         [<span class="hljs-string">'bob'</span>, <span class="hljs-string">'hubot hi'</span>],
         [<span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'with usernames registered on startup'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to each'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to each'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start({ <span class="hljs-attr">users</span>: [<span class="hljs-string">'alice'</span>, <span class="hljs-string">'bob'</span>] })
       <span class="hljs-keyword">yield</span> pretend.users[<span class="hljs-string">'alice'</span>].send(<span class="hljs-string">'hubot hi'</span>) <span class="hljs-comment">// works as array key</span>
       <span class="hljs-keyword">yield</span> pretend.users.bob.send(<span class="hljs-string">'hubot hi'</span>) <span class="hljs-comment">// or property if valid name</span>
@@ -215,10 +215,10 @@ describe(<span class="hljs-string">'Sending from users'</span>, <span class="hlj
         [<span class="hljs-string">'bob'</span>, <span class="hljs-string">'hubot hi'</span>],
         [<span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
   context(<span class="hljs-string">'with users created as required'</span>, () =&gt; {
-    it(<span class="hljs-string">'replies to each'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'replies to each'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.start()
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot hi'</span>)
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'bob'</span>).send(<span class="hljs-string">'hubot hi'</span>)
@@ -228,7 +228,7 @@ describe(<span class="hljs-string">'Sending from users'</span>, <span class="hlj
         [<span class="hljs-string">'bob'</span>, <span class="hljs-string">'hubot hi'</span>],
         [<span class="hljs-string">'hubot'</span>, <span class="hljs-string">'@bob hi'</span>]
       ])
-    })
+    }))
   })
 })</pre></div>
           

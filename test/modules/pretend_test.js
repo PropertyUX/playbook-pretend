@@ -1,5 +1,6 @@
 import pretend from '../../src/modules/pretend'
 import Robot from '../../src/modules/robot'
+import co from 'co'
 import path from 'path'
 import chai from 'chai'
 import sinon from 'sinon'
@@ -202,17 +203,33 @@ describe('Pretend', function () {
       })
     })
   })
-  describe('lastIncoming', () => {
-    it('returns null if no matching listens', function * () {
+  describe('lastReceive', () => {
+    it('returns last res even if nothing matched', () => co(function * () {
       pretend.start()
-      yield pretend.user('tester').send('hello there')
-      should.equal(pretend.lastIncoming(), undefined)
-    })
-    it('returns last res if matching listens', function * () {
+      yield pretend.user('tester').send('receive this')
+      pretend.lastReceive().should.eql(pretend.responses.receive[0])
+    }))
+  })
+  describe('lastListen', () => {
+    it('returns null if no matching listens', () => co(function * () {
+      pretend.start()
+      yield pretend.user('tester').send('listen to this')
+      should.equal(pretend.lastListen(), undefined)
+    }))
+    it('returns last res if matching listens', () => co(function * () {
       pretend.start()
       pretend.robot.hear(/.*/, () => {})
-      yield pretend.user('tester').send('hello there')
-      should.equal(pretend.lastIncoming(), pretend.responses.incoming[0])
-    })
+      yield pretend.user('tester').send('listen to this')
+      pretend.lastListen().should.eql(pretend.responses.listen[0])
+    }))
+  })
+  describe('lastRespond', () => {
+    it('returns last res if matching listens', () => co(function * () {
+      pretend.start()
+      pretend.robot.hear(/.*/, () => {})
+      yield pretend.user('tester').send('respond to this')
+      yield pretend.lastListen().reply('well hello')
+      pretend.lastRespond().should.eql(pretend.responses.respond[0])
+    }))
   })
 })

@@ -180,6 +180,7 @@ response objects are being produced and processed correclty.</p>
 <span class="hljs-keyword">import</span> sinonChai <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon-chai'</span>
 <span class="hljs-keyword">import</span> chaiPromise <span class="hljs-keyword">from</span> <span class="hljs-string">'chai-as-promised'</span>
 <span class="hljs-keyword">import</span> chaiSubset <span class="hljs-keyword">from</span> <span class="hljs-string">'chai-subset'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 chai.use(sinonChai)
 chai.use(chaiPromise)
@@ -204,12 +205,12 @@ describe(<span class="hljs-string">'Middleware and Responses'</span>, () =&gt; {
       receive.should.eventually.have.property(<span class="hljs-string">'response'</span>).notify(done)
       pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot hi'</span>)
     })
-    it(<span class="hljs-string">'does not emit listen event because nothing matched'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'does not emit listen event because nothing matched'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">let</span> listenSpy = sinon.spy()
       pretend.robot.on(<span class="hljs-string">'listen'</span>, listenSpy)
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot do nothing'</span>)
       listenSpy.should.not.have.calledOnce <span class="hljs-comment">// eslint-disable-line</span>
-    })
+    }))
   })
   context(<span class="hljs-string">'user sending a matched message'</span>, () =&gt; {
     it(<span class="hljs-string">'emits the receive event with context and response'</span>, (done) =&gt; {
@@ -233,26 +234,35 @@ describe(<span class="hljs-string">'Middleware and Responses'</span>, () =&gt; {
       respond.should.eventually.have.property(<span class="hljs-string">'method'</span>, <span class="hljs-string">'reply'</span>).notify(done)
       pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot hi'</span>)
     })
-    it(<span class="hljs-string">'stores the incoming response object'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'stores the last received response object'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'foo'</span>)
+      pretend.lastReceive().should.containSubset({
+        <span class="hljs-attr">message</span>: {
+          <span class="hljs-attr">user</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">'alice'</span> },
+          <span class="hljs-attr">text</span>: <span class="hljs-string">'foo'</span>
+        }
+      })
+    }))
+    it(<span class="hljs-string">'stores the last listened response object'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(<span class="hljs-string">'hubot hi'</span>)
-      pretend.responses.incoming.pop().should.containSubset({
+      pretend.lastListen().should.containSubset({
         <span class="hljs-attr">message</span>: {
           <span class="hljs-attr">user</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">'alice'</span> },
           <span class="hljs-attr">text</span>: <span class="hljs-string">'hubot hi'</span>
         }
       })
-    })
-    it(<span class="hljs-string">'stores the outgoing response object'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    }))
+    it(<span class="hljs-string">'stores the last respond response object'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">let</span> message = <span class="hljs-string">'hubot hi'</span>
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'alice'</span>).send(message)
-      pretend.responses.outgoing.pop().should.containSubset({
+      pretend.lastRespond().should.containSubset({
         <span class="hljs-attr">match</span>: [<span class="hljs-string">'hubot hi'</span>],
         <span class="hljs-attr">message</span>: {
           <span class="hljs-attr">user</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">'alice'</span> },
           <span class="hljs-attr">text</span>: <span class="hljs-string">'hubot hi'</span>
         }
       })
-    })
+    }))
   })
 })</pre></div>
           

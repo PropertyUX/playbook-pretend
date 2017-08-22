@@ -261,19 +261,27 @@ function room (name) {
 }
 
 /**
+ * Helper, retrieves the latest res before listens matched or not
+ * @return {Response} A Hubot Response object
+ */
+function lastReceive () {
+  return robot.responses.receive.slice(-1).pop()
+}
+
+/**
  * Helper, retrieves the latest res from user matching a listener
  * @return {Response} A Hubot Response object
  */
-function lastIncoming () {
-  return robot.responses.incoming.slice(-1).pop()
+function lastListen () {
+  return robot.responses.listen.slice(-1).pop()
 }
 
 /**
  * Helper, retrieves the latest res from a hubot sent response
  * @return {Response} A Hubot Response object
  */
-function lastOutgoing () {
-  return robot.responses.outgoing.slice(-1).pop()
+function lastRespond () {
+  return robot.responses.respond.slice(-1).pop()
 }
 
 // Revealed API, uses getters to return current state of collections
@@ -286,8 +294,9 @@ export default {
   shutdown: shutdown,
   user: user,
   room: room,
-  lastIncoming: lastIncoming,
-  lastOutgoing: lastOutgoing,
+  lastReceive: lastReceive,
+  lastListen: lastListen,
+  lastRespond: lastRespond,
   get users () { return users },
   get rooms () { return rooms },
   get scripts () { return scripts },

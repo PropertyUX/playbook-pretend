@@ -174,6 +174,7 @@ can be useful if you need to make assertions on a series of prior events.</p>
 <span class="hljs-keyword">import</span> pretend <span class="hljs-keyword">from</span> <span class="hljs-string">'../../lib'</span>
 <span class="hljs-keyword">import</span> chai <span class="hljs-keyword">from</span> <span class="hljs-string">'chai'</span>
 <span class="hljs-keyword">import</span> chaiPromise <span class="hljs-keyword">from</span> <span class="hljs-string">'chai-as-promised'</span>
+<span class="hljs-keyword">import</span> co <span class="hljs-keyword">from</span> <span class="hljs-string">'co'</span>
 chai.should()
 chai.use(chaiPromise)
 
@@ -194,13 +195,13 @@ describe(<span class="hljs-string">'Testing events'</span>, () =&gt; {
     })
   })
   context(<span class="hljs-string">'hubot emits event on listener match'</span>, () =&gt; {
-    it(<span class="hljs-string">'triggers an event'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'triggers an event'</span>, () =&gt; co(<span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params"></span>) </span>{
       pretend.startup()
       <span class="hljs-keyword">yield</span> pretend.user(<span class="hljs-string">'bob'</span>).send(<span class="hljs-string">'hubot send event'</span>)
       pretend.events.slice(<span class="hljs-number">-1</span>).pop().should.eql([
         <span class="hljs-string">'response-event'</span>, [ <span class="hljs-string">'hello there'</span> ]
       ])
-    })
+    }))
   })
 })</pre></div>
           

@@ -12,6 +12,7 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import co from 'co'
 chai.should()
 
 describe('Entering and leaving a room', function () {
@@ -25,7 +26,7 @@ describe('Entering and leaving a room', function () {
     pretend.shutdown()
   })
   context('triggered from room, given user', () => {
-    it('greets and farewells the user', function * () {
+    it('greets and farewells the user', () => co(function * () {
       pretend.start({ rooms: ['hub'] })
       yield pretend.rooms.hub.enter(pretend.user('Toshi'))
       yield pretend.rooms.hub.leave(pretend.user('Toshi'))
@@ -33,10 +34,10 @@ describe('Entering and leaving a room', function () {
         ['hub', 'hubot', 'Hi Toshi!'],
         ['hub', 'hubot', 'Bye Toshi!']
       ])
-    })
+    }))
   })
   context('triggered from user, with set room', () => {
-    it('greets and farewells the user', function * () {
+    it('greets and farewells the user', () => co(function * () {
       pretend.start({ users: ['Toshi'] })
       pretend.users.Toshi.room = 'hub'
       yield pretend.users.Toshi.enter()
@@ -45,10 +46,10 @@ describe('Entering and leaving a room', function () {
         ['hub', 'hubot', 'Hi Toshi!'],
         ['hub', 'hubot', 'Bye Toshi!']
       ])
-    })
+    }))
   })
   context('triggered from user, with dynamic user/room', () => {
-    it('greets and farewells the user', function * () {
+    it('greets and farewells the user', () => co(function * () {
       pretend.start()
       yield pretend.user('Toshi').in('hub').enter()
       yield pretend.user('Toshi').in('pub').leave()
@@ -56,6 +57,6 @@ describe('Entering and leaving a room', function () {
         ['hub', 'hubot', 'Hi Toshi!'],
         ['pub', 'hubot', 'Bye Toshi!']
       ])
-    })
+    }))
   })
 })

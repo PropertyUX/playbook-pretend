@@ -16,6 +16,7 @@ import pretend from '../../lib'
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
+import co from 'co'
 chai.should()
 chai.use(sinonChai)
 
@@ -43,10 +44,10 @@ describe('Method spies', () => {
     })
   })
   context('on robot processing listeners', () => {
-    it('received both messages', function * () {
+    it('received both messages', () => co(function * () {
       yield pretend.user('alice').send('hubot hi')
       yield pretend.user('bob').send('hubot hi')
       pretend.robot.receive.should.have.calledTwice // eslint-disable-line
-    })
+    }))
   })
 })

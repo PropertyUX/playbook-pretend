@@ -3,9 +3,8 @@
 // Examples below show different approaches to setting up users to send messages
 // Note the use of *generators* and *yield* to wait for messages to be processed
 // by middleware before assertions test the success of responses. This is
-// achieved by requiring *mocha-co* in mocha.opts, but can also be done inline
-// with packages like *co*. Eventually async will be supported by standard js
-// and replace the need for these dependencies.
+// achieved by returning the generator to co. Eventually async will be
+// supported by standard js and replace the need for these dependencies.
 //
 // [See the pretend module docs here](../api/pretend.js.html)
 //
@@ -13,6 +12,7 @@
 
 import pretend from '../../lib'
 import chai from 'chai'
+import co from 'co'
 chai.should()
 
 describe('Sending from users', function () {
@@ -26,7 +26,7 @@ describe('Sending from users', function () {
     pretend.shutdown()
   })
   context('with prepared user objects', () => {
-    it('replies to each', function * () {
+    it('replies to each', () => co(function * () {
       pretend.start()
       let alice = pretend.user('alice')
       let bob = pretend.user('bob')
@@ -38,10 +38,10 @@ describe('Sending from users', function () {
         ['bob', 'hubot hi'],
         ['hubot', '@bob hi']
       ])
-    })
+    }))
   })
   context('with usernames registered on startup', () => {
-    it('replies to each', function * () {
+    it('replies to each', () => co(function * () {
       pretend.start({ users: ['alice', 'bob'] })
       yield pretend.users['alice'].send('hubot hi') // works as array key
       yield pretend.users.bob.send('hubot hi') // or property if valid name
@@ -51,10 +51,10 @@ describe('Sending from users', function () {
         ['bob', 'hubot hi'],
         ['hubot', '@bob hi']
       ])
-    })
+    }))
   })
   context('with users created as required', () => {
-    it('replies to each', function * () {
+    it('replies to each', () => co(function * () {
       pretend.start()
       yield pretend.user('alice').send('hubot hi')
       yield pretend.user('bob').send('hubot hi')
@@ -64,6 +64,6 @@ describe('Sending from users', function () {
         ['bob', 'hubot hi'],
         ['hubot', '@bob hi']
       ])
-    })
+    }))
   })
 })
