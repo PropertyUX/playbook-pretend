@@ -16,6 +16,7 @@ describe('Adapter', function () {
       receive: sinon.spy((msg, cb) => {
         setTimeout(() => cb.call(this, 'mock result'), 15)
       }),
+      middleware: { response: { execute: sinon.spy() } },
       emit: sinon.spy()
     }
     this.adapter = Adapter.use(this.robot)
@@ -93,6 +94,29 @@ describe('Adapter', function () {
     })
     it('resolves when robot finished processing', (done) => {
       this.promise.should.eventually.equal('mock result').notify(done)
+    })
+  })
+  describe('response', () => {
+    it('returns response with given user/room', () => {
+      let user = { id: 'user1', room: 'testing', name: 'tester' }
+      let text = 'test'
+      let response = this.adapter.response(user, text)
+      response.should.containSubset({
+        envelope: { message: { user: user, text: 'test' } },
+        match: text.match(/.*/)
+      })
+    })
+    it('response reply routes to robot middleware', () => {
+      let user = { id: 'user1', room: 'testing', name: 'tester' }
+      let text = 'test'
+      let response = this.adapter.response(user, text)
+      response.reply('test reply')
+      this.robot.middleware.response.execute.should.have.calledWith({
+        response: response,
+        strings: ['test reply'],
+        method: 'reply',
+        plaintext: true
+      })
     })
   })
   describe('.sendPrivate', () => {

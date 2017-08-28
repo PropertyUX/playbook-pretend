@@ -203,6 +203,14 @@ describe('Pretend', function () {
       })
     })
   })
+  describe('response', () => {
+    it('returns a response that can be replied to', () => co(function * () {
+      pretend.start()
+      let res = pretend.response('tester', 'test', 'testing')
+      yield res.reply('got the test')
+      pretend.messages.should.eql([['testing', 'hubot', '@tester got the test']])
+    }))
+  })
   describe('lastReceive', () => {
     it('returns last res even if nothing matched', () => co(function * () {
       pretend.start()

@@ -1,16 +1,18 @@
 'use strict'
 
 import _ from 'lodash'
-import { User } from 'hubot-async/es2015'
+import { User as HubotUser } from 'hubot-async/es2015'
 
 /**
- * Represents a participating user in the chat
- * NB: not used as mock because it changes constructor to remove id argument
+ * Represents a participating user in the chat.
+ *
+ * NB: not used as mock because it changes constructor to remove id argument.
+ *
  * @param  {string} [name]    Name for the user (alternative to giving as attribute in options)
  * @param  {Object} [options] Key/valye user attributes
  * @return User                A new test user
 */
-export default class extends User {
+class User extends HubotUser {
   constructor (...args) {
     let id, options, name
     if (_.isString(args[0])) name = args.shift()
@@ -23,7 +25,8 @@ export default class extends User {
   }
 
   /**
-   * Create a user clone with a designated room assigned
+   * Create a user clone with a designated room assigned.
+   *
    * @param  {Room|String} room Room object or name of room to assign
    * @return User               Clone of user
   */
@@ -33,3 +36,5 @@ export default class extends User {
     return clone
   }
 }
+
+export default User

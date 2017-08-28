@@ -142,11 +142,14 @@
 <span class="hljs-keyword">import</span> { Response } <span class="hljs-keyword">from</span> <span class="hljs-string">'hubot-async/es2015'</span>
 
 <span class="hljs-comment">/**
- * Add response method spies and .sendPrivate routed to adapter method
- * @param  {array} strings...  Array of message text strings
+ * Add response method spies and .sendPrivate routed to adapter method.
+ *
+ * @param  {Robot}       robot   A Robot instance
+ * @param  {TextMessage} message A Message instance (can also be catch-all)
+ * @param  {array}       match   A Match object from the successful Regex match
  * @return MockResponse        New mock response instance
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Response</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MockResponse</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Response</span> </span>{
   <span class="hljs-keyword">constructor</span> (robot, message, match) {
     <span class="hljs-keyword">super</span>(robot, message, match)</pre></div>
         
@@ -169,7 +172,9 @@
   sendPrivate (...strings) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.robot.adapter.sendPrivate(<span class="hljs-keyword">this</span>.envelope, ...strings)
   }
-}</pre></div>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> MockResponse</pre></div>
         
       
       <div class="arms">

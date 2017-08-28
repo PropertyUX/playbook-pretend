@@ -3,14 +3,11 @@
 import log from 'npmlog'
 
 /**
- * Keeps log messages in array
- * @module MockLog
+ * Keeps log messages in array.
+ *
+ * @return {Object} Mock log methods (debug, info, warning, error)
  */
-export default class {
-  /**
-   * Create a new log
-   * @return {Object} Mock log methods (debug, info, warning, error)
-   */
+class MockLog {
   constructor (level = 'error') {
     this.logs = []
     log.level = level
@@ -52,3 +49,5 @@ export default class {
     log.level = lvl
   }
 }
+
+export default MockLog

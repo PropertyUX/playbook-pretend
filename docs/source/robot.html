@@ -140,23 +140,21 @@
 
 <span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon'</span>
 <span class="hljs-keyword">import</span> mockery <span class="hljs-keyword">from</span> <span class="hljs-string">'mockery'</span>
-<span class="hljs-keyword">import</span> { Robot, CatchAllMessage } <span class="hljs-keyword">from</span> <span class="hljs-string">'hubot-async/es2015'</span>
+<span class="hljs-keyword">import</span> { Robot <span class="hljs-keyword">as</span> HubotRobot, CatchAllMessage } <span class="hljs-keyword">from</span> <span class="hljs-string">'hubot-async/es2015'</span>
 <span class="hljs-keyword">import</span> MockLog <span class="hljs-keyword">from</span> <span class="hljs-string">'../mocks/log'</span>
 <span class="hljs-keyword">import</span> MockAdapter <span class="hljs-keyword">from</span> <span class="hljs-string">'../mocks/adapter'</span>
 
 <span class="hljs-built_in">require</span>(<span class="hljs-string">'coffee-script/register'</span>) <span class="hljs-comment">// register extension for legacy coffee script</span>
 
 <span class="hljs-comment">/**
- * Extends Hubot with mocked response, events, logs and adapter loading
+ * Extends Hubot with mocked response, events, logs and adapter loading.
+ *
+ * @param  {Boolean} httpd      Whether to enable the HTTP daemon.
+ * @param  {string} name        Robot name, defaults to Hubot.
+ * @param  {string} alias       Robot alias, defaults to null
+ * @return {Robot}              The pretend robot
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Robot</span> </span>{
-  <span class="hljs-comment">/**
-   * Create a pretend Robot (overrides adapter and adapterPath declaration)
-   * @param  {Boolean} httpd      Whether to enable the HTTP daemon.
-   * @param  {string} name        Robot name, defaults to Hubot.
-   * @param  {string} alias       Robot alias, defaults to null
-   * @return {Robot}              The pretend robot
-   */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Robot</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HubotRobot</span> </span>{
   <span class="hljs-keyword">constructor</span> (httpd, name = 'hubot', alias = 'pretend') {</pre></div>
         
       
@@ -210,7 +208,7 @@ TODO: extend Middleware to listen on each piece’s context, without adding a mi
         <p>spy on all instance methods</p>
 
         
-          <div class='highlight'><pre>    <span class="hljs-built_in">Object</span>.getOwnPropertyNames(Robot.prototype).map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+          <div class='highlight'><pre>    <span class="hljs-built_in">Object</span>.getOwnPropertyNames(HubotRobot.prototype).map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
       <span class="hljs-keyword">let</span> spy = sinon.spy(<span class="hljs-keyword">this</span>, key)
       <span class="hljs-keyword">delete</span> spy.stackTrace
       <span class="hljs-comment">/**
@@ -222,7 +220,8 @@ TODO: extend Middleware to listen on each piece’s context, without adding a mi
   }
 
   <span class="hljs-comment">/**
-   * Loads a file in path (storing each for tests to compare)
+   * Loads a file in path (storing each for tests to compare).
+   *
    * @param  {string} filepath Path on the filesystem
    * @param  {string} filename Name of file at filepath
    */</span>
@@ -231,27 +230,30 @@ TODO: extend Middleware to listen on each piece’s context, without adding a mi
       <span class="hljs-attr">path</span>: filepath,
       <span class="hljs-attr">file</span>: filename
     })
-    Robot.prototype.loadFile.call(<span class="hljs-keyword">this</span>, filepath, filename)
+    HubotRobot.prototype.loadFile.call(<span class="hljs-keyword">this</span>, filepath, filename)
   }
 
   <span class="hljs-comment">/**
-   * A wrapper around the EventEmitter API to make usage (log events for testing)
+   * A wrapper around the EventEmitter API to make usage (log events for testing).
+   *
    * @param  {string} event The event name
    * @param  {array} args   Arguments emitted by the event
    */</span>
   emit (event, ...args) {
     <span class="hljs-keyword">this</span>.eventLog.push([event, args])
-    Robot.prototype.emit.call(<span class="hljs-keyword">this</span>, event, ...args)
+    HubotRobot.prototype.emit.call(<span class="hljs-keyword">this</span>, event, ...args)
   }
 
   <span class="hljs-comment">/**
-   * Stop mockery replacements and do prototype shutdown
+   * Stop mockery replacements and do prototype shutdown.
    */</span>
   shutdown () {
     mockery.deregisterAll()
-    Robot.prototype.shutdown.call(<span class="hljs-keyword">this</span>)
+    HubotRobot.prototype.shutdown.call(<span class="hljs-keyword">this</span>)
   }
-}</pre></div>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Robot</pre></div>
         
       
       <div class="arms">

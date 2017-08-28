@@ -139,16 +139,18 @@
           <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>
 
 <span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">'lodash'</span>
-<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'hubot-async/es2015'</span>
+<span class="hljs-keyword">import</span> { User <span class="hljs-keyword">as</span> HubotUser } <span class="hljs-keyword">from</span> <span class="hljs-string">'hubot-async/es2015'</span>
 
 <span class="hljs-comment">/**
- * Represents a participating user in the chat
- * NB: not used as mock because it changes constructor to remove id argument
+ * Represents a participating user in the chat.
+ *
+ * NB: not used as mock because it changes constructor to remove id argument.
+ *
  * @param  {string} [name]    Name for the user (alternative to giving as attribute in options)
  * @param  {Object} [options] Key/valye user attributes
  * @return User                A new test user
 */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">User</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HubotUser</span> </span>{
   <span class="hljs-keyword">constructor</span> (...args) {
     <span class="hljs-keyword">let</span> id, options, name
     <span class="hljs-keyword">if</span> (_.isString(args[<span class="hljs-number">0</span>])) name = args.shift()
@@ -161,7 +163,8 @@
   }
 
   <span class="hljs-comment">/**
-   * Create a user clone with a designated room assigned
+   * Create a user clone with a designated room assigned.
+   *
    * @param  {Room|String} room Room object or name of room to assign
    * @return User               Clone of user
   */</span>
@@ -170,7 +173,9 @@
     clone.room = _.isString(room) ? room : room.name
     <span class="hljs-keyword">return</span> clone
   }
-}</pre></div>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> User</pre></div>
         
       
       <div class="arms">

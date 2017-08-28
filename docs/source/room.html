@@ -141,18 +141,21 @@
 <span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">'lodash'</span>
 
 <span class="hljs-comment">/**
- * Provides room attributes for envolope and adapter method shortcuts
+ * Provides room attributes for envolope and adapter method shortcuts.
+ *
  * @param  {string} @name=null Name for the room
  * @return Room                A new test room
 */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Room</span> </span>{
   <span class="hljs-keyword">constructor</span> (name = null) {
     <span class="hljs-keyword">this</span>.name = name
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.name == <span class="hljs-literal">null</span>) {
       <span class="hljs-keyword">this</span>.name = _.uniqueId(<span class="hljs-string">'room_'</span>)
     }
   }
-}</pre></div>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Room</pre></div>
         
       
       <div class="arms">

@@ -3,11 +3,12 @@
 import _ from 'lodash'
 
 /**
- * Provides room attributes for envolope and adapter method shortcuts
+ * Provides room attributes for envolope and adapter method shortcuts.
+ *
  * @param  {string} @name=null Name for the room
  * @return Room                A new test room
 */
-export default class {
+class Room {
   constructor (name = null) {
     this.name = name
     if (this.name == null) {
@@ -15,3 +16,5 @@ export default class {
     }
   }
 }
+
+export default Room

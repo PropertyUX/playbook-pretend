@@ -107,23 +107,52 @@
 
       
         
-        <h2 id="functions">Functions</h2>
-<dl>
-<dt><a href="#loadFile">loadFile(filepath, filename)</a></dt>
-<dd><p>Loads a file in path (storing each for tests to compare)</p>
-</dd>
-<dt><a href="#emit">emit(event, …args)</a></dt>
-<dd><p>A wrapper around the EventEmitter API to make usage (log events for testing)</p>
-</dd>
-<dt><a href="#shutdown">shutdown()</a></dt>
-<dd><p>Stop mockery replacements and do prototype shutdown</p>
-</dd>
-</dl>
-
-<p><a name="loadFile"></a></p>
-<h2 id="loadfile-filepath-filename-">loadFile(filepath, filename)</h2>
-<p>Loads a file in path (storing each for tests to compare)</p>
-<p><strong>Kind</strong>: global function  </p>
+        <p><a name="Robot"></a></p>
+<h2 id="robot">Robot</h2>
+<p>Extends Hubot with mocked response, events, logs and adapter loading.</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#Robot">Robot</a><ul>
+<li><a href="#new_Robot_new">new Robot(httpd, name, alias)</a></li>
+<li><a href="#Robot+loadFile">.loadFile(filepath, filename)</a></li>
+<li><a href="#Robot+emit">.emit(event, …args)</a></li>
+<li><a href="#Robot+shutdown">.shutdown()</a></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_Robot_new"></a></p>
+<h3 id="new-robot-httpd-name-alias-">new Robot(httpd, name, alias)</h3>
+<p><strong>Returns</strong>: <a href="#Robot"><code>Robot</code></a> - The pretend robot  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>httpd</td>
+<td><code>Boolean</code></td>
+<td>Whether to enable the HTTP daemon.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+<td>Robot name, defaults to Hubot.</td>
+</tr>
+<tr>
+<td>alias</td>
+<td><code>string</code></td>
+<td>Robot alias, defaults to null</td>
+</tr>
+</tbody>
+</table>
+<p><a name="Robot+loadFile"></a></p>
+<h3 id="robot-loadfile-filepath-filename-">robot.loadFile(filepath, filename)</h3>
+<p>Loads a file in path (storing each for tests to compare).</p>
+<p><strong>Kind</strong>: instance method of <a href="#Robot"><code>Robot</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -145,10 +174,10 @@
 </tr>
 </tbody>
 </table>
-<p><a name="emit"></a></p>
-<h2 id="emit-event-args-">emit(event, …args)</h2>
-<p>A wrapper around the EventEmitter API to make usage (log events for testing)</p>
-<p><strong>Kind</strong>: global function  </p>
+<p><a name="Robot+emit"></a></p>
+<h3 id="robot-emit-event-args-">robot.emit(event, …args)</h3>
+<p>A wrapper around the EventEmitter API to make usage (log events for testing).</p>
+<p><strong>Kind</strong>: instance method of <a href="#Robot"><code>Robot</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -170,10 +199,10 @@
 </tr>
 </tbody>
 </table>
-<p><a name="shutdown"></a></p>
-<h2 id="shutdown-">shutdown()</h2>
-<p>Stop mockery replacements and do prototype shutdown</p>
-<p><strong>Kind</strong>: global function  </p>
+<p><a name="Robot+shutdown"></a></p>
+<h3 id="robot-shutdown-">robot.shutdown()</h3>
+<p>Stop mockery replacements and do prototype shutdown.</p>
+<p><strong>Kind</strong>: instance method of <a href="#Robot"><code>Robot</code></a>  </p>
 
         
       

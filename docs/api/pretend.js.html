@@ -110,69 +110,75 @@
         <h2 id="functions">Functions</h2>
 <dl>
 <dt><a href="#read">read(scriptPaths)</a> ⇒ <code>pretend</code></dt>
-<dd><p>Read in scripts from path/s, will overwrite any previous reads</p>
+<dd><p>Read in scripts from path/s, will overwrite any previous reads.</p>
 </dd>
 <dt><a href="#start">start([options])</a> ⇒ <code>pretend</code></dt>
-<dd><p>Start (or restart) collections and create pretend robot</p>
+<dd><p>Start (or restart) collections and create pretend robot.</p>
 </dd>
 <dt><a href="#shutdown">shutdown()</a> ⇒ <code>pretend</code></dt>
 <dd><p>Shortcut to robot shutdown</p>
 </dd>
 <dt><a href="#reset">reset()</a></dt>
-<dd><p>Reset (or init) robot and collection vars, for after tests clean up</p>
+<dd><p>Reset (or init) robot and collection vars, for after tests clean up.</p>
 </dd>
 <dt><a href="#clear">clear()</a> ⇒ <code>pretend</code></dt>
-<dd><p>Clear read-in scripts, to ensure nothing loaded on next <code>.start()</code></p>
+<dd><p>Clear read-in scripts, to ensure nothing loaded on next <code>.start()</code>.</p>
 </dd>
 <dt><a href="#load">load()</a> ⇒ <code>pretend</code></dt>
-<dd><p>Load any read-in scripts (if robot created and script not already read)</p>
+<dd><p>Load any read-in scripts (if robot created and script not already read).</p>
 </dd>
 <dt><a href="#userSend">userSend(user, message)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Send message from a given user (through adapter)</p>
+<dd><p>Send message from a given user (through adapter).</p>
 </dd>
 <dt><a href="#userEnter">userEnter(user)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Send an enter message from a given user</p>
+<dd><p>Send an enter message from a given user.</p>
 </dd>
 <dt><a href="#userLeave">userLeave(user)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Send a leave message to robot from user</p>
+<dd><p>Send a leave message to robot from user.</p>
 </dd>
 <dt><a href="#userPrivates">userPrivates(user)</a> ⇒ <code>array</code></dt>
-<dd><p>Get any private message entries in adapter assigned to username</p>
+<dd><p>Get any private message entries in adapter assigned to username.</p>
 </dd>
 <dt><a href="#roomMessages">roomMessages()</a> ⇒ <code>array</code></dt>
-<dd><p>Get filtered array of given room&#39;s messages from adapter</p>
+<dd><p>Get filtered array of given room&#39;s messages from adapter.</p>
 </dd>
 <dt><a href="#roomReceive">roomReceive(room, user, message)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Send message through adapter, coming from given room and user</p>
+<dd><p>Send message through adapter, coming from given room and user.</p>
 </dd>
 <dt><a href="#roomEnter">roomEnter(room, user)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Send enter message for given user in given room</p>
+<dd><p>Send enter message for given user in given room.</p>
 </dd>
 <dt><a href="#roomLeave">roomLeave(room, user)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Send leave message for given user in given room</p>
+<dd><p>Send leave message for given user in given room.</p>
 </dd>
-<dt><a href="#user">user(name, [options])</a> ⇒ <code>MockUser</code></dt>
-<dd><p>Create or get existing user, for entering/leaving and sending messages
-Extend with methods routing to pretend helpers with this user provided</p>
+<dt><a href="#user">user(name, [options])</a> ⇒ <code>User</code></dt>
+<dd><p>Create or get existing user, for entering/leaving and sending messages.</p>
+<p>Extend with methods routing to pretend helpers with this user provided.</p>
 </dd>
-<dt><a href="#room">room(name)</a> ⇒ <code>MockRoom</code></dt>
-<dd><p>Create or get existing room, for entering/leaving and receiving messages
-Extend with methods routing to pretend helpers with this room provided</p>
+<dt><a href="#room">room(name)</a> ⇒ <code>Room</code></dt>
+<dd><p>Create or get existing room, for entering/leaving and receiving messages.</p>
+<p>Extend with methods routing to pretend helpers with this room provided.</p>
 </dd>
-<dt><a href="#lastReceive">lastReceive()</a> ⇒ <code>Response</code></dt>
-<dd><p>Helper, retrieves the latest res before listens matched or not</p>
+<dt><a href="#response">response(username, text, [room])</a> ⇒ <code>MockResponse</code></dt>
+<dd><p>Shortcut for sending/receiving just to get the latest response object,
+which also may require async, instead just make one as required for tests.</p>
+<p>This response will not be in <code>pretend.responses</code> and message will not appear
+in <code>pretend.messages</code>.</p>
 </dd>
-<dt><a href="#lastListen">lastListen()</a> ⇒ <code>Response</code></dt>
-<dd><p>Helper, retrieves the latest res from user matching a listener</p>
+<dt><a href="#lastReceive">lastReceive()</a> ⇒ <code>MockResponse</code></dt>
+<dd><p>Helper, retrieves the latest res before listens matched or not.</p>
 </dd>
-<dt><a href="#lastRespond">lastRespond()</a> ⇒ <code>Response</code></dt>
-<dd><p>Helper, retrieves the latest res from a hubot sent response</p>
+<dt><a href="#lastListen">lastListen()</a> ⇒ <code>MockResponse</code></dt>
+<dd><p>Helper, retrieves the latest res from user matching a listener.</p>
+</dd>
+<dt><a href="#lastRespond">lastRespond()</a> ⇒ <code>MockResponse</code></dt>
+<dd><p>Helper, retrieves the latest res from a hubot sent response.</p>
 </dd>
 </dl>
 
 <p><a name="read"></a></p>
 <h2 id="read-scriptpaths-code-pretend-code-">read(scriptPaths) ⇒ <code>pretend</code></h2>
-<p>Read in scripts from path/s, will overwrite any previous reads</p>
+<p>Read in scripts from path/s, will overwrite any previous reads.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>pretend</code> - Self for chaining  </p>
 <table>
 <thead>
@@ -193,7 +199,7 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="start"></a></p>
 <h2 id="start-options-code-pretend-code-">start([options]) ⇒ <code>pretend</code></h2>
-<p>Start (or restart) collections and create pretend robot</p>
+<p>Start (or restart) collections and create pretend robot.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>pretend</code> - Self for chaining  </p>
 <table>
 <thead>
@@ -248,16 +254,16 @@ Extend with methods routing to pretend helpers with this room provided</p>
 <p>Shortcut to robot shutdown</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>pretend</code> - Self for chaining<br><a name="reset"></a></p>
 <h2 id="reset-">reset()</h2>
-<p>Reset (or init) robot and collection vars, for after tests clean up</p>
+<p>Reset (or init) robot and collection vars, for after tests clean up.</p>
 <p><strong>Kind</strong>: global function<br><a name="clear"></a></p>
 <h2 id="clear-code-pretend-code-">clear() ⇒ <code>pretend</code></h2>
-<p>Clear read-in scripts, to ensure nothing loaded on next <code>.start()</code></p>
+<p>Clear read-in scripts, to ensure nothing loaded on next <code>.start()</code>.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>pretend</code> - Self for chaining<br><a name="load"></a></p>
 <h2 id="load-code-pretend-code-">load() ⇒ <code>pretend</code></h2>
-<p>Load any read-in scripts (if robot created and script not already read)</p>
+<p>Load any read-in scripts (if robot created and script not already read).</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>pretend</code> - Self for chaining<br><a name="userSend"></a></p>
 <h2 id="usersend-user-message-code-promise-code-">userSend(user, message) ⇒ <code>Promise</code></h2>
-<p>Send message from a given user (through adapter)</p>
+<p>Send message from a given user (through adapter).</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Promise resolving when receive middleware complete  </p>
 <table>
 <thead>
@@ -282,7 +288,7 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="userEnter"></a></p>
 <h2 id="userenter-user-code-promise-code-">userEnter(user) ⇒ <code>Promise</code></h2>
-<p>Send an enter message from a given user</p>
+<p>Send an enter message from a given user.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Promise resolving when receive middleware complete  </p>
 <table>
 <thead>
@@ -302,7 +308,7 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="userLeave"></a></p>
 <h2 id="userleave-user-code-promise-code-">userLeave(user) ⇒ <code>Promise</code></h2>
-<p>Send a leave message to robot from user</p>
+<p>Send a leave message to robot from user.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Promise resolving when receive middleware complete  </p>
 <table>
 <thead>
@@ -322,7 +328,7 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="userPrivates"></a></p>
 <h2 id="userprivates-user-code-array-code-">userPrivates(user) ⇒ <code>array</code></h2>
-<p>Get any private message entries in adapter assigned to username</p>
+<p>Get any private message entries in adapter assigned to username.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>array</code> - Private messages for user  </p>
 <table>
 <thead>
@@ -342,10 +348,10 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="roomMessages"></a></p>
 <h2 id="roommessages-code-array-code-">roomMessages() ⇒ <code>array</code></h2>
-<p>Get filtered array of given room’s messages from adapter</p>
+<p>Get filtered array of given room’s messages from adapter.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>array</code> - Messages [user, message] sent to room<br><a name="roomReceive"></a></p>
 <h2 id="roomreceive-room-user-message-code-promise-code-">roomReceive(room, user, message) ⇒ <code>Promise</code></h2>
-<p>Send message through adapter, coming from given room and user</p>
+<p>Send message through adapter, coming from given room and user.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Promise resolving when receive middleware complete  </p>
 <table>
 <thead>
@@ -375,7 +381,7 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="roomEnter"></a></p>
 <h2 id="roomenter-room-user-code-promise-code-">roomEnter(room, user) ⇒ <code>Promise</code></h2>
-<p>Send enter message for given user in given room</p>
+<p>Send enter message for given user in given room.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Promise resolving when receive middleware complete  </p>
 <table>
 <thead>
@@ -400,7 +406,7 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </table>
 <p><a name="roomLeave"></a></p>
 <h2 id="roomleave-room-user-code-promise-code-">roomLeave(room, user) ⇒ <code>Promise</code></h2>
-<p>Send leave message for given user in given room</p>
+<p>Send leave message for given user in given room.</p>
 <p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Promise resolving when receive middleware complete  </p>
 <table>
 <thead>
@@ -424,10 +430,10 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </tbody>
 </table>
 <p><a name="user"></a></p>
-<h2 id="user-name-options-code-mockuser-code-">user(name, [options]) ⇒ <code>MockUser</code></h2>
-<p>Create or get existing user, for entering/leaving and sending messages
-Extend with methods routing to pretend helpers with this user provided</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>MockUser</code> - A new mock user  </p>
+<h2 id="user-name-options-code-user-code-">user(name, [options]) ⇒ <code>User</code></h2>
+<p>Create or get existing user, for entering/leaving and sending messages.</p>
+<p>Extend with methods routing to pretend helpers with this user provided.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>User</code> - A new user instance with adapter helpers  </p>
 <table>
 <thead>
 <tr>
@@ -453,10 +459,10 @@ Extend with methods routing to pretend helpers with this user provided</p>
 </tbody>
 </table>
 <p><a name="room"></a></p>
-<h2 id="room-name-code-mockroom-code-">room(name) ⇒ <code>MockRoom</code></h2>
-<p>Create or get existing room, for entering/leaving and receiving messages
-Extend with methods routing to pretend helpers with this room provided</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>MockRoom</code> - A new room  </p>
+<h2 id="room-name-code-room-code-">room(name) ⇒ <code>Room</code></h2>
+<p>Create or get existing room, for entering/leaving and receiving messages.</p>
+<p>Extend with methods routing to pretend helpers with this room provided.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Room</code> - A new room instance with adapter helpers  </p>
 <table>
 <thead>
 <tr>
@@ -473,16 +479,49 @@ Extend with methods routing to pretend helpers with this room provided</p>
 </tr>
 </tbody>
 </table>
+<p><a name="response"></a></p>
+<h2 id="response-username-text-room-code-mockresponse-code-">response(username, text, [room]) ⇒ <code>MockResponse</code></h2>
+<p>Shortcut for sending/receiving just to get the latest response object,
+which also may require async, instead just make one as required for tests.</p>
+<p>This response will not be in <code>pretend.responses</code> and message will not appear
+in <code>pretend.messages</code>.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>MockResponse</code> - A mock response instance  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td><code>string</code></td>
+<td>Name for user to get/create as response origin</td>
+</tr>
+<tr>
+<td>text</td>
+<td><code>string</code></td>
+<td>Text for creating message instance</td>
+</tr>
+<tr>
+<td>[room]</td>
+<td><code>string</code></td>
+<td>Room name (optional) to add to user object</td>
+</tr>
+</tbody>
+</table>
 <p><a name="lastReceive"></a></p>
-<h2 id="lastreceive-code-response-code-">lastReceive() ⇒ <code>Response</code></h2>
-<p>Helper, retrieves the latest res before listens matched or not</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object<br><a name="lastListen"></a></p>
-<h2 id="lastlisten-code-response-code-">lastListen() ⇒ <code>Response</code></h2>
-<p>Helper, retrieves the latest res from user matching a listener</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object<br><a name="lastRespond"></a></p>
-<h2 id="lastrespond-code-response-code-">lastRespond() ⇒ <code>Response</code></h2>
-<p>Helper, retrieves the latest res from a hubot sent response</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Response</code> - A Hubot Response object  </p>
+<h2 id="lastreceive-code-mockresponse-code-">lastReceive() ⇒ <code>MockResponse</code></h2>
+<p>Helper, retrieves the latest res before listens matched or not.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>MockResponse</code> - A mock response instance<br><a name="lastListen"></a></p>
+<h2 id="lastlisten-code-mockresponse-code-">lastListen() ⇒ <code>MockResponse</code></h2>
+<p>Helper, retrieves the latest res from user matching a listener.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>MockResponse</code> - A mock response instance<br><a name="lastRespond"></a></p>
+<h2 id="lastrespond-code-mockresponse-code-">lastRespond() ⇒ <code>MockResponse</code></h2>
+<p>Helper, retrieves the latest res from a hubot sent response.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>MockResponse</code> - A mock response instance  </p>
 
         
       

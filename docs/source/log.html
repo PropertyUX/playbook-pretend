@@ -141,14 +141,11 @@
 <span class="hljs-keyword">import</span> log <span class="hljs-keyword">from</span> <span class="hljs-string">'npmlog'</span>
 
 <span class="hljs-comment">/**
- * Keeps log messages in array
- * @module MockLog
+ * Keeps log messages in array.
+ *
+ * @return {Object} Mock log methods (debug, info, warning, error)
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> </span>{
-  <span class="hljs-comment">/**
-   * Create a new log
-   * @return {Object} Mock log methods (debug, info, warning, error)
-   */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MockLog</span> </span>{
   <span class="hljs-keyword">constructor</span> (level = 'error') {
     <span class="hljs-keyword">this</span>.logs = []
     log.level = level
@@ -189,7 +186,9 @@
   set level (lvl) {
     log.level = lvl
   }
-}</pre></div>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> MockLog</pre></div>
         
       
       <div class="arms">

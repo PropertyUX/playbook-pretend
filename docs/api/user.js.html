@@ -107,10 +107,46 @@
 
       
         
-        <p><a name="in"></a></p>
-<h2 id="in-room-">in(room) ⇒</h2>
-<p>Create a user clone with a designated room assigned</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: User               Clone of user  </p>
+        <p><a name="User"></a></p>
+<h2 id="user">User</h2>
+<p>Represents a participating user in the chat.</p>
+<p>NB: not used as mock because it changes constructor to remove id argument.</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#User">User</a><ul>
+<li><a href="#new_User_new">new User([name], [options])</a></li>
+<li><a href="#User+in">.in(room)</a> ⇒</li>
+</ul>
+</li>
+</ul>
+<p><a name="new_User_new"></a></p>
+<h3 id="new-user-name-options-">new User([name], [options])</h3>
+<p><strong>Returns</strong>: User                A new test user  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[name]</td>
+<td><code>string</code></td>
+<td>Name for the user (alternative to giving as attribute in options)</td>
+</tr>
+<tr>
+<td>[options]</td>
+<td><code>Object</code></td>
+<td>Key/valye user attributes</td>
+</tr>
+</tbody>
+</table>
+<p><a name="User+in"></a></p>
+<h3 id="user-in-room-">user.in(room) ⇒</h3>
+<p>Create a user clone with a designated room assigned.</p>
+<p><strong>Kind</strong>: instance method of <a href="#User"><code>User</code></a><br><strong>Returns</strong>: User               Clone of user  </p>
 <table>
 <thead>
 <tr>

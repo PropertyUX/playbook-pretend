@@ -2,23 +2,21 @@
 
 import sinon from 'sinon'
 import mockery from 'mockery'
-import { Robot, CatchAllMessage } from 'hubot-async/es2015'
+import { Robot as HubotRobot, CatchAllMessage } from 'hubot-async/es2015'
 import MockLog from '../mocks/log'
 import MockAdapter from '../mocks/adapter'
 
 require('coffee-script/register') // register extension for legacy coffee script
 
 /**
- * Extends Hubot with mocked response, events, logs and adapter loading
+ * Extends Hubot with mocked response, events, logs and adapter loading.
+ *
+ * @param  {Boolean} httpd      Whether to enable the HTTP daemon.
+ * @param  {string} name        Robot name, defaults to Hubot.
+ * @param  {string} alias       Robot alias, defaults to null
+ * @return {Robot}              The pretend robot
  */
-export default class extends Robot {
-  /**
-   * Create a pretend Robot (overrides adapter and adapterPath declaration)
-   * @param  {Boolean} httpd      Whether to enable the HTTP daemon.
-   * @param  {string} name        Robot name, defaults to Hubot.
-   * @param  {string} alias       Robot alias, defaults to null
-   * @return {Robot}              The pretend robot
-   */
+class Robot extends HubotRobot {
   constructor (httpd, name = 'hubot', alias = 'pretend') {
     // replace robot required packages with mocks (adapter also replaces Response)
     mockery.enable({ warnOnReplace: false, warnOnUnregistered: false, useCleanCache: true })
@@ -59,7 +57,7 @@ export default class extends Robot {
     })
 
     // spy on all instance methods
-    Object.getOwnPropertyNames(Robot.prototype).map(key => {
+    Object.getOwnPropertyNames(HubotRobot.prototype).map(key => {
       let spy = sinon.spy(this, key)
       delete spy.stackTrace
       /**
@@ -71,7 +69,8 @@ export default class extends Robot {
   }
 
   /**
-   * Loads a file in path (storing each for tests to compare)
+   * Loads a file in path (storing each for tests to compare).
+   *
    * @param  {string} filepath Path on the filesystem
    * @param  {string} filename Name of file at filepath
    */
@@ -80,24 +79,27 @@ export default class extends Robot {
       path: filepath,
       file: filename
     })
-    Robot.prototype.loadFile.call(this, filepath, filename)
+    HubotRobot.prototype.loadFile.call(this, filepath, filename)
   }
 
   /**
-   * A wrapper around the EventEmitter API to make usage (log events for testing)
+   * A wrapper around the EventEmitter API to make usage (log events for testing).
+   *
    * @param  {string} event The event name
    * @param  {array} args   Arguments emitted by the event
    */
   emit (event, ...args) {
     this.eventLog.push([event, args])
-    Robot.prototype.emit.call(this, event, ...args)
+    HubotRobot.prototype.emit.call(this, event, ...args)
   }
 
   /**
-   * Stop mockery replacements and do prototype shutdown
+   * Stop mockery replacements and do prototype shutdown.
    */
   shutdown () {
     mockery.deregisterAll()
-    Robot.prototype.shutdown.call(this)
+    HubotRobot.prototype.shutdown.call(this)
   }
 }
+
+export default Robot

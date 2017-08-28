@@ -107,45 +107,40 @@
 
       
         
-        <h2 id="functions">Functions</h2>
-<dl>
-<dt><a href="#proxy">proxy(arrayToObserve)</a> ⇒ <code>array</code></dt>
-<dd><p>Proxy the array, call observers to when setting a value.</p>
-<p>Callbacks are passed an array with the value and the current array state.</p>
-<p>Applies only on push calls, not direct propterty sets.</p>
-</dd>
-<dt><a href="#get">get()</a> ⇒ <code>array</code></dt>
-<dd><p>Get the observed array</p>
-</dd>
-<dt><a href="#observe">observe(cb)</a> ⇒ <code>string</code></dt>
-<dd><p>Add a callback to call with any addition to observed array</p>
-</dd>
-<dt><a href="#unobserve">unobserve(index)</a></dt>
-<dd><p>Remove a callback from observer collection</p>
-</dd>
-<dt><a href="#unobserveAll">unobserveAll()</a></dt>
-<dd><p>Remove all callbacks (reset observer collection)</p>
-</dd>
-<dt><a href="#next">next()</a> ⇒ <code>Promise</code></dt>
-<dd><p>Watch for any new element</p>
-</dd>
-<dt><a href="#find">find(needle, [limit], [iterator])</a> ⇒ <code>Promise</code></dt>
-<dd><p>Look for a specific element (optionally up to limit or with iterator)</p>
-</dd>
-<dt><a href="#match">match(regex, [limit], [iterator])</a> ⇒ <code>Promise</code></dt>
-<dd><p>Look for element matching pattern (optionally up to limit or with iterator)</p>
-</dd>
-<dt><a href="#all">all([limit], [iterator])</a> ⇒ <code>Promise</code></dt>
-<dd><p>Observe all additions, up to limit or with iterator (must have either)</p>
-</dd>
-</dl>
-
-<p><a name="proxy"></a></p>
-<h2 id="proxy-arraytoobserve-code-array-code-">proxy(arrayToObserve) ⇒ <code>array</code></h2>
-<p>Proxy the array, call observers to when setting a value.</p>
-<p>Callbacks are passed an array with the value and the current array state.</p>
-<p>Applies only on push calls, not direct propterty sets.</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>array</code> - Observed (proxy) array  </p>
+        <p><a name="Observer"></a></p>
+<h2 id="observer">Observer</h2>
+<p>Let tests observe additions to an array (of messages) via helper methods.</p>
+<p>The observed array (this.observed) is a clone, not a reference, so should
+replace the original.</p>
+<p>Each helper returns an object with result attributes:</p>
+<ul>
+<li><em>value</em> - the last observed value when conditions were met</li>
+<li><em>state</em> - the state of the observed when the conditions were met</li>
+<li><em>count</em> - the number of additions between first call and a result</li>
+</ul>
+<p><code>find</code>, <code>match</code> and <code>all</code> accept a <em>limit</em> (int) of additions to observe, as
+well as an <em>iterator</em> (function) to call with every addition.</p>
+<p>With <code>find</code> and <code>match</code>, if limit is reached before main condition met
+<em>value</em> will be null.</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#Observer">Observer</a><ul>
+<li><a href="#new_Observer_new">new Observer(arrayToObserve)</a></li>
+<li><a href="#Observer+proxy">.proxy(arrayToObserve)</a> ⇒ <code>array</code></li>
+<li><a href="#Observer+get">.get()</a> ⇒ <code>array</code></li>
+<li><a href="#Observer+observe">.observe(cb)</a> ⇒ <code>string</code></li>
+<li><a href="#Observer+unobserve">.unobserve(index)</a></li>
+<li><a href="#Observer+unobserveAll">.unobserveAll()</a></li>
+<li><a href="#Observer+next">.next()</a> ⇒ <code>Promise</code></li>
+<li><a href="#Observer+find">.find(needle, [limit], [iterator])</a> ⇒ <code>Promise</code></li>
+<li><a href="#Observer+match">.match(regex, [limit], [iterator])</a> ⇒ <code>Promise</code></li>
+<li><a href="#Observer+all">.all([limit], [iterator])</a> ⇒ <code>Promise</code></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_Observer_new"></a></p>
+<h3 id="new-observer-arraytoobserve-">new Observer(arrayToObserve)</h3>
+<p><strong>Returns</strong>: <a href="#Observer"><code>Observer</code></a> - Observer containing observed array  </p>
 <table>
 <thead>
 <tr>
@@ -162,13 +157,35 @@
 </tr>
 </tbody>
 </table>
-<p><a name="get"></a></p>
-<h2 id="get-code-array-code-">get() ⇒ <code>array</code></h2>
-<p>Get the observed array</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>array</code> - Observed (proxy) array<br><a name="observe"></a></p>
-<h2 id="observe-cb-code-string-code-">observe(cb) ⇒ <code>string</code></h2>
-<p>Add a callback to call with any addition to observed array</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>string</code> - ID of callback in observer collection (for removing)  </p>
+<p><a name="Observer+proxy"></a></p>
+<h3 id="observer-proxy-arraytoobserve-code-array-code-">observer.proxy(arrayToObserve) ⇒ <code>array</code></h3>
+<p>Proxy the array, call observers to when setting a value.</p>
+<p>Callbacks are passed an array with the value and the current array state.</p>
+<p>Applies only on push calls, not direct propterty sets.</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>array</code> - Observed (proxy) array  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arrayToObserve</td>
+<td><code>array</code></td>
+<td>Array to observe</td>
+</tr>
+</tbody>
+</table>
+<p><a name="Observer+get"></a></p>
+<h3 id="observer-get-code-array-code-">observer.get() ⇒ <code>array</code></h3>
+<p>Get the observed array.</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>array</code> - Observed (proxy) array<br><a name="Observer+observe"></a></p>
+<h3 id="observer-observe-cb-code-string-code-">observer.observe(cb) ⇒ <code>string</code></h3>
+<p>Add a callback to call with any addition to observed array.</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>string</code> - ID of callback in observer collection (for removing)  </p>
 <table>
 <thead>
 <tr>
@@ -185,10 +202,10 @@
 </tr>
 </tbody>
 </table>
-<p><a name="unobserve"></a></p>
-<h2 id="unobserve-index-">unobserve(index)</h2>
-<p>Remove a callback from observer collection</p>
-<p><strong>Kind</strong>: global function  </p>
+<p><a name="Observer+unobserve"></a></p>
+<h3 id="observer-unobserve-index-">observer.unobserve(index)</h3>
+<p>Remove a callback from observer collection.</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -205,16 +222,16 @@
 </tr>
 </tbody>
 </table>
-<p><a name="unobserveAll"></a></p>
-<h2 id="unobserveall-">unobserveAll()</h2>
-<p>Remove all callbacks (reset observer collection)</p>
-<p><strong>Kind</strong>: global function<br><a name="next"></a></p>
-<h2 id="next-code-promise-code-">next() ⇒ <code>Promise</code></h2>
-<p>Watch for any new element</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Resolves with the next value added to observed array<br><a name="find"></a></p>
-<h2 id="find-needle-limit-iterator-code-promise-code-">find(needle, [limit], [iterator]) ⇒ <code>Promise</code></h2>
-<p>Look for a specific element (optionally up to limit or with iterator)</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Resolves with result attributes  </p>
+<p><a name="Observer+unobserveAll"></a></p>
+<h3 id="observer-unobserveall-">observer.unobserveAll()</h3>
+<p>Remove all callbacks (reset observer collection).</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><a name="Observer+next"></a></p>
+<h3 id="observer-next-code-promise-code-">observer.next() ⇒ <code>Promise</code></h3>
+<p>Watch for any new element.</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>Promise</code> - Resolves with the next value added to observed array<br><a name="Observer+find"></a></p>
+<h3 id="observer-find-needle-limit-iterator-code-promise-code-">observer.find(needle, [limit], [iterator]) ⇒ <code>Promise</code></h3>
+<p>Look for a specific element (optionally up to limit or with iterator).</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>Promise</code> - Resolves with result attributes  </p>
 <table>
 <thead>
 <tr>
@@ -241,10 +258,10 @@
 </tr>
 </tbody>
 </table>
-<p><a name="match"></a></p>
-<h2 id="match-regex-limit-iterator-code-promise-code-">match(regex, [limit], [iterator]) ⇒ <code>Promise</code></h2>
-<p>Look for element matching pattern (optionally up to limit or with iterator)</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Resolves with result atts and match object  </p>
+<p><a name="Observer+match"></a></p>
+<h3 id="observer-match-regex-limit-iterator-code-promise-code-">observer.match(regex, [limit], [iterator]) ⇒ <code>Promise</code></h3>
+<p>Look for element matching pattern (optionally up to limit or with iterator).</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>Promise</code> - Resolves with result atts and match object  </p>
 <table>
 <thead>
 <tr>
@@ -271,10 +288,10 @@
 </tr>
 </tbody>
 </table>
-<p><a name="all"></a></p>
-<h2 id="all-limit-iterator-code-promise-code-">all([limit], [iterator]) ⇒ <code>Promise</code></h2>
-<p>Observe all additions, up to limit or with iterator (must have either)</p>
-<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: <code>Promise</code> - Resolves with result object attributes  </p>
+<p><a name="Observer+all"></a></p>
+<h3 id="observer-all-limit-iterator-code-promise-code-">observer.all([limit], [iterator]) ⇒ <code>Promise</code></h3>
+<p>Observe all additions, up to limit or with iterator (must have either).</p>
+<p><strong>Kind</strong>: instance method of <a href="#Observer"><code>Observer</code></a><br><strong>Returns</strong>: <code>Promise</code> - Resolves with result object attributes  </p>
 <table>
 <thead>
 <tr>
