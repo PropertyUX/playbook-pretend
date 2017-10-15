@@ -1,6 +1,6 @@
 {
-  "name": "hubot-pretend",
-  "description": "Test Hubot scripts with a mock robot, rooms and users.",
+  "name": "playbook-pretend",
+  "description": "Conversational UI test suite with mock robot, rooms and users.",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "run-s compile test",
@@ -16,7 +16,7 @@
     "test:watch": "onchange 'lib/**/*.js' 'test/**/*.js' -d  500 -- npm run test",
     "posttest": "npm run integration",
     "preintegration": "rimraf ./integration/node_modules",
-    "integration": "cd integration && npm i && npm test",
+    "integration": "cd integration && npm test",
     "predocs": "rimraf md && rimraf docs && node assets/jsdoc2md.js",
     "docs": "npm run docs:readme && npm run docs:usage && npm run docs:api && npm run docs:source && npm run docs:scripts",
     "docs:readme": "docco README.md --template assets/docco.jst --css assets/docco.css --output docs",
@@ -27,28 +27,32 @@
     "postdocs": "node -e \"require('fs').rename('./docs/README.html','./docs/index.html')\"",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commitmsg": "validate-commit-msg",
-    "precommit": "npm test",
-    "prepush": "npm test",
+    "_precommit": "npm test",
+    "_prepush": "npm test",
     "commit": "git-cz"
   },
   "files": [
     "lib/"
   ],
   "keywords": [
+    "playbook",
     "hubot",
+    "nubot",
     "chatbot",
     "test",
     "nodejs",
     "mocha",
+    "rocketchat",
+    "messenger",
+    "slack",
     "chai",
     "sinon"
   ],
   "dependencies": {
     "coffee-script": "^1.12.7",
-    "hubot-async": "v3.0.1-async",
     "lodash": "^4.17.4",
     "mockery": "^2.1.0",
-    "npmlog": "^4.1.2",
+    "nubot": "^0.1.0",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0"
   },
@@ -85,7 +89,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/PropertyUX/hubot-pretend"
+    "url": "https://github.com/PropertyUX/playbook-pretend"
   },
   "version": "1.0.0",
   "config": {

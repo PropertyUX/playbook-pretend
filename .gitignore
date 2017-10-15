@@ -2,3 +2,5 @@ npm-debug.log
 .DS_Store
 /node_modules
 /md
+/error.log
+/combined.log

@@ -2,7 +2,7 @@
 
 import sinon from 'sinon'
 import mockery from 'mockery'
-import { Robot as HubotRobot, CatchAllMessage } from 'hubot-async/es2015'
+import { Robot as HubotRobot, CatchAllMessage } from 'nubot'
 import MockLog from '../mocks/log'
 import MockAdapter from '../mocks/adapter'
 

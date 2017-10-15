@@ -1,8 +1,8 @@
 'use strict'
 
-import { Adapter, TextMessage, EnterMessage, LeaveMessage } from 'hubot-async/es2015'
-import Observer from '../modules/observer'
-import MockResponse from './response'
+const { Adapter, TextMessage, EnterMessage, LeaveMessage } = require('nubot')
+const Observer = require('../modules/observer')
+const MockResponse = require('./response')
 
 let _this // to be adapter's `this`, for when method's `this` is bound to robot
 
