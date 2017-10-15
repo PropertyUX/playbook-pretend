@@ -4,7 +4,7 @@
 [playbook]: https://timkinnane.github.io/hubot-playbook
 [standard]: https://standardjs.com/
 
-# Hubot Pretend
+# Playbook Pretend
 
 [**Pretend**][playbook-pretend] is a powerful test suite for [Hubot][hubot] and [Playbook][playbook]
 chat bots, providing mock messaging and internal processes, with helpers to make

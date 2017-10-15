@@ -1,16 +1,14 @@
 {
-  "name": "hubot",
+  "name": "nubot-dummy",
   "version": "0.0.0",
   "private": true,
-  "author": "Tim Kinnane",
   "scripts": {
-    "pretest": "npm install",
+    "pretest": "yarn",
     "test": "mocha test"
   },
   "devDependencies": {
-    "hubot-pretend": "file:../",
+    "playbook-pretend": "file:../",
     "chai": "latest",
-    "mocha": "latest",
-    "coffee-script": "latest"
+    "mocha": "latest"
   }
 }
