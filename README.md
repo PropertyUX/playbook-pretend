@@ -1,8 +1,20 @@
+[hubot]: http://hubot.github.com
+[playbook-pretend]: https://propertyux.github.io/hubot-pretend
+[nubot]: https://github.com/PropertyUX/nubot
+[playbook]: https://timkinnane.github.io/hubot-playbook
+[standard]: https://standardjs.com/
+
 # Hubot Pretend
 
-**Pretend** is a powerful test suite for [Hubot](https://hubot.github.com),
-providing mock messaging and internal processes, with helpers to make shorthand
-assertions using mocha, chai and sinon.
+[**Pretend**][playbook-pretend] is a powerful test suite for [Hubot][hubot] and [Playbook][playbook]
+chat bots, providing mock messaging and internal processes, with helpers to make
+shorthand assertions using mocha, chai and sinon.
+
+_NB:_ The current state is functional with Hubot v3 (and most v2) features.
+However, following releases will drop support for Hubot in favor of
+[Nubot][nubot], which only supports Node 8+ and is written in es6
+[StandardJS][standard] (phasing out coffee-script support), with
+[Playbook][playbook] integration in core.
 
 [![npm version](https://img.shields.io/npm/v/hubot-pretend.svg?style=flat)](https://www.npmjs.com/package/hubot-pretend)
 [![Build Status](https://travis-ci.org/PropertyUX/hubot-pretend.svg?branch=master)](https://travis-ci.org/PropertyUX/hubot-pretend)
