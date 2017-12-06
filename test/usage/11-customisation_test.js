@@ -5,25 +5,21 @@
 //
 // [See the script being tested here](../scripts/random-messages.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import co from 'co'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
 
 describe('Custom response objects', () => {
-  before(() => {
-    pretend.read('test/scripts/custom-response.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
+  before(() => pretend.read('test/scripts/custom-response.js'))
+  after(() => pretend.clear())
+
   context('when user asks for a random number', () => {
-    it('replies to user with a random number', () => co(function * () {
+    it('replies to user with a random number', async () => {
       pretend.start()
-      yield pretend.user('cecil').send('hubot give me a random number')
+      await pretend.user('cecil').send('hubot give me a random number')
       let random = pretend.messages.pop().pop()
       parseInt(random).should.be.gt(0).and.lt(5)
       pretend.shutdown()
-    }))
+    })
   })
 })

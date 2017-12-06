@@ -1,4 +1,4 @@
-pretend = require 'hubot-pretend'
+pretend = require 'playbook-pretend'
 { expect } = require 'chai'
 
 describe 'Hello World (coffee)', () ->

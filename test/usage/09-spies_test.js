@@ -12,27 +12,18 @@
 //
 // [See the script being tested here](../scripts/basic-reply.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import co from 'co'
+const pretend = require('../../lib')
+const chai = require('chai')
+const sinon = require('sinon')
 chai.should()
-chai.use(sinonChai)
+chai.use(require('sinon-chai'))
 
 describe('Method spies', () => {
-  before(() => {
-    pretend.read('test/scripts/basic-reply.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  beforeEach(() => {
-    pretend.start()
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/basic-reply.js'))
+  after(() => pretend.clear())
+  beforeEach(() => pretend.start())
+  afterEach(() => pretend.shutdown())
+
   context('on robot processing script', () => {
     it('loads given script path and file into hubot', () => {
       let path = sinon.match(new RegExp(/scripts$/))
@@ -43,11 +34,12 @@ describe('Method spies', () => {
       pretend.robot.respond.lastCall.should.have.calledWith(/hi/i, sinon.match.func)
     })
   })
+
   context('on robot processing listeners', () => {
-    it('received both messages', () => co(function * () {
-      yield pretend.user('alice').send('hubot hi')
-      yield pretend.user('bob').send('hubot hi')
+    it('received both messages', async () => {
+      await pretend.user('alice').send('hubot hi')
+      await pretend.user('bob').send('hubot hi')
       pretend.robot.receive.should.have.calledTwice // eslint-disable-line
-    }))
+    })
   })
 })

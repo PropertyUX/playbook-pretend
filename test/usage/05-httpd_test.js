@@ -10,24 +10,17 @@
 //
 // [See the script being tested here](../scripts/httpd.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
 process.env.PORT = 8080
 
 describe('Receiving HTTP requests', function () {
-  before(() => {
-    pretend.read('test/scripts/httpd.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  beforeEach(() => {
-    pretend.start({ httpd: true })
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/httpd.js'))
+  after(() => pretend.clear())
+  beforeEach(() => pretend.start({ httpd: true }))
+  afterEach(() => pretend.shutdown())
+
   context('GET request sent to /status', () => {
     it('responds with status 200', (done) => {
       pretend.http('http://0.0.0.0:8080/status').get()(function (err, resp, body) {
@@ -37,6 +30,7 @@ describe('Receiving HTTP requests', function () {
       })
     })
   })
+
   context('GET request sent to /hi', () => {
     it('responds with a body', (done) => {
       pretend.http('http://0.0.0.0:8080/hi').get()(function (err, resp, body) {
@@ -46,6 +40,7 @@ describe('Receiving HTTP requests', function () {
       })
     })
   })
+
   context('POST request sent to /send', () => {
     it('hubot uses post data in message', (done) => {
       let data = JSON.stringify({

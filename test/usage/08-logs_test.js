@@ -8,35 +8,27 @@
 //
 // [See the script being tested here](../scripts/write-logs.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import co from 'co'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
 
 describe('Testing logs', () => {
-  before(() => {
-    pretend.read('test/scripts/write-logs.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  beforeEach(() => {
-    pretend.start()
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/write-logs.js'))
+  after(() => pretend.clear())
+  beforeEach(() => pretend.start())
+  afterEach(() => pretend.shutdown())
+
   context('user triggers log events', () => {
-    it('can read from internal array', () => co(function * () {
+    it('can read from internal array', async () => {
       let latestLogs = []
       pretend.log.level = 'silent'
-      yield pretend.user('bob').send('hubot debug')
+      await pretend.user('bob').send('hubot debug')
       latestLogs.push(pretend.logs.slice(-1).pop())
-      yield pretend.user('bob').send('hubot info')
+      await pretend.user('bob').send('hubot info')
       latestLogs.push(pretend.logs.slice(-1).pop())
-      yield pretend.user('bob').send('hubot warning')
+      await pretend.user('bob').send('hubot warning')
       latestLogs.push(pretend.logs.slice(-1).pop())
-      yield pretend.user('bob').send('hubot error')
+      await pretend.user('bob').send('hubot error')
       latestLogs.push(pretend.logs.slice(-1).pop())
       latestLogs.should.eql([
         ['debug', 'log debug test'],
@@ -44,8 +36,9 @@ describe('Testing logs', () => {
         ['warning', 'log warning test'],
         ['error', 'log error test']
       ])
-    }))
+    })
   })
+
   context('robot loading writes standard logs', () => {
     it('can assert on errors or warnings', () => {
       let logTypes = pretend.logs.map((log) => log[0])

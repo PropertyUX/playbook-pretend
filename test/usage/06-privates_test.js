@@ -9,34 +9,26 @@
 //
 // [See the script being tested here](../scripts/private-message.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import co from 'co'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
 
 describe('Private messages', () => {
-  before(() => {
-    pretend.read('test/scripts/private-message.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  beforeEach(() => {
-    pretend.start()
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/private-message.js'))
+  after(() => pretend.clear())
+  beforeEach(() => pretend.start())
+  afterEach(() => pretend.shutdown())
+
   context('requested from hubot', () => {
-    it('does not post to the originating room', () => co(function * () {
-      yield pretend.user('alice').send('hubot tell me a secret')
+    it('does not post to the originating room', async () => {
+      await pretend.user('alice').send('hubot tell me a secret')
       pretend.messages.should.eql([
         ['alice', 'hubot tell me a secret']
       ])
-    }))
-    it('private messages user', () => co(function * () {
-      yield pretend.user('alice').send('hubot tell me a secret')
+    })
+    it('private messages user', async () => {
+      await pretend.user('alice').send('hubot tell me a secret')
       pretend.user('alice').privates().should.eql(['whisper whisper whisper'])
-    }))
+    })
   })
 })

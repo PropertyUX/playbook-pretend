@@ -10,53 +10,49 @@
 //
 // [See the script being tested here](../scripts/enter-leave.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import co from 'co'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
 
 describe('Entering and leaving a room', function () {
-  before(() => {
-    pretend.read('test/scripts/enter-leave.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/enter-leave.js'))
+  after(() => pretend.clear())
+  afterEach(() => pretend.shutdown())
+
   context('triggered from room, given user', () => {
-    it('greets and farewells the user', () => co(function * () {
+    it('greets and farewells the user', async () => {
       pretend.start({ rooms: ['hub'] })
-      yield pretend.rooms.hub.enter(pretend.user('Toshi'))
-      yield pretend.rooms.hub.leave(pretend.user('Toshi'))
+      await pretend.rooms.hub.enter(pretend.user('Toshi'))
+      await pretend.rooms.hub.leave(pretend.user('Toshi'))
       pretend.messages.should.eql([
         ['hub', 'hubot', 'Hi Toshi!'],
         ['hub', 'hubot', 'Bye Toshi!']
       ])
-    }))
+    })
   })
+
   context('triggered from user, with set room', () => {
-    it('greets and farewells the user', () => co(function * () {
+    it('greets and farewells the user', async () => {
       pretend.start({ users: ['Toshi'] })
       pretend.users.Toshi.room = 'hub'
-      yield pretend.users.Toshi.enter()
-      yield pretend.users.Toshi.leave()
+      await pretend.users.Toshi.enter()
+      await pretend.users.Toshi.leave()
       pretend.messages.should.eql([
         ['hub', 'hubot', 'Hi Toshi!'],
         ['hub', 'hubot', 'Bye Toshi!']
       ])
-    }))
+    })
   })
+
   context('triggered from user, with dynamic user/room', () => {
-    it('greets and farewells the user', () => co(function * () {
+    it('greets and farewells the user', async () => {
       pretend.start()
-      yield pretend.user('Toshi').in('hub').enter()
-      yield pretend.user('Toshi').in('pub').leave()
+      await pretend.user('Toshi').in('hub').enter()
+      await pretend.user('Toshi').in('pub').leave()
       pretend.messages.should.eql([
         ['hub', 'hubot', 'Hi Toshi!'],
         ['pub', 'hubot', 'Bye Toshi!']
       ])
-    }))
+    })
   })
 })

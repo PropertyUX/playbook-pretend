@@ -1,13 +1,13 @@
-import Adapter from '../../src/mocks/adapter'
-import chai from 'chai'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import chaiSubset from 'chai-subset'
-import chaiPromise from 'chai-as-promised'
-chai.use(sinonChai)
-chai.use(chaiSubset)
-chai.use(chaiPromise)
+'use strict'
+
+const chai = require('chai')
+const sinon = require('sinon')
+chai.use(require('sinon-chai'))
+chai.use(require('chai-as-promised'))
+chai.use(require('chai-subset'))
 chai.should()
+
+const { Adapter } = require('../../lib/modules')
 
 describe('Adapter', function () {
   beforeEach(() => {

@@ -4,3 +4,4 @@ npm-debug.log
 /md
 /error.log
 /combined.log
+.nyc_output

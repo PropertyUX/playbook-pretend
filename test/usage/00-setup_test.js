@@ -20,8 +20,8 @@
 //
 // [See the pretend module docs here](../api/pretend.js.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
 
 describe('Using pretend', function () {

@@ -10,44 +10,34 @@
 //
 // [See the script being tested here](../scripts/basic-reply.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import chaiPromise from 'chai-as-promised'
-import chaiSubset from 'chai-subset'
-import co from 'co'
+const pretend = require('../../lib')
+const chai = require('chai')
+const sinon = require('sinon')
 chai.should()
-chai.use(sinonChai)
-chai.use(chaiPromise)
-chai.use(chaiSubset)
+chai.use(require('sinon-chai'))
+chai.use(require('chai-as-promised'))
+chai.use(require('chai-subset'))
 
 describe('Middleware and Responses', () => {
-  before(() => {
-    pretend.read('test/scripts/basic-reply.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  beforeEach(() => {
-    pretend.start()
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/basic-reply.js'))
+  after(() => pretend.clear())
+  beforeEach(() => pretend.start())
+  afterEach(() => pretend.shutdown())
+
   context('user sending an unmatched message', () => {
     it('emits the receive event with context and response', (done) => {
       let receive = new Promise(resolve => pretend.robot.on('receive', resolve))
       receive.should.eventually.have.property('response').notify(done)
       pretend.user('alice').send('hubot hi')
     })
-    it('does not emit listen event because nothing matched', () => co(function * () {
+    it('does not emit listen event because nothing matched', async () => {
       let listenSpy = sinon.spy()
       pretend.robot.on('listen', listenSpy)
-      yield pretend.user('alice').send('hubot do nothing')
+      await pretend.user('alice').send('hubot do nothing')
       listenSpy.should.not.have.calledOnce // eslint-disable-line
-    }))
+    })
   })
+
   context('user sending a matched message', () => {
     it('emits the receive event with context and response', (done) => {
       let receive = new Promise(resolve => pretend.robot.on('receive', resolve))
@@ -70,27 +60,27 @@ describe('Middleware and Responses', () => {
       respond.should.eventually.have.property('method', 'reply').notify(done)
       pretend.user('alice').send('hubot hi')
     })
-    it('stores the last received response object', () => co(function * () {
-      yield pretend.user('alice').send('foo')
+    it('stores the last received response object', async () => {
+      await pretend.user('alice').send('foo')
       pretend.lastReceive().should.containSubset({
         message: {
           user: { name: 'alice' },
           text: 'foo'
         }
       })
-    }))
-    it('stores the last listened response object', () => co(function * () {
-      yield pretend.user('alice').send('hubot hi')
+    })
+    it('stores the last listened response object', async () => {
+      await pretend.user('alice').send('hubot hi')
       pretend.lastListen().should.containSubset({
         message: {
           user: { name: 'alice' },
           text: 'hubot hi'
         }
       })
-    }))
-    it('stores the last respond response object', () => co(function * () {
+    })
+    it('stores the last respond response object', async () => {
       let message = 'hubot hi'
-      yield pretend.user('alice').send(message)
+      await pretend.user('alice').send(message)
       pretend.lastRespond().should.containSubset({
         match: ['hubot hi'],
         message: {
@@ -98,6 +88,6 @@ describe('Middleware and Responses', () => {
           text: 'hubot hi'
         }
       })
-    }))
+    })
   })
 })

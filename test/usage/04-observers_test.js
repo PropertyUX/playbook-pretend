@@ -11,25 +11,17 @@
 //
 // [See the script being tested here](../scripts/random-messages.html)
 
-import pretend from '../../lib'
-import chai from 'chai'
-import chaiPromise from 'chai-as-promised'
+const pretend = require('../../lib')
+const chai = require('chai')
 chai.should()
-chai.use(chaiPromise)
+chai.use(require('chai-as-promised'))
 
 describe('Observering messages', () => {
-  before(() => {
-    pretend.read('test/scripts/random-messages.js')
-  })
-  after(() => {
-    pretend.clear()
-  })
-  beforeEach(() => {
-    pretend.startup()
-  })
-  afterEach(() => {
-    pretend.shutdown()
-  })
+  before(() => pretend.read('test/scripts/random-messages.js'))
+  after(() => pretend.clear())
+  beforeEach(() => pretend.startup())
+  afterEach(() => pretend.shutdown())
+
   context('wait for the next message to appear', () => {
     it('resolves with the next message', (done) => {
       let tester = pretend.user('tester')
@@ -50,6 +42,7 @@ describe('Observering messages', () => {
       tester.send('two')
     })
   })
+
   context('loop until a specific message appears', () => {
     it('resolve in a probable time with the right message', (done) => {
       let intervalId
@@ -68,6 +61,7 @@ describe('Observering messages', () => {
       }, 2)
     })
   })
+
   context('wait for a message matching a pattern', () => {
     it('resolves when the message matched', (done) => {
       let tester = pretend.user('tester')
@@ -79,6 +73,7 @@ describe('Observering messages', () => {
       tester.send('20')
     })
   })
+
   context('do something with each message sent', () => {
     it('observed the series of messages', (done) => {
       let tester = pretend.user('tester')

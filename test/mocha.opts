@@ -1,4 +1,5 @@
 --require mocha-clean
 --require test/mocha.env.js
---reporter spec
+--sort
 --recursive
+--reporter spec

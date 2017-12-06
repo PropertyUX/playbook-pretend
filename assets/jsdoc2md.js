@@ -2,7 +2,7 @@
 const jsdoc2md = require('jsdoc-to-markdown')
 const fs = require('fs-extra')
 const path = require('path')
-const inputDir = './src/modules'
+const inputDir = './lib'
 const outputDir = './md'
 
 read(inputDir).map((file) => {

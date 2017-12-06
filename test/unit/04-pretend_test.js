@@ -1,14 +1,14 @@
-import pretend from '../../src/modules/pretend'
-import Robot from '../../src/modules/robot'
-import co from 'co'
-import path from 'path'
-import chai from 'chai'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import chaiThings from 'chai-things'
-chai.use(sinonChai)
-chai.use(chaiThings)
+'use strict'
+
+const path = require('path')
+const chai = require('chai')
+const sinon = require('sinon')
+chai.use(require('sinon-chai'))
+chai.use(require('chai-things'))
 const should = chai.should()
+
+const pretend = require('../../lib')
+const { Robot } = require('../../lib/modules')
 
 describe('Pretend', function () {
   afterEach(() => {
@@ -204,40 +204,40 @@ describe('Pretend', function () {
     })
   })
   describe('response', () => {
-    it('returns a response that can be replied to', () => co(function * () {
+    it('returns a response that can be replied to', async () => {
       pretend.start()
       let res = pretend.response('tester', 'test', 'testing')
-      yield res.reply('got the test')
+      await res.reply('got the test')
       pretend.messages.should.eql([['testing', 'hubot', '@tester got the test']])
-    }))
+    })
   })
   describe('lastReceive', () => {
-    it('returns last res even if nothing matched', () => co(function * () {
+    it('returns last res even if nothing matched', async () => {
       pretend.start()
-      yield pretend.user('tester').send('receive this')
+      await pretend.user('tester').send('receive this')
       pretend.lastReceive().should.eql(pretend.responses.receive[0])
-    }))
+    })
   })
   describe('lastListen', () => {
-    it('returns null if no matching listens', () => co(function * () {
+    it('returns null if no matching listens', async () => {
       pretend.start()
-      yield pretend.user('tester').send('listen to this')
+      await pretend.user('tester').send('listen to this')
       should.equal(pretend.lastListen(), undefined)
-    }))
-    it('returns last res if matching listens', () => co(function * () {
+    })
+    it('returns last res if matching listens', async () => {
       pretend.start()
       pretend.robot.hear(/.*/, () => {})
-      yield pretend.user('tester').send('listen to this')
+      await pretend.user('tester').send('listen to this')
       pretend.lastListen().should.eql(pretend.responses.listen[0])
-    }))
+    })
   })
   describe('lastRespond', () => {
-    it('returns last res if matching listens', () => co(function * () {
+    it('returns last res if matching listens', async () => {
       pretend.start()
       pretend.robot.hear(/.*/, () => {})
-      yield pretend.user('tester').send('respond to this')
-      yield pretend.lastListen().reply('well hello')
+      await pretend.user('tester').send('respond to this')
+      await pretend.lastListen().reply('well hello')
       pretend.lastRespond().should.eql(pretend.responses.respond[0])
-    }))
+    })
   })
 })
